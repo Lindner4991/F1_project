@@ -131,7 +131,8 @@ gamma_lower <- 0
 gamma_upper <- J - 1
 
 # load fit_m1_v1_sim
-fit_model_1_sim <- readRDS("data/fit_m1_v1_sim_clean_data.rds")
+# fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_clean_data.rds")
+fit_m1_v1_sim <- readRDS("fit_m1_v1_sim_clean_data.rds")
 
 # extract simulations
 params_m1_v1_sim <- rstan::extract(fit_m1_v1_sim)
@@ -150,7 +151,8 @@ for (t in 1:Q) {
 
 # model 1 version 1 - estimation ####
 # computation with NUTS in STAN
-m1_v1 <- stan_model("STAN/m1_v1.stan")
+# m1_v1 <- stan_model("STAN/m1_v1.stan")
+m1_v1 <- stan_model("m1_v1.stan")
 
 fit_m1_v1 <- sampling(m1_v1,
                       data = list(K = K,
@@ -162,12 +164,13 @@ fit_m1_v1 <- sampling(m1_v1,
                                   J = J,
                                   c_0 = c_0,
                                   d_0 = d_0,
-                                  gamma_lower,
-                                  gamma_upper,
+                                  gamma_lower = gamma_lower,
+                                  gamma_upper = gamma_upper,
                                   R = R_sim),
                       iter = 2000)
 
 # save fit_m1_v1
-saveRDS(fit_model_1, "results/fit_m1_v1_clean_data.rds")
+# saveRDS(fit_model_1, "results/fit_m1_v1_clean_data.rds")
+saveRDS(fit_m1_v1, "fit_m1_v1_clean_data.rds")
 
 
