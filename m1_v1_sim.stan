@@ -64,20 +64,44 @@ generated quantities {
     if (t == 1) {
       
       // latent constructor ability state equation ( mu )
-      for (k in 1:K) { mu_C[k,t] = normal_rng(c_0[k], sigma_C * I_3[k,t]); }
+      for (k in 1:K) {
+        
+        if (I_3[k,t] == 1) { mu_C[k,t] = normal_rng(c_0[k], sigma_C); }
+        
+        else { mu_C[k,t] = c_0[k]; }
+        
+      }
     
       // latent driver ability state equation ( mu )
-      for (n in 1:N) { mu_D[n,t] = normal_rng(d_0[n], sigma_D * I_1[n,t]); }
+      for (n in 1:N) {
+        
+        if (I_1[n,t] == 1) { mu_D[n,t] = normal_rng(d_0[n], sigma_D); }
+        
+        else { mu_D[n,t] = d_0[n]; }
+        
+      }
       
     }
     
     if (t > 1) {
       
       // latent constructor ability state equation ( mu )
-      for (k in 1:K) { mu_C[k,t] = normal_rng(mu_C[k,t-1], sigma_C); }
+      for (k in 1:K) {
+        
+        if (I_3[k,t] == 1) { mu_C[k,t] = normal_rng(mu_C[k,t-1], sigma_C); }
+        
+        else { mu_C[k,t] = mu_C[k,t-1]; }
+        
+      }
     
       // latent driver ability state equation ( mu )
-      for (n in 1:N) { mu_D[n,t] = normal_rng(mu_D[n,t-1], sigma_D); }
+      for (n in 1:N) {
+        
+        if (I_1[n,t] == 1) { mu_D[n,t] = normal_rng(mu_D[n,t-1], sigma_D); }
+        
+        else { mu_D[n,t] = mu_D[n,t-1]; }
+        
+      }
       
     }
     
