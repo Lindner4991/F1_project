@@ -115,7 +115,7 @@ I_2 <- list(I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,
 I_1 <- matrix(data = 1, nrow = N, ncol = Q)
 
 # 0 for first qualifier/race
-I_1[,1] <- 0
+# I_1[,1] <- 0
 
 # number of ranks per qualifier/race
 J <- 22
@@ -260,7 +260,7 @@ I_2 <- list(I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,
 I_1 <- matrix(data = 1, nrow = N, ncol = Q)
 
 # 0 for first qualifier/race
-I_1[,1] <- 0
+# I_1[,1] <- 0
 
 # NAs for driver with ID 19 ( manor driver )
 I_1[19,c(20:38,60:160)] <- 0
