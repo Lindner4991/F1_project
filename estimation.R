@@ -27,6 +27,7 @@ options(scipen = 999)
 
 # load packages
 library(rstan)
+options(mc.cores = parallel::detectCores())
 rstan_options(auto_write = TRUE)
 
 
@@ -347,7 +348,7 @@ fit_m1_v1 <- sampling(m1_v1,
                       iter = 2000)
 
 # save fit_m1_v1
-saveRDS(fit_m1_v1, "results/fit_m1_v1_missing_data.rds")
+saveRDS(fit_m1_v1, "results/fit_m1_v1_clean_data.rds")
 # saveRDS(fit_m1_v1, "fit_m1_v1_missing_data.rds")
 
 
