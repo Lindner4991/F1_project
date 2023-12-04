@@ -78,7 +78,7 @@ transformed parameters {
     
     for (k in 1:K) { if (I_3[k,t] == 0) { mu_C[k,t] = mu_C[k,t-1]; } }
       
-    for (n in 1:K) { if (I_1[n,t] == 0) { mu_D[n,t] = mu_D[n,t-1]; } }
+    for (n in 1:N) { if (I_1[n,t] == 0) { mu_D[n,t] = mu_D[n,t-1]; } }
       
   }
   
