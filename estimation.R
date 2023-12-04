@@ -281,12 +281,6 @@ d_0 <- c(10.25,9.75,9.25,8.75,8.25,
          2.75,2.25,1.75,1.25,0.75,
          0.25,-0.25,0.75,0.75)
 
-# SD for error for latent constructor ability state equations
-sigma_C <- 0.16
-
-# SD for error for latent driver ability state equations
-sigma_D <- 0.04
-
 # fixed cut points
 gamma_lower <- 0
 gamma_upper <- J - 1
