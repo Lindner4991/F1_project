@@ -32,7 +32,7 @@ data {
   real gamma_upper;
   
   // simulated/actual ranks
-  array[N,T] int<lower=1,upper=J> R;
+  array[N,T] int<lower=0,upper=J> R;
   
 }
 
@@ -46,10 +46,10 @@ parameters {
   real<lower=0> sigma_D;
   
   // latent constructor abilities ( mu )
-  matrix[K,T] mu_C;
+  matrix[K,T] mu_C_temp;
   
   // latent driver abilities ( mu )
-  matrix[N,T] mu_D;
+  matrix[N,T] mu_D_temp;
   
   // cut points
   simplex[J-3+1] gamma_temp;
@@ -58,6 +58,29 @@ parameters {
 
 
 transformed parameters {
+  
+  // latent constructor abilities ( mu )
+  matrix[K,T] mu_C;
+  
+  mu_C = mu_C_temp;
+  
+  for (k in 1:K) { mu_C[k,1] = c_0[k]; }
+  
+  // latent driver abilities ( mu )
+  matrix[N,T] mu_D;
+  
+  mu_D = mu_D_temp;
+  
+  for (n in 1:N) { mu_D[n,1] = d_0[n]; }
+  
+  // latent driver and constructor abilities ( mu )
+  for (t in 2:T) {
+    
+    for (k in 1:K) { if (I_3[k,t] == 0) { mu_C[k,t] = mu_C[k,t-1]; } }
+      
+    for (n in 1:K) { if (I_1[n,t] == 0) { mu_D[n,t] = mu_D[n,t-1]; } }
+      
+  }
   
   // latent qualifier/race performance equation ( mu )
   matrix[N,T] mu_P;
@@ -98,23 +121,21 @@ model {
   
   for (t in 1:T) {
     
-    if (t == 1) {
-      
-      // latent constructor ability state equation ( mu )
-      for (k in 1:K) { mu_C[k,t] ~ normal(c_0[k], sigma_C * I_3[k,t]); }
-    
-      // latent driver ability state equation ( mu )
-      for (n in 1:N) { mu_D[n,t] ~ normal(d_0[n], sigma_D * I_1[n,t]); }
-      
-    }
-    
     if (t > 1) {
       
       // latent constructor ability state equation ( mu )
-      for (k in 1:K) { mu_C[k,t] ~ normal(mu_C[k,t-1], sigma_C); }
+      for (k in 1:K) {
+        
+        if (I_3[k,t] == 1) { mu_C[k,t] ~ normal(mu_C[k,t-1], sigma_C); }
+        
+      }
     
       // latent driver ability state equation ( mu )
-      for (n in 1:N) { mu_D[n,t] ~ normal(mu_D[n,t-1], sigma_D); }
+      for (n in 1:N) {
+        
+        if (I_1[n,t] == 1) { mu_D[n,t] ~ normal(mu_D[n,t-1], sigma_D); }
+        
+      }
       
     }
     
