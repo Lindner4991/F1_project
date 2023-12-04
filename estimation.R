@@ -6,7 +6,7 @@
 
 # general prep ####
 # set working directory
-# setwd("C:/Users/Diiim/Documents/job_uni/Master/Thesis/F1_project")
+setwd("C:/Users/Diiim/Documents/job_uni/Master/Thesis/F1_project")
 # setwd("~/F1_project")
 
 # clean workspace
@@ -134,7 +134,7 @@ gamma_lower <- 0
 gamma_upper <- J - 1
 
 # load fit_m1_v1_sim
-# fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_clean_data.rds")
+fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_clean_data.rds")
 # fit_m1_v1_sim <- readRDS("fit_m1_v1_sim_clean_data.rds")
 
 # extract simulations
@@ -292,7 +292,7 @@ gamma_lower <- 0
 gamma_upper <- J - 1
 
 # load fit_m1_v1_sim
-# fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_missing_data.rds")
+fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_missing_data.rds")
 # fit_m1_v1_sim <- readRDS("fit_m1_v1_sim_missing_data.rds")
 
 # extract simulations
@@ -342,7 +342,7 @@ fit_m1_v1 <- sampling(m1_v1,
                       iter = 2000)
 
 # save fit_m1_v1
-# saveRDS(fit_m1_v1, "results/fit_m1_v1_missing_data.rds")
+saveRDS(fit_m1_v1, "results/fit_m1_v1_missing_data.rds")
 # saveRDS(fit_m1_v1, "fit_m1_v1_missing_data.rds")
 
 
