@@ -150,6 +150,17 @@ for (t in 1:Q) {
   R_sim[,t] <- iter_40
 }
 
+# for driver NAs: simulated rank = 0
+for (t in 1:Q) {
+  
+  for (n in 1:N) {
+    
+    if (I_1[n,t] == 0) { R_sim[n,t] <- 0 }
+    
+  }
+  
+}
+
 
 
 # model 1 version 1 - missing data ####
