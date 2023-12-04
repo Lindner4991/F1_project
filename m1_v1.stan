@@ -31,7 +31,7 @@ data {
   real gamma_lower;
   real gamma_upper;
   
-  // simulated/actual ranks
+  // simulated/actual qualifier/race ranks
   array[N,T] int<lower=0,upper=J> R;
   
 }
