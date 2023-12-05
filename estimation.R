@@ -167,13 +167,13 @@ Q <- 160
 I_3 <- matrix(data = 1, nrow = K, ncol = Q)
 
 # NAs for constructor with ID 10 ( manor )
-I_3[10,c(20:38,60:160)] <- 0
+I_3[10,c(17:19,60:160)] <- 0
 
-# NAs for constructor with ID 11 ( marussia )
-I_3[11,20:160] <- 0
+# NAs for constructor with ID 11 ( caterham )
+I_3[11,17:160] <- 0
 
 # NAs for constructor with ID 12 ( haas )
-I_3[12,1:19] <- 0
+I_3[12,1:39] <- 0
 
 # constructor indicators
 I_2_1 <- matrix(data = NA, nrow = N, ncol = K)
@@ -252,22 +252,22 @@ I_1 <- matrix(data = 1, nrow = N, ncol = Q)
 # I_1[,1] <- 0
 
 # NAs for driver with ID 19 ( manor driver )
-I_1[19,c(20:38,60:160)] <- 0
+I_1[19,c(17:19,60:160)] <- 0
 
 # NAs for driver with ID 20 ( manor driver )
-I_1[20,c(20:38,60:160)] <- 0
+I_1[10,c(17:19,60:160)] <- 0
 
-# NAs for driver with ID 21 ( marussia )
-I_1[21,20:160] <- 0
+# NAs for driver with ID 21 ( caterham driver )
+I_1[21,17:160] <- 0
 
-# NAs for driver with ID 22 ( marussia )
-I_1[22,20:160] <- 0
+# NAs for driver with ID 22 ( caterham driver )
+I_1[22,17:160] <- 0
 
-# NAs for constructor with ID 23 ( haas )
-I_1[23,1:19] <- 0
+# NAs for constructor with ID 23 ( haas driver )
+I_1[23,1:39] <- 0
 
-# NAs for constructor with ID 24 ( haas )
-I_1[24,1:19] <- 0
+# NAs for constructor with ID 24 ( haas driver )
+I_1[24,1:39] <- 0
 
 # number of ranks per qualifier/race
 J <- 22
@@ -313,6 +313,31 @@ for (t in 1:Q) {
   }
   
 }
+
+
+
+# model 1 version 1 - greater ability fluctuations ####
+# number of constructors in time series
+
+
+
+# model 1 version 1 - 20% driver 80% constructor ####
+# number of constructors in time series
+
+
+
+# model 1 version 1 - F1 hybrid era qualifiers ####
+# constructor qualifier NA indicators
+I_3 <- matrix(data = 1, nrow = K, ncol = Q)
+
+# NAs for constructor with ID 10 ( manor )
+I_3[10,c(17:19,60:160)] <- 0
+
+# NAs for constructor with ID 11 ( caterham )
+I_3[11,17:160] <- 0
+
+# NAs for constructor with ID 12 ( haas )
+I_3[12,1:39] <- 0
 
 
 
