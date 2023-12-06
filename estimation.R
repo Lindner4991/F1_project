@@ -46,6 +46,7 @@ Q <- 160
 I_3 <- matrix(data = 1, nrow = K, ncol = Q)
 
 # constructor indicators
+# constructor indicators
 I_2_1 <- matrix(data = NA, nrow = N, ncol = K)
 I_2_1[1,] <- c(1,0,0,0,0,0,0,0,0,0,0)
 I_2_1[2,] <- c(1,0,0,0,0,0,0,0,0,0,0)
@@ -72,8 +73,8 @@ I_2_1[22,] <- c(0,0,0,0,0,0,0,0,0,0,1)
 
 I_2_2 <- matrix(data = NA, nrow = N, ncol = K)
 I_2_2[1,] <- c(1,0,0,0,0,0,0,0,0,0,0)
-I_2_2[2,] <- c(1,0,0,0,0,0,0,0,0,0,0)
-I_2_2[3,] <- c(0,0,0,0,0,0,0,0,0,1,0)  # switch
+I_2_2[2,] <- c(0,0,0,0,0,0,0,0,1,0,0)  # switch
+I_2_2[3,] <- c(0,1,0,0,0,0,0,0,0,0,0)
 I_2_2[4,] <- c(0,1,0,0,0,0,0,0,0,0,0)
 I_2_2[5,] <- c(0,0,1,0,0,0,0,0,0,0,0)
 I_2_2[6,] <- c(0,0,1,0,0,0,0,0,0,0,0)
@@ -87,9 +88,9 @@ I_2_2[13,] <- c(0,0,0,0,0,0,1,0,0,0,0)
 I_2_2[14,] <- c(0,0,0,0,0,0,1,0,0,0,0)
 I_2_2[15,] <- c(0,0,0,0,0,0,0,1,0,0,0)
 I_2_2[16,] <- c(0,0,0,0,0,0,0,1,0,0,0)
-I_2_2[17,] <- c(0,0,0,0,0,0,0,0,1,0,0)
+I_2_2[17,] <- c(1,0,0,0,0,0,0,0,0,0,0)  # switch
 I_2_2[18,] <- c(0,0,0,0,0,0,0,0,1,0,0)
-I_2_2[19,] <- c(0,1,0,0,0,0,0,0,0,0,0)  # switch
+I_2_2[19,] <- c(0,0,0,0,0,0,0,0,0,1,0)
 I_2_2[20,] <- c(0,0,0,0,0,0,0,0,0,1,0)
 I_2_2[21,] <- c(0,0,0,0,0,0,0,0,0,0,1)
 I_2_2[22,] <- c(0,0,0,0,0,0,0,0,0,0,1)
@@ -120,10 +121,10 @@ I_1 <- matrix(data = 1, nrow = N, ncol = Q)
 # number of ranks per qualifier/race
 J <- 22
 
-# initial conditions for latent constructor ability state equations
+# initial conditions for latent constructor ability state equation
 c_0 <- c(10,9,8,7,6,5,4,3,2,1,0)
 
-# initial conditions for latent driver ability state equations
+# initial conditions for latent driver ability state equation
 d_0 <- c(10.25,9.75,9.25,8.75,8.25,
          7.75,7.25,6.75,6.25,5.75,
          5.25,4.75,4.25,3.75,3.25,
@@ -144,12 +145,7 @@ params_m1_v1_sim <- rstan::extract(fit_m1_v1_sim)
 # extract simulated qualifier/race ranks
 R_sim_temp <- params_m1_v1_sim$R_sim
 
-R_sim <- matrix(data = NA, nrow = N, ncol = Q)
-
-for (t in 1:Q) {
-  iter_40 <- R_sim_temp[40,,t]
-  R_sim[,t] <- iter_40
-}
+R_sim <- R_sim_temp[40,,]
 
 
 
@@ -219,7 +215,7 @@ I_2_2[13,] <- c(0,0,0,0,0,0,1,0,0,0,0,0)
 I_2_2[14,] <- c(0,0,0,0,0,0,1,0,0,0,0,0)
 I_2_2[15,] <- c(0,0,0,0,0,0,0,1,0,0,0,0)
 I_2_2[16,] <- c(0,0,0,0,0,0,0,1,0,0,0,0)
-I_2_2[17,] <- c(0,1,0,0,0,0,0,0,0,0,0,0)  # switch
+I_2_2[17,] <- c(1,0,0,0,0,0,0,0,0,0,0,0)  # switch
 I_2_2[18,] <- c(0,0,0,0,0,0,0,0,1,0,0,0)
 I_2_2[19,] <- c(0,0,0,0,0,0,0,0,0,1,0,0)
 I_2_2[20,] <- c(0,0,0,0,0,0,0,0,0,1,0,0)
@@ -272,10 +268,10 @@ I_1[24,1:39] <- 0
 # number of ranks per qualifier/race
 J <- 22
 
-# initial conditions for latent constructor ability state equations
+# initial conditions for latent constructor ability state equation
 c_0 <- c(10,9,8,7,6,5,4,3,2,1,0,1)
 
-# initial conditions for latent driver ability state equations
+# initial conditions for latent driver ability state equation
 d_0 <- c(10.25,9.75,9.25,8.75,8.25,
          7.75,7.25,6.75,6.25,5.75,
          5.25,4.75,4.25,3.75,3.25,
@@ -296,19 +292,17 @@ params_m1_v1_sim <- rstan::extract(fit_m1_v1_sim)
 # extract simulated qualifier/race ranks
 R_sim_temp <- params_m1_v1_sim$R_sim
 
-R_sim <- matrix(data = NA, nrow = N, ncol = Q)
+# extract simulated qualifier/race ranks
+R_sim_temp <- params_m1_v1_sim$R_sim
 
-for (t in 1:Q) {
-  iter_40 <- R_sim_temp[40,,t]
-  R_sim[,t] <- iter_40
-}
+R_sim <- R_sim_temp[40,,]
 
-# for driver NAs: simulated rank = 0
+# for driver NAs: simulated rank = J
 for (t in 1:Q) {
   
   for (n in 1:N) {
     
-    if (I_1[n,t] == 0) { R_sim[n,t] <- 0 }
+    if (I_1[n,t] == 0) { R_sim[n,t] <- J }
     
   }
   
