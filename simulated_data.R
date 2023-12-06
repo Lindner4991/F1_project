@@ -39,7 +39,7 @@ K <- 11
 N <- 22
 
 # number of qualifiers/races
-Q <- 160 # TODO first race
+Q <- 159 # TODO first race
 
 # constructor qualifier/race NA indicators
 I_3 <- matrix(data = 1, nrow = K, ncol = Q)
@@ -108,7 +108,7 @@ I_2 <- list(I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,
             I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,
             I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,
             I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,
-            I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2)
+            I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2)  # TODO first race
 
 # driver qualifier/race NA indicators
 I_1 <- matrix(data = 1, nrow = N, ncol = Q)
@@ -128,10 +128,10 @@ d_0 <- c(10.25,9.75,9.25,8.75,8.25,
          0.25,-0.25)
 
 # SD for error for latent constructor ability state equation
-sigma_C <- 0.16
+varsigma_C <- 0.16
 
 # SD for error for latent driver ability state equation
-sigma_D <- 0.04
+varsigma_D <- 0.04
 
 # cut points
 gamma <- seq(from = 0, to = 20, by = 1)
@@ -228,7 +228,7 @@ I_2 <- list(I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,
             I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,
             I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,
             I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,
-            I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2)
+            I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2,I_2_2)  # TODO first race
 
 # driver qualifier/race NA indicators
 I_1 <- matrix(data = 1, nrow = N, ncol = Q)
@@ -265,10 +265,10 @@ d_0 <- c(10.25,9.75,9.25,8.75,8.25,
          0.25,-0.25,0.75,0.75)
 
 # SD for error for latent constructor ability state equations
-sigma_C <- 0.16
+varsigma_C <- 0.16
 
 # SD for error for latent driver ability state equations
-sigma_D <- 0.04
+varsigma_D <- 0.04
 
 # cut points
 gamma <- seq(from = 0, to = 20, by = 1)
@@ -299,8 +299,8 @@ fit_m1_v1_sim <- sampling(m1_v1_sim,
                                       J = J,
                                       c_0 = c_0,
                                       d_0 = d_0,
-                                      sigma_C = sigma_C,
-                                      sigma_D = sigma_D,
+                                      varsigma_C = varsigma_C,
+                                      varsigma_D = varsigma_D,
                                       gamma = gamma),
                           algorithm = "Fixed_param",
                           iter = 10,
