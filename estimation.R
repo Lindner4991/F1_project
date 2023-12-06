@@ -334,6 +334,9 @@ I_3[12,1:39] <- 0 # TODO first race
 m1_v1 <- stan_model("STAN/m1_v1.stan")
 # m1_v1 <- stan_model("m1_v1.stan")
 
+# iterations per chain ( incl. warmup )
+iter_per_chain <- 2000
+
 fit_m1_v1 <- sampling(m1_v1,
                       data = list(K = K,
                                   N = N,
@@ -347,7 +350,7 @@ fit_m1_v1 <- sampling(m1_v1,
                                   gamma_lower = gamma_lower,
                                   gamma_upper = gamma_upper,
                                   R = R_sim),
-                      iter = 2000)
+                      iter = iter_per_chain)
 
 # save fit_m1_v1
 saveRDS(fit_m1_v1, "results/fit_m1_v1_clean_data.rds")
