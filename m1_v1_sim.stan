@@ -28,10 +28,10 @@ data {
   vector[N] d_0;
   
   // SD for error for latent constructor ability state equation
-  real<lower=0> sigma_C;
+  real<lower=0> varsigma_C;
   
   // SD for error for latent driver ability state equation
-  real<lower=0> sigma_D;
+  real<lower=0> varsigma_D;
   
   // cut points
   ordered[J-1] gamma;
@@ -68,7 +68,7 @@ generated quantities {
       // latent constructor ability state equation ( mu )
       for (k in 1:K) {
         
-        if (I_3[k,t] == 1) { mu_C[k,t] = normal_rng(mu_C[k,t-1], sigma_C); }
+        if (I_3[k,t] == 1) { mu_C[k,t] = normal_rng(mu_C[k,t-1], varsigma_C); }
         
         else { mu_C[k,t] = mu_C[k,t-1]; }
         
@@ -77,7 +77,7 @@ generated quantities {
       // latent driver ability state equation ( mu )
       for (n in 1:N) {
         
-        if (I_1[n,t] == 1) { mu_D[n,t] = normal_rng(mu_D[n,t-1], sigma_D); }
+        if (I_1[n,t] == 1) { mu_D[n,t] = normal_rng(mu_D[n,t-1], varsigma_D); }
         
         else { mu_D[n,t] = mu_D[n,t-1]; }
         
@@ -87,7 +87,7 @@ generated quantities {
     
     // SD for latent qualifier/race performance equation
     real sigma_P;
-    sigma_P = sqrt(square(sigma_D) + square(sigma_C));
+    sigma_P = sqrt(square(varsigma_D) + square(varsigma_C));
   
     // initialization for choice probabilities
     vector[J] theta;
