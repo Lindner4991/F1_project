@@ -21,16 +21,16 @@ data {
   // number of ranks per qualifier/race
   int<lower=2> J;
   
-  // initial conditions for latent constructor ability state equations
+  // initial conditions for latent constructor ability state equation
   vector[K] c_0;
   
-  // initial conditions for latent driver ability state equations
+  // initial conditions for latent driver ability state equation
   vector[N] d_0;
   
-  // SD for error for latent constructor ability state equations
+  // SD for error for latent constructor ability state equation
   real<lower=0> sigma_C;
   
-  // SD for error for latent driver ability state equations
+  // SD for error for latent driver ability state equation
   real<lower=0> sigma_D;
   
   // cut points
@@ -85,7 +85,7 @@ generated quantities {
       
     }
     
-    // SD for latent qualifier/race performance
+    // SD for latent qualifier/race performance equation
     real sigma_P;
     sigma_P = sqrt(square(sigma_D) + square(sigma_C));
   
