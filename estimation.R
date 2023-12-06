@@ -40,7 +40,7 @@ K <- 11
 N <- 22
 
 # number of qualifiers/races
-Q <- 160
+Q <- 160 # TODO first race
 
 # constructor qualifier/race NA indicators
 I_3 <- matrix(data = 1, nrow = K, ncol = Q)
@@ -115,9 +115,6 @@ I_2 <- list(I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,
 # driver qualifier/race NA indicators
 I_1 <- matrix(data = 1, nrow = N, ncol = Q)
 
-# 0 for first qualifier/race
-# I_1[,1] <- 0
-
 # number of ranks per qualifier/race
 J <- 22
 
@@ -157,19 +154,19 @@ K <- 12
 N <- 24
 
 # number of qualifiers/races
-Q <- 160
+Q <- 160 # TODO first race
 
 # constructor qualifier/race NA indicators
 I_3 <- matrix(data = 1, nrow = K, ncol = Q)
 
 # NAs for constructor with ID 10 ( manor )
-I_3[10,c(17:19,60:160)] <- 0
+I_3[10,c(17:19,60:160)] <- 0 # TODO first race
 
 # NAs for constructor with ID 11 ( caterham )
-I_3[11,17:160] <- 0
+I_3[11,17:160] <- 0 # TODO first race
 
 # NAs for constructor with ID 12 ( haas )
-I_3[12,1:39] <- 0
+I_3[12,1:39] <- 0 # TODO first race
 
 # constructor indicators
 I_2_1 <- matrix(data = NA, nrow = N, ncol = K)
@@ -244,26 +241,23 @@ I_2 <- list(I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,
 # driver qualifier/race NA indicators
 I_1 <- matrix(data = 1, nrow = N, ncol = Q)
 
-# 0 for first qualifier/race
-# I_1[,1] <- 0
-
 # NAs for driver with ID 19 ( manor driver )
-I_1[19,c(17:19,60:160)] <- 0
+I_1[19,c(17:19,60:160)] <- 0 # TODO first race
 
 # NAs for driver with ID 20 ( manor driver )
-I_1[10,c(17:19,60:160)] <- 0
+I_1[10,c(17:19,60:160)] <- 0 # TODO first race
 
 # NAs for driver with ID 21 ( caterham driver )
-I_1[21,17:160] <- 0
+I_1[21,17:160] <- 0 # TODO first race
 
 # NAs for driver with ID 22 ( caterham driver )
-I_1[22,17:160] <- 0
+I_1[22,17:160] <- 0 # TODO first race
 
 # NAs for constructor with ID 23 ( haas driver )
-I_1[23,1:39] <- 0
+I_1[23,1:39] <- 0 # TODO first race
 
 # NAs for constructor with ID 24 ( haas driver )
-I_1[24,1:39] <- 0
+I_1[24,1:39] <- 0 # TODO first race
 
 # number of ranks per qualifier/race
 J <- 22
@@ -325,13 +319,13 @@ for (t in 1:Q) {
 I_3 <- matrix(data = 1, nrow = K, ncol = Q)
 
 # NAs for constructor with ID 10 ( manor )
-I_3[10,c(17:19,60:160)] <- 0
+I_3[10,c(17:19,60:160)] <- 0 # TODO first race
 
 # NAs for constructor with ID 11 ( caterham )
-I_3[11,17:160] <- 0
+I_3[11,17:160] <- 0 # TODO first race
 
 # NAs for constructor with ID 12 ( haas )
-I_3[12,1:39] <- 0
+I_3[12,1:39] <- 0 # TODO first race
 
 
 
