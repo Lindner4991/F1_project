@@ -21,10 +21,10 @@ data {
   // number of ranks per qualifier/race
   int<lower=2> J;
   
-  // fixed initial conditions for latent constructor ability state equations
+  // fixed initial conditions for latent constructor ability state equation
   vector[K] c_0;
   
-  // fixed initial conditions for latent driver ability state equations
+  // fixed initial conditions for latent driver ability state equation
   vector[N] d_0;
   
   // fixed cut points
@@ -39,10 +39,10 @@ data {
 
 parameters {
   
-  // SD for error for latent constructor ability state equations
+  // SD for error for latent constructor ability state equation
   real<lower=0> sigma_C;
   
-  // SD for error for latent driver ability state equations
+  // SD for error for latent driver ability state equation
   real<lower=0> sigma_D;
   
   // latent constructor abilities ( mu )
@@ -103,7 +103,7 @@ model {
   // prior equation for sigma_D
   sigma_D ~ normal(0,1);
   
-  // SD for latent qualifier/race performance
+  // SD for latent qualifier/race performance equation
   real sigma_P;
   sigma_P = sqrt(square(sigma_D) + square(sigma_C));
   
@@ -124,27 +124,22 @@ model {
     
     for (n in 1:N) {
       
-      // provided that I_1[n,t] = 1
-      if (I_1[n,t] == 1) {
-        
-        // choice probability equations
-        theta[J] = Phi((gamma[1] - mu_P[n,t]) / sigma_P);
+      // choice probability equations
+      theta[J] = Phi((gamma[1] - mu_P[n,t]) / sigma_P);
       
-        for (j in 1:(J-2)) {
-          theta[J-j] = Phi((gamma[j+1] - mu_P[n,t]) / sigma_P) - Phi((gamma[j] - mu_P[n,t]) / sigma_P);
-        }
-      
-        theta[1] = 1 - Phi((gamma[J-1] - mu_P[n,t]) / sigma_P);
-      
-        // qualifier/race ranking equation
-        R[n,t] ~ categorical(theta);
-        
+      for (j in 1:(J-2)) {
+        theta[J-j] = Phi((gamma[j+1] - mu_P[n,t]) / sigma_P) - Phi((gamma[j] - mu_P[n,t]) / sigma_P);
       }
-    
+      
+      theta[1] = 1 - Phi((gamma[J-1] - mu_P[n,t]) / sigma_P);
+      
+      // qualifier/race ranking equation
+      R[n,t] ~ categorical(theta);
+        
     }
     
   }
-  
+    
 }
 
 
@@ -155,7 +150,7 @@ generated quantities {
   
   for (t in 1:T) {
     
-    // SD for latent qualifier performance
+    // SD for latent qualifier/race performance equation
     real sigma_P;
     sigma_P = sqrt(square(sigma_D) + square(sigma_C));
   
