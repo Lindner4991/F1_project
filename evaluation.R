@@ -100,6 +100,107 @@ params_model <- rstan::extract(fit_model)
 iter <- iter_per_chain / 2 * 4
 
 
+# fit - latent qualifier/race performance ####
+# extract mu_P posterior mean
+mu_P_pm <- matrix(data = NA, nrow = N, ncol = Q)
+
+for (n in 1:N) {
+  for (t in 1:Q) {
+    
+    mu_P_pm <-
+      get_posterior_mean(fit_model,
+                         pars = paste("mu_P[",n,",",t,"]", sep = ""))[5]
+    
+  }
+}
+
+
+# extract estimated mu_P
+mu_P_est <- params_model$mu_P
+
+
+# extract simulated mu_P
+mu_P_sim_temp <- params_model_sim$mu_P
+
+mu_P_sim <- mu_P_sim_temp[40,,]
+
+
+# time series plot
+# mu_P posterior mean ( pink ) vs simulated mu_D ( orange )
+par(mfrow = c(5,2))
+for (n in 1:N) {
+  
+  plot(mu_P_sim[n,],
+       ylim = c(-5, 25),
+       type="l",
+       col = "orange",
+       main = paste("driver", n),
+       xlab = "qualifier",
+       ylab = "mu_P",
+       xaxt = "n",
+       yaxt = "n")
+  axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
+  axis(side = 2, at = c(-5, 5, 15), las = 1)
+  
+  lines(mu_P_pm[n,], col = "deeppink1")
+  
+}
+par(mfrow = c(1,1))
+
+
+# mean squared error
+# mu_P posterior mean vs simulated mu_P
+MSE(mu_P_pm, mu_P_sim, N, Q)
+
+
+# mean squared error 89% HDI
+# estimated mu_P vs simulated mu_P
+HPDI_MSE(mu_P_est, mu_P_sim, N, Q, I_1, iter)
+
+
+# time series plot
+# mu_P 89% HDI
+par(mfrow = c(5,2))
+for (n in 1:N) {
+  
+  mu_P_U <- c()
+  mu_P_L <- c()
+  for (t in 1:Q) {
+    
+    mu_P_U_temp <- HPDI(as.numeric(mu_P_est[,n,t]))[2]
+    mu_P_U <- c(mu_P_U, mu_P_U_temp)
+    
+    mu_P_L_temp <- HPDI(as.numeric(mu_P_est[,n,t]))[1]
+    mu_P_L <- c(mu_P_L, mu_P_L_temp)
+    
+  }
+  
+  x <- 1:160
+  
+  plot(x = x,
+       y = mu_P_U,
+       ylim = c(-5, 25),
+       type="l",
+       col = "deeppink1",
+       main = paste("driver", n),
+       xlab = "qualifier",
+       ylab = "89% HPDI mu_P",
+       xaxt = "n",
+       yaxt = "n")
+  axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
+  axis(side = 2, at = c(20, 10, 1), las = 1)
+  
+  lines(x = x, mu_P_L, col = "deeppink1")
+  
+  polygon(x = c(x, rev(x)),
+          y = c(mu_P_U, rev(mu_P_L)),
+          col = "deeppink1",
+          lty = 0)
+  
+}
+par(mfrow = c(1,1))
+
+
 
 # fit - latent driver ability ####
 # extract mu_D posterior mean
@@ -126,7 +227,7 @@ mu_D_sim_temp <- params_model_sim$mu_D
 mu_D_sim <- mu_D_sim_temp[40,,]
 
 
-# figures
+# time series plot
 # mu_D posterior mean ( violet ) vs simulated mu_D ( orange )
 par(mfrow = c(5,2))
 for (n in 1:N) {
@@ -154,12 +255,13 @@ par(mfrow = c(1,1))
 MSE(mu_D_pm, mu_D_sim, N, Q)
 
 
-# 89% HPDI for mean squared error
+# mean squared error 89% HDI
 # estimated mu_D vs simulated mu_D
 HPDI_MSE(mu_D_est, mu_D_sim, N, Q, I_1, iter)
 
 
-# 89% HPDI for mu_D
+# time series plot
+# mu_D 89% HDI
 par(mfrow = c(5,2))
 for (n in 1:N) {
   
@@ -217,17 +319,17 @@ for (k in 1:K) {
 }
 
 
-# extract estimated mu_D
+# extract estimated mu_C
 mu_C_est <- params_model$mu_C
 
 
-# extract simulated mu_D
-mu_D_sim_temp <- params_model_sim$mu_D
+# extract simulated mu_C
+mu_C_sim_temp <- params_model_sim$mu_C
 
-mu_D_sim <- mu_D_sim_temp[40,,]
+mu_C_sim <- mu_C_sim_temp[40,,]
 
 
-# figures
+# time series plot
 # mu_C posterior mean ( green ) vs simulated mu_C ( orange )
 par(mfrow = c(5,2))
 for (k in 1:K) {
@@ -244,7 +346,7 @@ for (k in 1:K) {
   axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
   axis(side = 2, at = c(-5, 5, 15), las = 1)
   
-  lines(mu_C[k,], col = "mediumspringgreen")
+  lines(mu_C_pm[k,], col = "mediumspringgreen")
   
 }
 par(mfrow = c(1,1))
@@ -255,12 +357,13 @@ par(mfrow = c(1,1))
 MSE(mu_C_pm, mu_C_sim, K, Q)
 
 
-# 89% HPDI for mean squared error
+# mean squared error 89% HDI
 # estimated mu_C vs simulated mu_C
 HPDI_MSE(mu_C_est, mu_C_sim, K, Q, I_3, iter)
 
 
-# 89% HPDI for mu_C
+# time series plot
+# mu_C 89% HDI
 par(mfrow = c(5,2))
 for (k in 1:K) {
   
@@ -268,10 +371,10 @@ for (k in 1:K) {
   mu_C_L <- c()
   for (t in 1:Q) {
     
-    mu_C_U_temp <- HPDI(as.numeric(params_model_1$mu_C[,k,t]))[2]
+    mu_C_U_temp <- HPDI(as.numeric(mu_C_est[,k,t]))[2]
     mu_C_U <- c(mu_C_U, mu_C_U_temp)
     
-    mu_C_L_temp <- HPDI(as.numeric(params_model_1$mu_C[,k,t]))[1]
+    mu_C_L_temp <- HPDI(as.numeric(mu_C_est[,k,t]))[1]
     mu_C_L <- c(mu_C_L, mu_C_L_temp)
     
   }
@@ -288,7 +391,7 @@ for (k in 1:K) {
        ylab = "89% HPDI mu_C",
        xaxt = "n",
        yaxt = "n")
-  axis(side = 1, at = c(1,21,41,61,81,101,121,141,160))
+  axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
   axis(side = 2, at = c(-5, 5, 15), las = 1)
   
   lines(x = x, mu_C_L, col = "mediumspringgreen")
@@ -303,7 +406,7 @@ par(mfrow = c(1,1))
 
 
 
-# insights - latent driver vs constructor ability
+# insights - latent driver vs constructor ability ####
 # placeholder
 
 
