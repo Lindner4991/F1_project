@@ -5,7 +5,7 @@
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# THIS FILE BUILDS ON THE simulated_data.R AND estimation.R FILE#
+#THIS FILE BUILDS ON THE simulated_data.R AND estimation.R FILE #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
