@@ -32,6 +32,7 @@ options(scipen = 999)
 
 
 # load packages
+library(todor)
 library(rstan)
 options(mc.cores = parallel::detectCores())
 rstan_options(auto_write = TRUE)
