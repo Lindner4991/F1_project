@@ -39,7 +39,7 @@ K <- 11
 N <- 22
 
 # number of qualifiers/races
-Q <- 160
+Q <- 160 # TODO first race
 
 # constructor qualifier/race NA indicators
 I_3 <- matrix(data = 1, nrow = K, ncol = Q)
@@ -146,19 +146,19 @@ K <- 12
 N <- 24
 
 # number of qualifiers/races
-Q <- 160
+Q <- 160 # TODO first race
 
 # constructor qualifier/race NA indicators
 I_3 <- matrix(data = 1, nrow = K, ncol = Q)
 
 # NAs for constructor with ID 10 ( manor )
-I_3[10,c(20:38,60:160)] <- 0
+I_3[10,c(20:38,60:160)] <- 0 # TODO first race
 
 # NAs for constructor with ID 11 ( marussia )
-I_3[11,20:160] <- 0
+I_3[11,20:160] <- 0 # TODO first race
 
 # NAs for constructor with ID 12 ( haas )
-I_3[12,1:19] <- 0
+I_3[12,1:19] <- 0 # TODO first race
 
 # constructor indicators
 I_2_1 <- matrix(data = NA, nrow = N, ncol = K)
@@ -234,22 +234,22 @@ I_2 <- list(I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,I_2_1,
 I_1 <- matrix(data = 1, nrow = N, ncol = Q)
 
 # NAs for driver with ID 19 ( manor driver )
-I_1[19,c(20:38,60:160)] <- 0
+I_1[19,c(20:38,60:160)] <- 0 # TODO first race
 
 # NAs for driver with ID 20 ( manor driver )
-I_1[20,c(20:38,60:160)] <- 0
+I_1[20,c(20:38,60:160)] <- 0 # TODO first race
 
 # NAs for driver with ID 21 ( marussia )
-I_1[21,20:160] <- 0
+I_1[21,20:160] <- 0 # TODO first race
 
 # NAs for driver with ID 22 ( marussia )
-I_1[22,20:160] <- 0
+I_1[22,20:160] <- 0 # TODO first race
 
 # NAs for constructor with ID 23 ( haas )
-I_1[23,1:19] <- 0
+I_1[23,1:19] <- 0 # TODO first race
 
 # NAs for constructor with ID 24 ( haas )
-I_1[24,1:19] <- 0
+I_1[24,1:19] <- 0 # TODO first race
 
 # number of ranks per qualifier/race
 J <- 22
@@ -336,7 +336,7 @@ for (n in 1:N) {
        ylab = "rank",
        xaxt = "n",
        yaxt = "n")
-  axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))
+  axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
   axis(side = 2, at = c(22, 11, 1), las = 1)
   
 }
