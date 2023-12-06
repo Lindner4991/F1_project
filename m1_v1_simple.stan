@@ -124,7 +124,9 @@ model {
     
     for (n in 1:N) {
       
-      // choice probability equations
+      if(I_1[n,t] == 1) {
+        
+        // choice probability equations
       theta[J] = Phi((gamma[1] - mu_P[n,t]) / sigma_P);
       
       for (j in 1:(J-2)) {
@@ -135,6 +137,8 @@ model {
       
       // qualifier/race ranking equation
       R[n,t] ~ categorical(theta);
+        
+      }
         
     }
     
