@@ -336,7 +336,7 @@ for (n in 1:N) {
        ylab = "rank",
        xaxt = "n",
        yaxt = "n")
-  axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
+  axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))  # TODO first race
   axis(side = 2, at = c(22, 11, 1), las = 1)
   
 }
