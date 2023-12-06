@@ -78,17 +78,6 @@ R_sim_temp <- params_m1_v1_sim$R_sim
 
 R_sim <- R_sim_temp[40,,]
 
-# for driver NAs: simulated rank = J
-for (t in 1:Q) {
-  
-  for (n in 1:N) {
-    
-    if (I_1[n,t] == 0) { R_sim[n,t] <- J }
-    
-  }
-  
-}
-
 
 
 # model 1 version 1 - greater ability fluctuations ####
