@@ -40,16 +40,16 @@ data {
 parameters {
   
   // SD for error for latent constructor ability state equation
-  real<lower=0> sigma_C;
+  real<lower=0> varsigma_C;
   
   // SD for error for latent driver ability state equation
-  real<lower=0> sigma_D;
+  real<lower=0> varsigma_D;
   
   // latent constructor abilities ( mu )
-  matrix[K,T] mu_C_temp;
+  matrix[K,T] mu_C;
   
   // latent driver abilities ( mu )
-  matrix[N,T] mu_D_temp;
+  matrix[N,T] mu_D;
   
   // cut points
   simplex[J-3+1] gamma_temp;
@@ -58,20 +58,6 @@ parameters {
 
 
 transformed parameters {
-  
-  // latent constructor abilities ( mu )
-  matrix[K,T] mu_C;
-  
-  mu_C = mu_C_temp;
-  
-  for (k in 1:K) { mu_C[k,1] = c_0[k]; }
-  
-  // latent driver abilities ( mu )
-  matrix[N,T] mu_D;
-  
-  mu_D = mu_D_temp;
-  
-  for (n in 1:N) { mu_D[n,1] = d_0[n]; }
   
   // latent qualifier/race performance equation ( mu )
   matrix[N,T] mu_P;
@@ -98,14 +84,14 @@ transformed parameters {
 model {
   
   // prior equation for sigma_C
-  sigma_C ~ normal(0,1);
+  varsigma_C ~ normal(0,1);
   
   // prior equation for sigma_D
-  sigma_D ~ normal(0,1);
+  varsigma_D ~ normal(0,1);
   
   // SD for latent qualifier/race performance equation
   real sigma_P;
-  sigma_P = sqrt(square(sigma_D) + square(sigma_C));
+  sigma_P = sqrt(square(varsigma_D) + square(varsigma_C));
   
   // initialization for choice probabilities
   vector[J] theta;
@@ -115,10 +101,10 @@ model {
     if (t > 1) {
       
       // latent constructor ability state equation ( mu )
-      for (k in 1:K) { mu_C[k,t] ~ normal(mu_C[k,t-1], sigma_C); }
+      for (k in 1:K) { mu_C[k,t] ~ normal(mu_C[k,t-1], varsigma_C); }
     
       // latent driver ability state equation ( mu )
-      for (n in 1:N) { mu_D[n,t] ~ normal(mu_D[n,t-1], sigma_D); }
+      for (n in 1:N) { mu_D[n,t] ~ normal(mu_D[n,t-1], varsigma_D); }
       
     }
     
@@ -156,7 +142,7 @@ generated quantities {
     
     // SD for latent qualifier/race performance equation
     real sigma_P;
-    sigma_P = sqrt(square(sigma_D) + square(sigma_C));
+    sigma_P = sqrt(square(varsigma_D) + square(varsigma_C));
   
     // initialization for choice probabilities
     vector[J] theta;
