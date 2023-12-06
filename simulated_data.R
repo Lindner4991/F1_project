@@ -1,6 +1,6 @@
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# CLOSING THE SECTIONS PROVIDES AN OVERVIEW OF THE SCRIPT
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# CLOSING THE SECTIONS PROVIDES AN OVERVIEW OF THE SCRIPT #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
 
