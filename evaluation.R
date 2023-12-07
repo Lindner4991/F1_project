@@ -64,8 +64,8 @@ MSE <- function(est, sim, X, Y, I) {
 }
 
 
-# 89% HPDI for mean squared error
-HPDI_MSE <- function(est, sim, X, Y, I, iter) {
+# 89% HDI for mean squared error
+HDI_MSE <- function(est, sim, X, Y, I, iter) {
   
   MSE <- rep(0, times = iter)
   
@@ -73,7 +73,7 @@ HPDI_MSE <- function(est, sim, X, Y, I, iter) {
     MSE[iter] <- MSE(est[i,,], sim, X, Y, I)
   }
   
-  HPDI_MSE <- round(HPDI(MSE), digits = 4)
+  HDI_MSE <- round(HPDI(MSE), digits = 4)
   
   return(HPDI_MSE)
   
@@ -245,7 +245,7 @@ MSE(mu_P_pm, mu_P_sim, N, Q)
 
 # mean squared error 89% HDI
 # estimated mu_P vs simulated mu_P
-HPDI_MSE(mu_P_est, mu_P_sim, N, Q, I_1, iter)
+HDI_MSE(mu_P_est, mu_P_sim, N, Q, I_1, iter)
 
 
 # time series plot
@@ -347,7 +347,7 @@ MSE(mu_D_pm, mu_D_sim, N, Q)
 
 # mean squared error 89% HDI
 # estimated mu_D vs simulated mu_D
-HPDI_MSE(mu_D_est, mu_D_sim, N, Q, I_1, iter)
+HDI_MSE(mu_D_est, mu_D_sim, N, Q, I_1, iter)
 
 
 # time series plot
@@ -449,7 +449,7 @@ MSE(mu_C_pm, mu_C_sim, K, Q)
 
 # mean squared error 89% HDI
 # estimated mu_C vs simulated mu_C
-HPDI_MSE(mu_C_est, mu_C_sim, K, Q, I_3, iter)
+HDI_MSE(mu_C_est, mu_C_sim, K, Q, I_3, iter)
 
 
 # time series plot
