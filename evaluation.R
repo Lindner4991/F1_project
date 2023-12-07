@@ -101,6 +101,95 @@ params_model <- rstan::extract(fit_model)
 iter <- iter_per_chain / 2 * 4
 
 
+
+# fit - qualifier/race rank ####
+# extract averaged predicted R
+# ( averaged over post-warmup iterations )
+R_pred_avg <- matrix(data = NA, nrow = N, ncol = Q)
+
+for (n in 1:N) {
+  for (t in 1:Q) {
+    
+    R_pred_avg_temp <-
+      get_posterior_mean(fit_model,
+                         pars = paste("R_pred[",n,",",t,"]", sep = ""))[5]
+    
+    R_pred_avg[n,t] <- round(R_pred_avg_temp, digits = 0)
+    
+  }
+}
+
+
+# extract predicted R
+R_pred <- params_model$R_pred
+
+
+# time series plot
+# averaged predicted R ( pink ) vs simulated R ( orange )
+par(mfrow = c(5,2))
+for (n in 1:N) {
+  
+  plot(R_sim[n,],
+       ylim = c(22, 1),
+       type="l",
+       col = "orange",
+       main = paste("driver", n),  # TODO version 2, real data
+       xlab = "qualifier/race",  # TODO real data
+       ylab = "rank",
+       xaxt = "n",
+       yaxt = "n")
+  axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
+  axis(side = 2, at = c(22, 11, 1), las = 1)
+  
+  lines(R_pred_avg[n,], col = "deeppink1")
+  
+}
+par(mfrow = c(1,1))
+
+
+# averaged predicted R 89% HDI
+par(mfrow = c(5,2))
+for (n in 1:N) {
+  
+  R_pred_U <- c()
+  R_pred_L <- c()
+  for (t in 1:Q) {
+    
+    R_pred_U_temp <- HPDI(as.numeric(R_pred[,n,t]))[2]
+    R_pred_U <- c(R_pred_U, R_pred_U_temp)
+    
+    R_pred_L_temp <- HPDI(as.numeric(R_pred[,n,t]))[1]
+    R_pred_L <- c(R_pred_L, R_pred_L_temp)
+    
+  }
+  
+  x <- 1:160
+  
+  plot(x = x,
+       y = R_pred_U,
+       ylim = c(22, 1),
+       type="l",
+       col = "deeppink1",
+       main = paste("driver", n),  # TODO version 2, real data
+       xlab = "qualifier/race",  # TODO real data
+       ylab = "rank",
+       xaxt = "n",
+       yaxt = "n")
+  axis(side = 1, at = c(1,21,41,61,81,101,121,141,160))  # TODO first race
+  axis(side = 2, at = c(22, 11, 1), las = 1)
+  
+  lines(x = x, R_pred_L, col = "deeppink1")
+  
+  polygon(x = c(x, rev(x)),
+          y = c(R_pred_U, rev(R_pred_L)),
+          col = "deeppink1",
+          lty = 0)
+  
+}
+par(mfrow = c(1,1))
+
+
+
 # fit - latent qualifier/race performance ####
 # extract mu_P posterior mean
 mu_P_pm <- matrix(data = NA, nrow = N, ncol = Q)
@@ -141,7 +230,7 @@ for (n in 1:N) {
        xaxt = "n",
        yaxt = "n")
   axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
-  axis(side = 2, at = c(-5, 5, 15), las = 1)
+  axis(side = 2, at = c(-5, 10, 25), las = 1)
   
   lines(mu_P_pm[n,], col = "deeppink1")
   
@@ -160,7 +249,7 @@ HPDI_MSE(mu_P_est, mu_P_sim, N, Q, I_1, iter)
 
 
 # time series plot
-# mu_P 89% HDI
+# estimated mu_P 89% HDI
 par(mfrow = c(5,2))
 for (n in 1:N) {
   
@@ -185,11 +274,11 @@ for (n in 1:N) {
        col = "deeppink1",
        main = paste("driver", n),  # TODO version 2, real data
        xlab = "qualifier/race",  # TODO real data
-       ylab = "89% HPDI perf",
+       ylab = "performance",
        xaxt = "n",
        yaxt = "n")
   axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
-  axis(side = 2, at = c(20, 10, 1), las = 1)
+  axis(side = 2, at = c(-5, 10, 25), las = 1)
   
   lines(x = x, mu_P_L, col = "deeppink1")
   
@@ -243,7 +332,7 @@ for (n in 1:N) {
        xaxt = "n",
        yaxt = "n")
   axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
-  axis(side = 2, at = c(-5, 5, 15), las = 1)
+  axis(side = 2, at = c(-5, 5, 15), las = 1)  # TODO adjust
   
   lines(mu_D_pm[n,], col = "blueviolet")
   
@@ -262,7 +351,7 @@ HPDI_MSE(mu_D_est, mu_D_sim, N, Q, I_1, iter)
 
 
 # time series plot
-# mu_D 89% HDI
+# estimated mu_D 89% HDI
 par(mfrow = c(5,2))
 for (n in 1:N) {
   
@@ -287,11 +376,11 @@ for (n in 1:N) {
        col = "blueviolet",
        main = paste("driver", n),  # TODO version 2, real data
        xlab = "qualifier/race",  # TODO real data
-       ylab = "89% HPDI ability",
+       ylab = "ability",
        xaxt = "n",
        yaxt = "n")
   axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
-  axis(side = 2, at = c(-5, 5, 15), las = 1)
+  axis(side = 2, at = c(-5, 5, 15), las = 1)  # TODO adjust
   
   lines(x = x, mu_D_L, col = "blueviolet")
   
@@ -345,7 +434,7 @@ for (k in 1:K) {
        xaxt = "n",
        yaxt = "n")
   axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
-  axis(side = 2, at = c(-5, 5, 15), las = 1)
+  axis(side = 2, at = c(-5, 5, 15), las = 1)  # TODO adjust
   
   lines(mu_C_pm[k,], col = "mediumspringgreen")
   
@@ -364,7 +453,7 @@ HPDI_MSE(mu_C_est, mu_C_sim, K, Q, I_3, iter)
 
 
 # time series plot
-# mu_C 89% HDI
+# estimated mu_C 89% HDI
 par(mfrow = c(5,2))
 for (k in 1:K) {
   
@@ -389,11 +478,11 @@ for (k in 1:K) {
        col = "mediumspringgreen",
        main = paste("constructor", k),  # TODO real data
        xlab = "qualifier/race",  # TODO real data
-       ylab = "89% HPDI ability",
+       ylab = "ability",
        xaxt = "n",
        yaxt = "n")
   axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
-  axis(side = 2, at = c(-5, 5, 15), las = 1)
+  axis(side = 2, at = c(-5, 5, 15), las = 1)  # TODO adjust
   
   lines(x = x, mu_C_L, col = "mediumspringgreen")
   
