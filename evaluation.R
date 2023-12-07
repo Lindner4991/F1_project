@@ -12,7 +12,7 @@
 # R_act_qualifier.xlsx
 # R_act_race.xlsx
 # fit_m___sim___.rds
-# # where ___ is a placeholder
+# where ___ is a placeholder
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
