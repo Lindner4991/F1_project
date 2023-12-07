@@ -108,14 +108,18 @@ R_sim <- R_sim_temp[40,,]
 
 # model 1 version 1 - F1 hybrid era qualifiers ####
 # actual qualifier ranks
+# load R_act_temp
 R_act_temp <- read_excel("data/R_act_qualifier.xlsx",  # TODO data file
                          sheet = "Sheet1")
+# R_act_temp <- read_excel("R_act_qualifier.xlsx",  # TODO data file
+#                          sheet = "Sheet1")
 
 # data processing - delete first column
 R_act_temp <- R_act_temp[,-1]
 
 # data processing - chr --> numeric
-R_act_temp <- lapply(R_act_temp, as.numeric)
+R_act <- sapply(R_act_temp, FUN = as.numeric)
+
 
 # number of constructors in time series
 K <- 12
@@ -144,11 +148,40 @@ I_3[12,1:39] <- 0 # TODO first race
 # driver qualifier/race NA indicators
 I_1 <- matrix(data = 1, nrow = N, ncol = Q)
 
+for (n in 1:N) {
+  for (t in 1:Q) {
+    
+    if (is.na(R_act[n,t])) {
+      I_1[n,t] <- 0
+    }
+    
+  }
+}
 
+# actual qualifier ranks continued
+# data processing - NAs --> 22
+for (n in 1:N) {
+  for (t in 1:Q) {
+    
+    if (is.na(R_act[n,t])) {
+      R_act[n,t] <- 22
+    }
+    
+  }
+}
 
+# number of ranks per qualifier/race
+J <- 22
 
+# initial conditions for latent constructor ability state equation
+# placeholder
 
+# initial conditions for latent driver ability state equation
+# placeholder
 
+# fixed cut points
+gamma_lower <- 0
+gamma_upper <- J - 2
 
 
 
