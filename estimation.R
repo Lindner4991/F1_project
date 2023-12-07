@@ -11,7 +11,7 @@
 # fit_m___sim___.rds
 # R_act_qualifier.xlsx
 # R_act_race.xlsx
-# # where ___ is a placeholder
+# where ___ is a placeholder
 
 
 # required model files ( occurrences in script marked with TODO model file ):
