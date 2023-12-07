@@ -102,6 +102,78 @@ iter <- iter_per_chain / 2 * 4
 
 
 
+# fit - varsigma_D, varsigma_C, and cut points ####
+# posterior mean and median
+summary(fit_model,
+        probs = c(0.5),
+        pars = c("varsigma_D",
+                 "varsigma_C",
+                 "gamma[2]",
+                 "gamma[3]",
+                 "gamma[4]",
+                 "gamma[5]",
+                 "gamma[6]",
+                 "gamma[7]",
+                 "gamma[8]",
+                 "gamma[9]",
+                 "gamma[10]",
+                 "gamma[11]",
+                 "gamma[12]",
+                 "gamma[13]",
+                 "gamma[14]",
+                 "gamma[15]",
+                 "gamma[16]",
+                 "gamma[17]",
+                 "gamma[18]",
+                 "gamma[19]",
+                 "gamma[20]"))
+
+
+# posterior density 89% HDI
+# varsigma_D
+round(HPDI(as.numeric(params_model$varsigma_D)), digits = 4)
+
+# varsigma_C
+round(HPDI(as.numeric(params_model$varsigma_C)), digits = 4)
+
+# cut points
+for (j in 2:(J-2)) {
+  print(round(HPDI(as.numeric(params_model$gamma[,j])), digits = 4))
+}
+
+
+# figure
+# histogram posterior density
+# varsigma_D
+par(mfrow = c(1,3))
+hist(params_model$varsigma_D,
+     col = "blueviolet",
+     border = FALSE,
+     main = "varsigma_D",
+     xlab = "")
+abline(v = 0.04, lwd = 2, col = "orange")  # TODO real data
+
+# sigma_C
+hist(params_model_1$varsigma_C,
+     col = "mediumspringgreen",
+     border = FALSE,
+     main = "varsigma_C",
+     xlab = "")
+abline(v = 0.16, lwd = 2, col = "orange")  # TODO real data
+
+# gamma
+for (j in 2:(J-2)) {
+  hist(params_model_1$gamma[,j],
+       col = "deeppink1",
+       border = FALSE,
+       main = paste("gamma_", j, sep=""),
+       xlab = "")
+  abline(v = j-1, lwd = 2, col = "orange")  # TODO real data
+}
+par(mfrow = c(1,1))
+
+
+
 # fit - qualifier/race rank ####
 # extract averaged predicted R
 # ( averaged over post-warmup iterations )
