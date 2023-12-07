@@ -1,12 +1,21 @@
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# CLOSING THE SECTIONS PROVIDES AN OVERVIEW OF THE SCRIPT #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
+# closing the sections provides an overview of the script
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#THIS FILE BUILDS ON THE simulated_data.R AND estimation.R FILE #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+# this file builds on the simulated_data.R and estimation.R file
+
+
+# required data files ( occurrences in script marked with TODO data file ):
+# fit_m___.rds
+# R_act_qualifier.xlsx
+# R_act_race.xlsx
+# fit_m___sim___.rds
+# # where ___ is a placeholder
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
 
@@ -83,15 +92,14 @@ HDI_MSE <- function(est, sim, X, Y, I, iter) {
 
 # evaluation prep ####
 # load fit_model_sim
-# load fit_model_sim
-fit_model_sim <- readRDS("data/fit_m1_v1_sim_clean_data.rds")
+fit_model_sim <- readRDS("data/fit_m1_v1_sim_clean_data.rds")  # TODO data file
 
 # extract simulations
 params_model_sim <- rstan::extract(fit_model_sim)
 
 
 # load fit_model
-fit_model <- readRDS("results/fit_m1_v1_clean_data.rds")
+fit_model <- readRDS("results/fit_m1_v1_clean_data.rds")  # TODO data file
 
 # extract samples
 params_model <- rstan::extract(fit_model)
