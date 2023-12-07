@@ -98,6 +98,16 @@ model {
   
   for (t in 1:T) {
     
+    if (t == 1) {
+      
+      // latent constructor ability state equation ( mu )
+      for (k in 1:K) { mu_C[k,t] ~ normal(c_0[k], varsigma_C); }
+    
+      // latent driver ability state equation ( mu )
+      for (n in 1:N) { mu_D[n,t] ~ normal(d_0[n], varsigma_D); }
+      
+    }
+    
     if (t > 1) {
       
       // latent constructor ability state equation ( mu )
