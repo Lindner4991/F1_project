@@ -1,12 +1,25 @@
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# CLOSING THE SECTIONS PROVIDES AN OVERVIEW OF THE SCRIPT #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
+# closing the sections provides an overview of the script
 
-# # # # # # # # # # # # # # # # # # # # # # # # #
-# THIS FILE BUILDS ON THE simulated_data.R FILE #
-# # # # # # # # # # # # # # # # # # # # # # # # #
+
+# this file builds on the simulated_data.R file
+
+
+# required data files ( occurrences in script marked with TODO data file ):
+# fit_m___sim___.rds
+# R_act_qualifier.xlsx
+# R_act_race.xlsx
+# # where ___ is a placeholder
+
+
+# required model files ( occurrences in script marked with TODO model file ):
+# m___.stan
+# where ___ is a placeholder
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
 
@@ -37,6 +50,8 @@ library(rstan)
 options(mc.cores = parallel::detectCores())
 rstan_options(auto_write = TRUE)
 
+library(readxl)
+
 
 
 # model 1 version 1 - simulated data - clean data ####
@@ -45,7 +60,7 @@ gamma_lower <- 0
 gamma_upper <- J - 2
 
 # load fit_m1_v1_sim
-fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_clean_data.rds")
+fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_clean_data.rds")  # TODO data file
 # fit_m1_v1_sim <- readRDS("fit_m1_v1_sim_clean_data.rds")
 
 # extract simulations
@@ -65,7 +80,7 @@ gamma_lower <- 0
 gamma_upper <- J - 2
 
 # load fit_m1_v1_sim
-fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_missing_data.rds")
+fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_missing_data.rds")  # TODO data file
 # fit_m1_v1_sim <- readRDS("fit_m1_v1_sim_missing_data.rds")
 
 # extract simulations
@@ -92,6 +107,25 @@ R_sim <- R_sim_temp[40,,]
 
 
 # model 1 version 1 - F1 hybrid era qualifiers ####
+# actual qualifier ranks
+R_act_temp <- read_excel("data/R_act_qualifier.xlsx",  # TODO data file
+                         sheet = "Sheet1")
+
+# data processing - delete first column
+R_act_temp <- R_act_temp[,-1]
+
+# data processing - chr --> numeric
+R_act_temp <- lapply(R_act_temp, as.numeric)
+
+# number of constructors in time series
+K <- 12
+
+# number of drivers in time series
+N <- 51
+
+# number of qualifiers/races
+Q <- 160 # TODO first race
+
 # constructor qualifier NA indicators
 I_3 <- matrix(data = 1, nrow = K, ncol = Q)
 
@@ -104,11 +138,28 @@ I_3[11,17:160] <- 0 # TODO first race
 # NAs for constructor with ID 12 ( haas )
 I_3[12,1:39] <- 0 # TODO first race
 
+# constructor indicators
+# placeholder
+
+# driver qualifier/race NA indicators
+I_1 <- matrix(data = 1, nrow = N, ncol = Q)
+
+
+
+
+
+
+
+
+
+# model 1 version 1 - F1 hybrid era races ####
+# placeholder
+
 
 
 # model 1 version 1 - estimation - local ####
 # computation with NUTS in STAN
-m1_v1 <- stan_model("STAN/m1_v1.stan")
+m1_v1 <- stan_model("STAN/m1_v1.stan")  # TODO model file
 
 # number of post-warmup iterations per chain
 iter_per_chain <- 2000
@@ -135,7 +186,7 @@ saveRDS(fit_m1_v1, "results/fit_m1_v1_clean_data.rds")
 
 # model 1 version 1 - estimation - DSRI ####
 # computation with NUTS in STAN
-m1_v1 <- stan_model("m1_v1.stan")
+m1_v1 <- stan_model("m1_v1.stan")  # TODO model file
 
 # number of post-warmup iterations per chain
 iter_per_chain <- 2000
