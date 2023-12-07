@@ -1,6 +1,10 @@
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# CLOSING THE SECTIONS PROVIDES AN OVERVIEW OF THE SCRIPT #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+
+# closing the sections provides an overview of the script
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
 
