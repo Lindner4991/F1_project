@@ -324,7 +324,7 @@ R_sim <- R_sim_temp[40,,]
 
 
 # time series plot
-# simulated qualifier/race R
+# simulated qualifier/race rank
 par(mfrow = c(5,2))
 for (n in 1:N) {
   
