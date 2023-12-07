@@ -6,7 +6,7 @@
 
 # required model files ( occurrences in script marked with TODO model file ):
 # m___sim.stan
-# where is a ___ placeholder
+# where ___ is a placeholder
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
