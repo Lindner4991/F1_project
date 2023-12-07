@@ -1,6 +1,15 @@
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# CLOSING THE SECTIONS PROVIDES AN OVERVIEW OF THE SCRIPT #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+
+# closing the sections provides an overview of the script
+
+
+# required model files ( occurrences in script marked with TODO model file ):
+# m___sim.stan
+# where is a ___ placeholder
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
 
@@ -288,7 +297,7 @@ gamma <- seq(from = 0, to = 20, by = 1)
 
 # model 1 version 1 - simulation ####
 # computation with NUTS in STAN
-m1_v1_sim <- stan_model("STAN/m1_v1_sim.stan")
+m1_v1_sim <- stan_model("STAN/m1_v1_sim.stan")  # TODO model file
 
 fit_m1_v1_sim <- sampling(m1_v1_sim,
                           data = list(K = K,
