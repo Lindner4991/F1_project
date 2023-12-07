@@ -42,7 +42,7 @@ rstan_options(auto_write = TRUE)
 # model 1 version 1 - simulated data - clean data ####
 # fixed cut points
 gamma_lower <- 0
-gamma_upper <- J - 1
+gamma_upper <- J - 2
 
 # load fit_m1_v1_sim
 fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_clean_data.rds")
@@ -62,7 +62,7 @@ R_sim <- R_sim_temp[40,,]
 # number of constructors in time series
 # fixed cut points
 gamma_lower <- 0
-gamma_upper <- J - 1
+gamma_upper <- J - 2
 
 # load fit_m1_v1_sim
 fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_missing_data.rds")
