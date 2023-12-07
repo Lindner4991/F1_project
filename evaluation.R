@@ -137,7 +137,7 @@ for (n in 1:N) {
        col = "orange",
        main = paste("driver", n), # TODO version 2, real data
        xlab = "qualifier/race",  # TODO real data
-       ylab = "perf",
+       ylab = "performance",
        xaxt = "n",
        yaxt = "n")
   axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
