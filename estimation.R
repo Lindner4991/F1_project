@@ -111,7 +111,7 @@ I_3[12,1:39] <- 0 # TODO first race
 m1_v1 <- stan_model("STAN/m1_v1.stan")
 # m1_v1 <- stan_model("m1_v1.stan")
 
-# iterations per chain ( incl. warmup )
+# number of post-warmup iterations per chain
 iter_per_chain <- 2000
 
 fit_m1_v1 <- sampling(m1_v1,
