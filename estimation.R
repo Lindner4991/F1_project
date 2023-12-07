@@ -106,10 +106,9 @@ I_3[12,1:39] <- 0 # TODO first race
 
 
 
-# model 1 version 1 - estimation ####
+# model 1 version 1 - estimation - local ####
 # computation with NUTS in STAN
 m1_v1 <- stan_model("STAN/m1_v1.stan")
-# m1_v1 <- stan_model("m1_v1.stan")
 
 # number of post-warmup iterations per chain
 iter_per_chain <- 2000
@@ -131,6 +130,36 @@ fit_m1_v1 <- sampling(m1_v1,
 
 # save fit_m1_v1
 saveRDS(fit_m1_v1, "results/fit_m1_v1_clean_data.rds")
-# saveRDS(fit_m1_v1, "fit_m1_v1_missing_data.rds")
+
+
+
+# model 1 version 1 - estimation - DSRI ####
+# computation with NUTS in STAN
+m1_v1 <- stan_model("m1_v1.stan")
+
+# number of post-warmup iterations per chain
+iter_per_chain <- 2000
+
+job::job({
+  
+  fit_m1_v1 <- sampling(m1_v1,
+                        data = list(K = K,
+                                    N = N,
+                                    T = Q,
+                                    I_3 = I_3,
+                                    I_2 = I_2,
+                                    I_1 = I_1,
+                                    J = J,
+                                    c_0 = c_0,
+                                    d_0 = d_0,
+                                    gamma_lower = gamma_lower,
+                                    gamma_upper = gamma_upper,
+                                    R = R_sim),
+                        iter = iter_per_chain)
+  
+  # save fit_m1_v1
+  saveRDS(fit_m1_v1, "fit_m1_v1_clean_data.rds")
+  
+})
 
 
