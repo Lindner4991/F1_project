@@ -52,13 +52,13 @@ get_ranks <- function(data_temp, t) {
 }
 
 
-merge_ranks <- function(R_obs_temp, data) {
+merge_ranks <- function(R_act_temp, data) {
   
-  R_obs <- full_join(x = R_obs_temp,
+  R_act <- full_join(x = R_act_temp,
                      y = data,
                      by = "driver")
   
-  return(R_obs)
+  return(R_act)
   
 }
 
@@ -144,9 +144,9 @@ Q <- sum(QS)
 
 
 # qualifier data 2014-2021 - ranks ####
-R_obs <- data.frame(matrix(ncol = 1, nrow = 0))
-colnames(R_obs) <- c("driver")
-R_obs$driver <- as.character(R_obs$driver)
+R_act <- data.frame(matrix(ncol = 1, nrow = 0))
+colnames(R_act) <- c("driver")
+R_act$driver <- as.character(R_act$driver)
 
 log_file <- data.frame(matrix(ncol = 4, nrow = 0))
 colnames(log_file) <- c("t", "s", "qs", "success")
@@ -180,8 +180,8 @@ for (s in 1:S) {
         if (res$status_code == 200) {
           
           data <- get_ranks(res, t)
-          R_obs <- merge_ranks(R_obs, data)
-          write_xlsx(R_obs, "R_obs.xlsx")
+          R_act <- merge_ranks(R_act, data)
+          write_xlsx(R_act, "R_act_qualifier.xlsx")
           
           log_file[request,1] <- t
           log_file[request,2] <- s
