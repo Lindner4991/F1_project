@@ -135,9 +135,9 @@ for (n in 1:N) {
        ylim = c(-5, 25),
        type="l",
        col = "orange",
-       main = paste("driver", n),
-       xlab = "qualifier",
-       ylab = "mu_P",
+       main = paste("driver", n), # TODO version 2, real data
+       xlab = "qualifier/race",  # TODO real data
+       ylab = "perf",
        xaxt = "n",
        yaxt = "n")
   axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
@@ -183,9 +183,9 @@ for (n in 1:N) {
        ylim = c(-5, 25),
        type="l",
        col = "deeppink1",
-       main = paste("driver", n),
-       xlab = "qualifier",
-       ylab = "89% HPDI mu_P",
+       main = paste("driver", n),  # TODO version 2, real data
+       xlab = "qualifier/race",  # TODO real data
+       ylab = "89% HPDI perf",
        xaxt = "n",
        yaxt = "n")
   axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
@@ -237,9 +237,9 @@ for (n in 1:N) {
        ylim = c(-5, 15),
        type="l",
        col = "orange",
-       main = paste("driver", n),
-       xlab = "qualifier",
-       ylab = "mu_D",
+       main = paste("driver", n),  # TODO version 2, real data
+       xlab = "qualifier/race",  # TODO real data
+       ylab = "ability",
        xaxt = "n",
        yaxt = "n")
   axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
@@ -285,9 +285,9 @@ for (n in 1:N) {
        ylim = c(-5, 15),
        type="l",
        col = "blueviolet",
-       main = paste("driver", n),
-       xlab = "qualifier",
-       ylab = "89% HPDI mu_D",
+       main = paste("driver", n),  # TODO version 2, real data
+       xlab = "qualifier/race",  # TODO real data
+       ylab = "89% HPDI ability",
        xaxt = "n",
        yaxt = "n")
   axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
@@ -339,9 +339,9 @@ for (k in 1:K) {
        ylim = c(-5, 15),
        type="l",
        col = "orange",
-       main = paste("constructor", k),
-       xlab = "qualifier",
-       ylab = "mu_C",
+       main = paste("constructor", k),  # TODO real data
+       xlab = "qualifier/race",  # TODO real data
+       ylab = "ability",
        xaxt = "n",
        yaxt = "n")
   axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
@@ -387,9 +387,9 @@ for (k in 1:K) {
        ylim = c(-5, 15),
        type="l",
        col = "mediumspringgreen",
-       main = paste("constructor", k),
-       xlab = "qualifier",
-       ylab = "89% HPDI mu_C",
+       main = paste("constructor", k),  # TODO real data
+       xlab = "qualifier/race",  # TODO real data
+       ylab = "89% HPDI ability",
        xaxt = "n",
        yaxt = "n")
   axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
