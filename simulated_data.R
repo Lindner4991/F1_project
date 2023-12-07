@@ -324,7 +324,7 @@ R_sim <- R_sim_temp[40,,]
 
 
 # time series plot
-# simulated qualifier/race ranks
+# simulated qualifier/race R
 par(mfrow = c(5,2))
 for (n in 1:N) {
   
@@ -338,7 +338,7 @@ for (n in 1:N) {
        xaxt = "n",
        yaxt = "n")
   axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))  # TODO first race
-  axis(side = 2, at = c(22, 11, 1), las = 1)  # TODO driver NAs
+  axis(side = 2, at = c(22, 11, 1), las = 1)
   
 }
 par(mfrow = c(1,1))
