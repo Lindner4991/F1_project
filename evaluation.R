@@ -219,7 +219,7 @@ for (n in 1:N) {
        ylab = "rank",
        xaxt = "n",
        yaxt = "n")
-  axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
+  axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))  # TODO first race
   axis(side = 2, at = c(22, 11, 1), las = 1)
   
   lines(R_pred_avg[n,], col = "deeppink1")
@@ -257,7 +257,7 @@ for (n in 1:N) {
        ylab = "rank",
        xaxt = "n",
        yaxt = "n")
-  axis(side = 1, at = c(1,21,41,61,81,101,121,141,160))  # TODO first race
+  axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))  # TODO first race
   axis(side = 2, at = c(22, 11, 1), las = 1)
   
   lines(x = x, R_pred_L, col = "deeppink1")
@@ -311,7 +311,7 @@ for (n in 1:N) {
        ylab = "performance",
        xaxt = "n",
        yaxt = "n")
-  axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
+  axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))  # TODO first race
   axis(side = 2, at = c(-5, 10, 25), las = 1)
   
   lines(mu_P_pm[n,], col = "deeppink1")
@@ -359,7 +359,7 @@ for (n in 1:N) {
        ylab = "performance",
        xaxt = "n",
        yaxt = "n")
-  axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
+  axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))  # TODO first race
   axis(side = 2, at = c(-5, 10, 25), las = 1)
   
   lines(x = x, mu_P_L, col = "deeppink1")
@@ -413,7 +413,7 @@ for (n in 1:N) {
        ylab = "ability",
        xaxt = "n",
        yaxt = "n")
-  axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
+  axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))  # TODO first race
   axis(side = 2, at = c(-5, 5, 15), las = 1)  # TODO adjust
   
   lines(mu_D_pm[n,], col = "blueviolet")
@@ -461,7 +461,7 @@ for (n in 1:N) {
        ylab = "ability",
        xaxt = "n",
        yaxt = "n")
-  axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
+  axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))  # TODO first race
   axis(side = 2, at = c(-5, 5, 15), las = 1)  # TODO adjust
   
   lines(x = x, mu_D_L, col = "blueviolet")
@@ -515,7 +515,7 @@ for (k in 1:K) {
        ylab = "ability",
        xaxt = "n",
        yaxt = "n")
-  axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
+  axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))  # TODO first race
   axis(side = 2, at = c(-5, 5, 15), las = 1)  # TODO adjust
   
   lines(mu_C_pm[k,], col = "mediumspringgreen")
@@ -563,7 +563,7 @@ for (k in 1:K) {
        ylab = "ability",
        xaxt = "n",
        yaxt = "n")
-  axis(side = 1, at = c(1,20,39,60,80,101,122,139,160))  # TODO first race
+  axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))  # TODO first race
   axis(side = 2, at = c(-5, 5, 15), las = 1)  # TODO adjust
   
   lines(x = x, mu_C_L, col = "mediumspringgreen")
