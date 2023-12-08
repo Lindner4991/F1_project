@@ -106,7 +106,7 @@ R_sim <- R_sim_temp[40,,]
 
 
 
-# model 1 version 1 - F1 hybrid era qualifiers ####
+# model 1 version 1 - F1 hybrid era qualifier data ####
 # actual qualifier ranks
 # load R_act_temp
 R_act_temp <- read_excel("data/R_act_qualifier.xlsx",  # TODO data file
@@ -185,7 +185,7 @@ gamma_upper <- J - 2
 
 
 
-# model 1 version 1 - F1 hybrid era races ####
+# model 1 version 1 - F1 hybrid era race data ####
 # placeholder
 
 
@@ -205,8 +205,8 @@ fit_m1_v1 <- sampling(m1_v1,
                                   I_2 = I_2,
                                   I_1 = I_1,
                                   J = J,
-                                  c_0 = c_0,
-                                  d_0 = d_0,
+                                  mu_C_0 = mu_C_0,
+                                  mu_D_0 = mu_D_0,
                                   gamma_lower = gamma_lower,
                                   gamma_upper = gamma_upper,
                                   R = R_sim),
@@ -234,8 +234,8 @@ job::job({
                                     I_2 = I_2,
                                     I_1 = I_1,
                                     J = J,
-                                    c_0 = c_0,
-                                    d_0 = d_0,
+                                    mu_C_0 = mu_C_0,
+                                    mu_D_0 = mu_D_0,
                                     gamma_lower = gamma_lower,
                                     gamma_upper = gamma_upper,
                                     R = R_sim),
