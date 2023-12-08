@@ -114,8 +114,8 @@ R_act_temp <- read_excel("data/R_act_qualifier.xlsx",  # TODO data file
 # R_act_temp <- read_excel("R_act_qualifier.xlsx",  # TODO data file
 #                          sheet = "Sheet1")
 
-# data processing - delete first column
-R_act_temp <- R_act_temp[,-1]
+# data processing - delete column 1 and column 2
+R_act_temp <- R_act_temp[,-2]
 
 # data processing - chr --> numeric
 R_act <- sapply(R_act_temp, FUN = as.numeric)
