@@ -196,7 +196,7 @@ for (s in 1:S) {
           
           data <- get_ranks(res, t)
           R_act <- merge_ranks(R_act, data)
-          write_xlsx(R_act, "data/R_act_qualifier.xlsx")
+          write_xlsx(R_act, "R_act_qualifier.xlsx")
           
           log_file[request,1] <- t
           log_file[request,2] <- s
