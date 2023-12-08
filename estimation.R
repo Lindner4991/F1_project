@@ -115,7 +115,7 @@ R_act_temp <- read_excel("data/R_act_qualifier.xlsx",  # TODO data file
 #                          sheet = "Sheet1")
 
 # data processing - delete column 1 and column 2
-R_act_temp <- R_act_temp[,-2]
+R_act_temp <- R_act_temp[,-c(1,2)]
 
 # data processing - chr --> numeric
 R_act <- sapply(R_act_temp, FUN = as.numeric)
@@ -128,19 +128,19 @@ K <- 12
 N <- 51
 
 # number of qualifiers/races
-Q <- 160 # TODO first race
+Q <- 159 # TODO first race
 
 # constructor qualifier NA indicators
 I_3 <- matrix(data = 1, nrow = K, ncol = Q)
 
 # NAs for constructor with ID 10 ( manor )
-I_3[10,c(17:19,60:160)] <- 0 # TODO first race
+I_3[10,c(16:18,59:159)] <- 0 # TODO first race
 
 # NAs for constructor with ID 11 ( caterham )
-I_3[11,17:160] <- 0 # TODO first race
+I_3[11,16:159] <- 0 # TODO first race
 
 # NAs for constructor with ID 12 ( haas )
-I_3[12,1:39] <- 0 # TODO first race
+I_3[12,1:37] <- 0 # TODO first race
 
 # constructor indicators
 # placeholder
