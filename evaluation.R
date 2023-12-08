@@ -150,9 +150,8 @@ for (j in 2:(J-2)) {
 }
 
 
-# figure
-# histogram posterior density
-# varsigma_D
+# histogram
+# posterior density varsigma_D
 par(mfrow = c(1,3))
 hist(params_model$varsigma_D,
      col = "blueviolet",
@@ -161,7 +160,8 @@ hist(params_model$varsigma_D,
      xlab = "")
 abline(v = 0.04, lwd = 2, col = "orange")  # TODO real data
 
-# sigma_C
+# histogram
+# posterior density varsigma_C
 hist(params_model_1$varsigma_C,
      col = "mediumspringgreen",
      border = FALSE,
@@ -169,7 +169,8 @@ hist(params_model_1$varsigma_C,
      xlab = "")
 abline(v = 0.16, lwd = 2, col = "orange")  # TODO real data
 
-# gamma
+# histogram
+# posterior density cut points
 for (j in 2:(J-2)) {
   hist(params_model_1$gamma[,j],
        col = "deeppink1",
@@ -183,7 +184,7 @@ par(mfrow = c(1,1))
 
 
 # fit - qualifier/race rank ####
-# extract averaged predicted R
+# extract averaged predicted rank
 # ( averaged over post-warmup iterations )
 R_pred_avg <- matrix(data = NA, nrow = N, ncol = Q)
 
@@ -200,12 +201,12 @@ for (n in 1:N) {
 }
 
 
-# extract predicted R
+# extract predicted rank
 R_pred <- params_model$R_pred
 
 
 # time series plot
-# averaged predicted R ( pink ) vs simulated R ( orange )
+# averaged predicted rank ( pink ) vs simulated rank ( orange )
 par(mfrow = c(5,2))
 for (n in 1:N) {
   
@@ -227,7 +228,8 @@ for (n in 1:N) {
 par(mfrow = c(1,1))
 
 
-# averaged predicted R 89% HDI
+# time series plot
+# averaged predicted rank 89% HDI
 par(mfrow = c(5,2))
 for (n in 1:N) {
   
