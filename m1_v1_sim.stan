@@ -22,10 +22,10 @@ data {
   int<lower=2> J;
   
   // initial conditions for latent constructor ability state equation
-  vector[K] c_0;
+  vector[K] mu_C_0;
   
   // initial conditions for latent driver ability state equation
-  vector[N] d_0;
+  vector[N] mu_D_0;
   
   // SD for error for latent constructor ability state equation
   real<lower=0> varsigma_C;
@@ -52,16 +52,36 @@ generated quantities {
   
   // latent constructor abilities ( mu )
   matrix[K,T] mu_C;
-  for (k in 1:K) { mu_C[k,1] = c_0[k]; }
   
   // latent driver abilities ( mu )
   matrix[N,T] mu_D;
-  for (n in 1:N) { mu_D[n,1] = d_0[n]; }
   
   // latent qualifier/race performance ( mu )
   matrix[N,T] mu_P;
   
   for (t in 1:T) {
+    
+    if (t == 1) {
+      
+      // latent constructor ability state equation ( mu )
+      for (k in 1:K) {
+        
+        if (I_3[k,t] == 1) { mu_C[k,t] = normal_rng(mu_C_0[k], varsigma_C); }
+        
+        else { mu_C[k,t] = mu_C_0[k]; }
+        
+      }
+    
+      // latent driver ability state equation ( mu )
+      for (n in 1:N) {
+        
+        if (I_1[n,t] == 1) { mu_D[n,t] = normal_rng(mu_D_0[n], varsigma_D); }
+        
+        else { mu_D[n,t] = mu_D_0[n]; }
+        
+      }
+      
+    }
     
     if (t > 1) {
       
