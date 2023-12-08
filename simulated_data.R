@@ -128,14 +128,14 @@ I_1 <- matrix(data = 1, nrow = N, ncol = Q)
 J <- 22
 
 # initial conditions for latent constructor ability state equation
-c_0 <- c(10,9,8,7,6,5,4,3,2,1,0)
+mu_C_0 <- c(10,9,8,7,6,5,4,3,2,1,0)
 
 # initial conditions for latent driver ability state equation
-d_0 <- c(10.25,9.75,9.25,8.75,8.25,
-         7.75,7.25,6.75,6.25,5.75,
-         5.25,4.75,4.25,3.75,3.25,
-         2.75,2.25,1.75,1.25,0.75,
-         0.25,-0.25)
+mu_D_0 <- c(10.25,9.75,9.25,8.75,8.25,
+            7.75,7.25,6.75,6.25,5.75,
+            5.25,4.75,4.25,3.75,3.25,
+            2.75,2.25,1.75,1.25,0.75,
+            0.25,-0.25)
 
 # SD for error for latent constructor ability state equation
 varsigma_C <- 0.16
@@ -265,14 +265,14 @@ I_1[24,1:19] <- 0 # TODO first race
 J <- 22
 
 # initial conditions for latent constructor ability state equation
-c_0 <- c(10,9,8,7,6,5,4,3,2,1,0,1)
+mu_C_0 <- c(10,9,8,7,6,5,4,3,2,1,0,1)
 
 # initial conditions for latent driver ability state equation
-d_0 <- c(10.25,9.75,9.25,8.75,8.25,
-         7.75,7.25,6.75,6.25,5.75,
-         5.25,4.75,4.25,3.75,3.25,
-         2.75,2.25,1.75,1.25,0.75,
-         0.25,-0.25,0.75,0.75)
+mu_D_0 <- c(10.25,9.75,9.25,8.75,8.25,
+            7.75,7.25,6.75,6.25,5.75,
+            5.25,4.75,4.25,3.75,3.25,
+            2.75,2.25,1.75,1.25,0.75,
+            0.25,-0.25,0.75,0.75)
 
 # SD for error for latent constructor ability state equations
 varsigma_C <- 0.16
@@ -307,8 +307,8 @@ fit_m1_v1_sim <- sampling(m1_v1_sim,
                                       I_2 = I_2,
                                       I_1 = I_1,
                                       J = J,
-                                      c_0 = c_0,
-                                      d_0 = d_0,
+                                      mu_C_0 = mu_C_0,
+                                      mu_D_0 = mu_D_0,
                                       varsigma_C = varsigma_C,
                                       varsigma_D = varsigma_D,
                                       gamma = gamma),
