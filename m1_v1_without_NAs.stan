@@ -63,9 +63,13 @@ transformed parameters {
   matrix[N,T] mu_P;
   
   for (t in 1:T) {
+    
     for (n in 1:N) {
+      
       mu_P[n,t] = mu_D[n,t] + dot_product(I_2[t,n], col(mu_C,t));
+    
     }
+    
   }
   
   // cut points
