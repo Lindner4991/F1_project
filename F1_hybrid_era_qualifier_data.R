@@ -46,9 +46,13 @@ get_ranks <- function(data_temp, t) {
   data_temp <- data_temp[[1]]
   
   data <- data.frame(data_temp$Driver$driverId,
+                     data_temp$Driver$familyName,
+                     data_temp$Driver$code,
                      data_temp$position)
   
-  colnames(data) <- c("driver",
+  colnames(data) <- c("driver_id",
+                      "driver_name",
+                      "driver_code",
                       paste("rank t", t, sep = ""))
   
   return(data)
@@ -60,7 +64,9 @@ merge_ranks <- function(R_act_temp, data) {
   
   R_act <- full_join(x = R_act_temp,
                      y = data,
-                     by = "driver")
+                     by = c("driver_id",
+                            "driver_name",
+                            "driver_code"))
   
   return(R_act)
   
@@ -149,9 +155,13 @@ Q <- sum(QS)
 
 
 # qualifier data 2014-2021 - ranks ####
-R_act <- data.frame(matrix(ncol = 1, nrow = 0))
-colnames(R_act) <- c("driver")
-R_act$driver <- as.character(R_act$driver)
+R_act <- data.frame(matrix(ncol = 3, nrow = 0))
+colnames(R_act) <- c("driver_id",
+                     "driver_name",
+                     "driver_code")
+R_act$driver_id <- as.character(R_act$driver_id)
+R_act$driver_name <- as.character(R_act$driver_name)
+R_act$driver_code <- as.character(R_act$driver_code)
 
 log_file <- data.frame(matrix(ncol = 4, nrow = 0))
 colnames(log_file) <- c("t", "s", "qs", "success")
@@ -186,7 +196,7 @@ for (s in 1:S) {
           
           data <- get_ranks(res, t)
           R_act <- merge_ranks(R_act, data)
-          write_xlsx(R_act, "R_act_qualifier.xlsx")
+          write_xlsx(R_act, "data/R_act_qualifier.xlsx")
           
           log_file[request,1] <- t
           log_file[request,2] <- s
