@@ -415,7 +415,7 @@ mu_D_0 <- c(10.25,9.75,9.25,8.75,8.25,
 varsigma_C <- 0.4
 
 # SD for error for latent driver ability state equations
-varsigma_D <- 0.8
+varsigma_D <- 0.08
 
 # cut points
 gamma <- seq(from = 0, to = 20, by = 1)
