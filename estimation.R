@@ -46,6 +46,8 @@ options(scipen = 999)
 
 # load packages
 library(todor)
+# todor::todor_file("R/estimation.R")
+
 library(rstan)
 options(mc.cores = parallel::detectCores())
 rstan_options(auto_write = TRUE)
@@ -161,19 +163,19 @@ K <- 12
 N <- 51
 
 # number of qualifiers/races
-Q <- 159 # TODO first race
+Q <- 159
 
 # constructor qualifier NA indicators
 I_3 <- matrix(data = 1, nrow = K, ncol = Q)
 
 # NAs for constructor with ID 10 ( manor )
-I_3[10,c(16:18,59:159)] <- 0 # TODO first race
+I_3[10,c(16:18,59:159)] <- 0
 
 # NAs for constructor with ID 11 ( caterham )
-I_3[11,16:159] <- 0 # TODO first race
+I_3[11,16:159] <- 0
 
 # NAs for constructor with ID 12 ( haas )
-I_3[12,1:37] <- 0 # TODO first race
+I_3[12,1:37] <- 0
 
 # constructor indicators
 # placeholder
