@@ -126,7 +126,7 @@ R_sim <- R_sim_temp[40,,]
 # actual qualifier ranks
 # load R_act_temp
 R_act_temp <- read_excel("data/R_act_qualifier.xlsx",  # TODO data file
-                         sheet = "Sheet1")
+                         sheet = "Sheet 1")
 # R_act_temp <- read_excel("R_act_qualifier.xlsx",  # TODO data file
 #                          sheet = "Sheet1")
 
