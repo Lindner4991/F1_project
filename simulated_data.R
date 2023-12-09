@@ -286,6 +286,9 @@ gamma <- seq(from = 0, to = 20, by = 1)
 
 
 # model 1 version 1 - greater fluctuations ####
+# also, varsigma_D : varsigma_C ratio changed from 1:4 to 1:5
+# also, for haas and haas drivers, initial conditions changed
+
 # number of constructors in time series
 K <- 12
 
