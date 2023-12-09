@@ -196,13 +196,19 @@ for (s in 1:S) {
           
           data <- get_ranks(res, t)
           R_act <- merge_ranks(R_act, data)
-          write_xlsx(R_act, "R_act_qualifier.xlsx")
+          write_xlsx(
+            R_act,
+            "C:/Users/2v10user/Desktop/Tim/F1_project/data/R_act_qualifier.xlsx"
+            )  # TODO working directory
           
           log_file[request,1] <- t
           log_file[request,2] <- s
           log_file[request,3] <- qs
           log_file[request,4] <- "success"
-          write_xlsx(log_file, "log_file.xlsx")
+          write_xlsx(
+            log_file,
+            "C:/Users/2v10user/Desktop/Tim/F1_project/log_file.xlsx"
+            )  # TODO working directory
           
           request <- request + 1
           t <- t + 1
@@ -216,7 +222,10 @@ for (s in 1:S) {
         log_file[request,2] <- s
         log_file[request,3] <- qs
         log_file[request,4] <- "failure"
-        write_xlsx(log_file, "log_file.xlsx")
+        write_xlsx(
+          log_file,
+          "C:/Users/2v10user/Desktop/Tim/F1_project/log_file.xlsx"
+          )  # TODO working directory
         
         request <- request + 1
         
