@@ -102,7 +102,7 @@ gamma_upper <- J - 2
 
 # load fit_m1_v1_sim
 fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_greater_fluctuations.rds")  # TODO data file
-# fit_m1_v1_sim <- readRDS("fit_m1_v1_sim_missing_data.rds")
+# fit_m1_v1_sim <- readRDS("fit_m1_v1_sim_greater_fluctuations.rds")
 
 # extract simulations
 params_m1_v1_sim <- rstan::extract(fit_m1_v1_sim)
@@ -117,8 +117,25 @@ R_sim <- R_sim_temp[40,,]
 
 
 
-# model 1 version 1 - 20% drv 80% ctr ####
-# placeholder
+# model 1 version 1 - 33.3% drv 66.7% ctr ####
+# fixed cut points
+gamma_lower <- 0
+gamma_upper <- J - 2
+
+# load fit_m1_v1_sim
+fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_33drv_66ctr.rds")  # TODO data file
+# fit_m1_v1_sim <- readRDS("fit_m1_v1_sim_missing_data.rds")
+
+# extract simulations
+params_m1_v1_sim <- rstan::extract(fit_m1_v1_sim)
+
+# extract simulated qualifier/race ranks
+R_sim_temp <- params_m1_v1_sim$R_sim
+
+# extract simulated qualifier/race ranks
+R_sim_temp <- params_m1_v1_sim$R_sim
+
+R_sim <- R_sim_temp[40,,]
 
 
 
@@ -229,7 +246,7 @@ fit_m1_v1 <- sampling(m1_v1,
                       iter = iter_per_chain)
 
 # save fit_m1_v1
-saveRDS(fit_m1_v1, "results/fit_m1_v1_greater_fluctuations.rds")
+saveRDS(fit_m1_v1, "results/fit_m1_v1_33drv_66ctr.rds")
 
 
 
@@ -258,7 +275,7 @@ job::job({
                         iter = iter_per_chain)
   
   # save fit_m1_v1
-  saveRDS(fit_m1_v1, "fit_m1_v1_greater_fluctuations.rds")
+  saveRDS(fit_m1_v1, "fit_m1_v1_33drv_66ctr.rds")
   
 })
 
