@@ -42,7 +42,7 @@ options(scipen = 999)
 
 # load packages
 library(todor)
-# todor::todor_file("R/simulated_data.R")
+# todor::todor_file("R/evaluation.R")
 
 library(rstan)
 options(mc.cores = parallel::detectCores())
