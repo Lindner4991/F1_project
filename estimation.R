@@ -229,7 +229,7 @@ fit_m1_v1 <- sampling(m1_v1,
                       iter = iter_per_chain)
 
 # save fit_m1_v1
-saveRDS(fit_m1_v1, "results/fit_m1_v1_missing_data.rds")
+saveRDS(fit_m1_v1, "results/fit_m1_v1_greater_fluctuations.rds")
 
 
 
@@ -258,7 +258,7 @@ job::job({
                         iter = iter_per_chain)
   
   # save fit_m1_v1
-  saveRDS(fit_m1_v1, "fit_m1_v1_missing_data.rds")
+  saveRDS(fit_m1_v1, "fit_m1_v1_greater_fluctuations.rds")
   
 })
 
