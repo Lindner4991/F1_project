@@ -76,15 +76,15 @@ MSE <- function(est, sim, X, Y, I) {
 # 89% HDI for mean squared error
 HDI_MSE <- function(est, sim, X, Y, I, iter) {
   
-  MSE <- rep(0, times = iter)
+  mse <- rep(0, times = iter)
   
   for(i in 1:iter) {
-    MSE[iter] <- MSE(est[i,,], sim, X, Y, I)
+    mse[i] <- MSE(est[i,,], sim, X, Y, I)
   }
   
-  HDI_MSE <- round(HPDI(MSE), digits = 4)
-  
-  return(HPDI_MSE)
+  HDI_MSE <- round(HPDI(mse), digits = 4)
+
+  return(HDI_MSE)
   
 }
 
@@ -322,7 +322,7 @@ par(mfrow = c(1,1))
 
 # mean squared error
 # mu_P posterior mean vs simulated mu_P
-MSE(mu_P_pm, mu_P_sim, N, Q)
+MSE(mu_P_pm, mu_P_sim, N, Q, I_1)
 
 
 # mean squared error 89% HDI
@@ -424,7 +424,7 @@ par(mfrow = c(1,1))
 
 # mean squared error
 # mu_D posterior mean vs simulated mu_D
-MSE(mu_D_pm, mu_D_sim, N, Q)
+MSE(mu_D_pm, mu_D_sim, N, Q, I_1)
 
 
 # mean squared error 89% HDI
@@ -526,7 +526,7 @@ par(mfrow = c(1,1))
 
 # mean squared error
 # mu_C posterior mean vs simulated mu_C
-MSE(mu_C_pm, mu_C_sim, K, Q)
+MSE(mu_C_pm, mu_C_sim, K, Q, I_3)
 
 
 # mean squared error 89% HDI
