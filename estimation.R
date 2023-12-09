@@ -9,8 +9,8 @@
 
 # required data files ( occurrences in script marked with TODO data file ):
 # fit_m___sim___.rds
-# R_act_qualifier.xlsx
-# R_act_race.xlsx
+# R_act___.xlsx
+# drv_ctr___.xlsx
 # where ___ is a placeholder
 
 
@@ -150,7 +150,7 @@ R_act_temp <- read_excel("data/R_act_qualifier.xlsx",  # TODO data file
 #                          sheet = "Sheet1")
 
 # data processing - delete columns 1, 2, 3, and 4
-R_act_temp <- R_act_temp[,-c(1:4)]
+R_act <- R_act_temp[,-c(1:4)]
 
 # data processing - chr --> numeric
 R_act <- sapply(R_act_temp, FUN = as.numeric)
@@ -178,7 +178,162 @@ I_3[11,16:159] <- 0
 I_3[12,1:37] <- 0
 
 # constructor indicators
-# placeholder
+# load drv_ctr
+drv_ctr <- read_excel("data/drv_ctr_qualifier.xlsx",  # TODO data file
+                      sheet = "Sheet 1")
+# drv_ctr <- read_excel("drv_ctr_qualifier.xlsx",  # TODO data file
+#                       sheet = "Sheet 1")
+
+# test - same order of drv in drv_ctr and R_obs_qualifier
+test <- 0
+
+for (n in 1:N) {
+  
+  if (R_act_temp[n,1] == drv_ctr[n,1]) {
+    test <- test + 1
+  }
+    
+}
+
+test == N
+
+# data processing - delete column 1 and 2
+drv_ctr <- drv_ctr[,-c(1:2)]
+
+# data processing - constructor name changes
+for (n in 1:N) {
+  for (t in 1:Q) {
+    
+    if (!is.na(drv_ctr[n,t])) {
+      
+      if (drv_ctr[n,t] == "toro_rosso") {
+        drv_ctr[n,t] <- "alphatauri"
+      }
+      
+      if (drv_ctr[n,t] == "force_india" | drv_ctr[n,t] == "racing_point") {
+        drv_ctr[n,t] <- "aston_martin"
+      }
+      
+      if (drv_ctr[n,t] == "sauber") {
+        drv_ctr[n,t] <- "alfa"
+      }
+      
+      if (drv_ctr[n,t] == "marussia") {
+        drv_ctr[n,t] <- "manor"
+      }
+      
+      if (drv_ctr[n,t] == "lotus_f1" | drv_ctr[n,t] == "renault") {
+        drv_ctr[n,t] <- "alpine"
+      }
+      
+    }
+    
+  }
+}
+
+# data processing - replace NA for first qualifier with first non-NA value
+for (n in 1:N) {
+  
+  if (is.na(drv_ctr[n,1])) {
+    
+    t <- 2
+    success <- FALSE
+    
+    while (success == FALSE) {
+      
+      if (is.na(drv_ctr[n,t])) {
+        
+        t <- t + 1
+        
+      }
+      
+      else { success <- TRUE }
+      
+    }
+    
+    drv_ctr[n,1] <- drv_ctr[n,t]
+    
+  }
+  
+}
+
+# data processing - replace NA for qualifier t with t-1 value
+for (n in 1:N) {
+  for (t in 2:Q) {
+    
+    if (is.na(drv_ctr[n,t])) {
+      
+      drv_ctr[n,t] <- drv_ctr[n,t-1]
+      
+    }
+    
+  }
+}
+
+# data processing - constructor indicators for each qualifier
+I_2 <- list()
+
+for (t in 1:Q) {
+  
+  drv_ctr_extract <- drv_ctr[,t]
+  
+  I_2_temp <- matrix(data = NA, nrow = N, ncol = K)
+  
+  for (n in 1:N) {
+    
+    if (drv_ctr_extract[n] == "mercedes") {
+      I_2_temp[n,] <- c(1,0,0,0,0,0,0,0,0,0,0,0)
+    }
+    
+    if (drv_ctr_extract[n] == "red_bull") {
+      I_2_temp[n,] <- c(0,1,0,0,0,0,0,0,0,0,0,0)
+    }
+    
+    if (drv_ctr_extract[n] == "mclaren") {
+      I_2_temp[n,] <- c(0,0,1,0,0,0,0,0,0,0,0,0)
+    }
+    
+    if (drv_ctr_extract[n] == "ferrari") {
+      I_2_temp[n,] <- c(0,0,0,1,0,0,0,0,0,0,0,0)
+    }
+    
+    if (drv_ctr_extract[n] == "alphatauri") {
+      I_2_temp[n,] <- c(0,0,0,0,1,0,0,0,0,0,0,0)
+    }
+    
+    if (drv_ctr_extract[n] == "aston_martin") {
+      I_2_temp[n,] <- c(0,0,0,0,0,1,0,0,0,0,0,0)
+    }
+    
+    if (drv_ctr_extract[n] == "williams") {
+      I_2_temp[n,] <- c(0,0,0,0,0,0,1,0,0,0,0,0)
+    }
+    
+    if (drv_ctr_extract[n] == "alfa") {
+      I_2_temp[n,] <- c(0,0,0,0,0,0,0,1,0,0,0,0)
+    }
+    
+    if (drv_ctr_extract[n] == "alpine") {
+      I_2_temp[n,] <- c(0,0,0,0,0,0,0,0,1,0,0,0)
+    }
+    
+    if (drv_ctr_extract[n] == "manor") {
+      I_2_temp[n,] <- c(0,0,0,0,0,0,0,0,0,1,0,0)
+    }
+    
+    if (drv_ctr_extract[n] == "caterham") {
+      I_2_temp[n,] <- c(0,0,0,0,0,0,0,0,0,0,1,0)
+    }
+    
+    if (drv_ctr_extract[n] == "haas") {
+      I_2_temp[n,] <- c(0,0,0,0,0,0,0,0,0,0,0,1)
+    }
+    
+  }
+  
+  I_2[[t]] <- I_2_temp
+
+}
 
 # driver qualifier/race NA indicators
 I_1 <- matrix(data = 1, nrow = N, ncol = Q)
