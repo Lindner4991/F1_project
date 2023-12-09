@@ -9,6 +9,10 @@
 
 
 # general prep ####
+# set working directory
+setwd("C:/Users/Diiim/Documents/job_uni/Master/Thesis/F1_project")
+
+
 # clean workspace
 rm(list = ls())
 
