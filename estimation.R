@@ -74,7 +74,6 @@ R_sim <- R_sim_temp[40,,]
 
 
 # model 1 version 1 - simulated data - missing data ####
-# number of constructors in time series
 # fixed cut points
 gamma_lower <- 0
 gamma_upper <- J - 2
@@ -97,12 +96,29 @@ R_sim <- R_sim_temp[40,,]
 
 
 # model 1 version 1 - greater fluctuations ####
-# number of constructors in time series
+# fixed cut points
+gamma_lower <- 0
+gamma_upper <- J - 2
+
+# load fit_m1_v1_sim
+fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_greater_fluctuations.rds")  # TODO data file
+# fit_m1_v1_sim <- readRDS("fit_m1_v1_sim_missing_data.rds")
+
+# extract simulations
+params_m1_v1_sim <- rstan::extract(fit_m1_v1_sim)
+
+# extract simulated qualifier/race ranks
+R_sim_temp <- params_m1_v1_sim$R_sim
+
+# extract simulated qualifier/race ranks
+R_sim_temp <- params_m1_v1_sim$R_sim
+
+R_sim <- R_sim_temp[40,,]
 
 
 
 # model 1 version 1 - 20% drv 80% ctr ####
-# number of constructors in time series
+# placeholder
 
 
 
