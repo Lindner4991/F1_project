@@ -34,7 +34,8 @@ library(todor)
 library(httr)
 library(jsonlite)
 library(tidyverse)
-library(writexl)
+library(writexl)  # TODO
+library(openxlsx)
 
 
 
@@ -200,14 +201,17 @@ for (s in 1:S) {
           
           data <- get_ranks(res, t)
           R_act <- merge_ranks(R_act, data)
-          write_xlsx(R_act,
-                     "data/R_act_qualifier.xlsx")
+          write.xlsx(R_act,
+                     "data/R_act_qualifier.xlsx",
+                     overwrite = TRUE)
           
           log_file[request,1] <- t
           log_file[request,2] <- s
           log_file[request,3] <- qs
           log_file[request,4] <- "success"
-          write_xlsx(log_file, "log_file.xlsx")
+          write.xlsx(log_file,
+                     "log_file.xlsx",
+                     overwrite = TRUE)
           
           request <- request + 1
           t <- t + 1
@@ -221,7 +225,9 @@ for (s in 1:S) {
         log_file[request,2] <- s
         log_file[request,3] <- qs
         log_file[request,4] <- "failure"
-        write_xlsx(log_file, "log_file.xlsx")
+        write.xlsx(log_file,
+                   "log_file.xlsx",
+                   overwrite = TRUE)
         
         request <- request + 1
         
@@ -283,13 +289,17 @@ for (s in 1:S) {
           
           data <- get_unique_ctr(res)
           unique_ctr <- merge_unique_ctr(unique_ctr, data)
-          write_xlsx(unique_ctr, "unique_ctr.xlsx")
+          write.xlsx(unique_ctr,
+                     "unique_ctr.xlsx",
+                     overwrite = TRUE)
           
           log_file[request,1] <- t
           log_file[request,2] <- s
           log_file[request,3] <- qs
           log_file[request,4] <- "success"
-          write_xlsx(log_file, "log_file.xlsx")
+          write.xlsx(log_file,
+                     "log_file.xlsx",
+                     overwrite = TRUE)
           
           request <- request + 1
           t <- t + 1
@@ -303,7 +313,9 @@ for (s in 1:S) {
         log_file[request,2] <- s
         log_file[request,3] <- qs
         log_file[request,4] <- "failure"
-        write_xlsx(log_file, "log_file.xlsx")
+        write.xlsx(log_file,
+                   "log_file.xlsx",
+                   overwrite = TRUE)
         
         request <- request + 1
         
@@ -365,13 +377,17 @@ for (s in 1:S) {
           
           data <- get_drv_ctr(res, t)
           drv_ctr <- merge_drv_ctr(drv_ctr, data)
-          write_xlsx(drv_ctr, "data/drv_ctr.xlsx")
+          write.xlsx(drv_ctr,
+                     "data/drv_ctr.xlsx",
+                     overwrite = TRUE)
           
           log_file[request,1] <- t
           log_file[request,2] <- s
           log_file[request,3] <- qs
           log_file[request,4] <- "success"
-          write_xlsx(log_file, "log_file.xlsx")
+          write.xlsx(log_file,
+                     "log_file.xlsx",
+                     overwrite = TRUE)
           
           request <- request + 1
           t <- t + 1
@@ -385,7 +401,9 @@ for (s in 1:S) {
         log_file[request,2] <- s
         log_file[request,3] <- qs
         log_file[request,4] <- "failure"
-        write_xlsx(log_file, "log_file.xlsx")
+        write.xlsx(log_file,
+                   "log_file.xlsx",
+                   overwrite = TRUE)
         
         request <- request + 1
         
