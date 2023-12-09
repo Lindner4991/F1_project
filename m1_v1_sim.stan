@@ -34,7 +34,7 @@ data {
   real<lower=0> varsigma_D;
   
   // cut points
-  ordered[J-1] g;
+  ordered[J-1] gamma;
   
 }
 
