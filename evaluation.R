@@ -245,7 +245,7 @@ for (n in 1:N) {
     
   }
   
-  x <- 1:160
+  x <- 1:Q
   
   plot(x = x,
        y = R_pred_U,
@@ -347,7 +347,7 @@ for (n in 1:N) {
     
   }
   
-  x <- 1:160
+  x <- 1:Q
   
   plot(x = x,
        y = mu_P_U,
@@ -449,7 +449,7 @@ for (n in 1:N) {
     
   }
   
-  x <- 1:160
+  x <- 1:Q
   
   plot(x = x,
        y = mu_D_U,
@@ -551,7 +551,7 @@ for (k in 1:K) {
     
   }
   
-  x <- 1:160
+  x <- 1:Q
   
   plot(x = x,
        y = mu_C_U,
