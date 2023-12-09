@@ -96,12 +96,12 @@ R_sim <- R_sim_temp[40,,]
 
 
 
-# model 1 version 1 - greater ability fluctuations ####
+# model 1 version 1 - greater fluctuations ####
 # number of constructors in time series
 
 
 
-# model 1 version 1 - 20% driver 80% constructor ####
+# model 1 version 1 - 20% drv 80% ctr ####
 # number of constructors in time series
 
 
