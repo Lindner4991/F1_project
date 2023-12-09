@@ -279,7 +279,7 @@ mu_P_pm <- matrix(data = NA, nrow = N, ncol = Q)
 for (n in 1:N) {
   for (t in 1:Q) {
     
-    mu_P_pm <-
+    mu_P_pm[n,t] <-
       get_posterior_mean(fit_model,
                          pars = paste("mu_P[",n,",",t,"]", sep = ""))[5]
     
@@ -381,7 +381,7 @@ mu_D_pm <- matrix(data = NA, nrow = N, ncol = Q)
 for (n in 1:N) {
   for (t in 1:Q) {
     
-    mu_D_pm <-
+    mu_D_pm[n,t] <-
       get_posterior_mean(fit_model,
                          pars = paste("mu_D[",n,",",t,"]", sep = ""))[5]
     
@@ -483,7 +483,7 @@ mu_C_pm <- matrix(data = NA, nrow = K, ncol = Q)
 for (k in 1:K) {
   for (t in 1:Q) {
     
-    mu_C_pm <-
+    mu_C_pm[k,t] <-
       get_posterior_mean(fit_model,
                          pars = paste("mu_C[",k,",",t,"]", sep = ""))[5]
     
