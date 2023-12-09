@@ -92,14 +92,14 @@ HDI_MSE <- function(est, sim, X, Y, I, iter) {
 
 # evaluation prep ####
 # load fit_model_sim
-fit_model_sim <- readRDS("data/fit_m1_v1_sim_clean_data.rds")  # TODO data file
+fit_model_sim <- readRDS("data/fit_m1_v1_sim_missing_data.rds")  # TODO data file
 
 # extract simulations
 params_model_sim <- rstan::extract(fit_model_sim)
 
 
 # load fit_model
-fit_model <- readRDS("results/fit_m1_v1_clean_data.rds")  # TODO data file
+fit_model <- readRDS("results/fit_m1_v1_missing_data.rds")  # TODO data file
 
 # extract samples
 params_model <- rstan::extract(fit_model)
@@ -203,6 +203,12 @@ for (n in 1:N) {
 
 # extract predicted rank
 R_pred <- params_model$R_pred
+
+
+# extract simulated rank
+R_sim_temp <- params_model_sim$R_sim
+
+R_sim <- R_sim_temp[40,,]
 
 
 # time series plot
