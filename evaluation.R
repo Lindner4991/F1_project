@@ -188,7 +188,7 @@ par(mfrow = c(1,1))
 
 
 # fit - qualifier/race rank ####
-# extract averaged predicted rank
+# extract averaged predicted ranks
 # ( averaged over post-warmup iterations )
 R_pred_avg <- matrix(data = NA, nrow = N, ncol = Q)
 
@@ -205,14 +205,14 @@ for (n in 1:N) {
 }
 
 
-# extract predicted rank
+# extract predicted ranks
 R_pred <- params_model$R_pred
 
 
-# extract simulated rank
-R_sim_temp <- params_model_sim$R_sim
+# extract simulated/actual ranks
+R_obs_temp <- params_model_sim$R_sim
 
-R_sim <- R_sim_temp[40,,]
+R_obs <- R_obs_temp[40,,]
 
 
 # time series plot
@@ -283,7 +283,7 @@ par(mfrow = c(1,1))
 
 
 # fit - latent qualifier/race performance ####
-# extract mu_P posterior mean
+# extract mu_P posterior means
 mu_P_pm <- matrix(data = NA, nrow = N, ncol = Q)
 
 for (n in 1:N) {
@@ -385,7 +385,7 @@ par(mfrow = c(1,1))
 
 
 # fit - latent driver ability ####
-# extract mu_D posterior mean
+# extract mu_D posterior means
 mu_D_pm <- matrix(data = NA, nrow = N, ncol = Q)
 
 for (n in 1:N) {
@@ -487,7 +487,7 @@ par(mfrow = c(1,1))
 
 
 # fit - latent constructor ability ####
-# extract mu_C posterior mean
+# extract mu_C posterior means
 mu_C_pm <- matrix(data = NA, nrow = K, ncol = Q)
 
 for (k in 1:K) {
