@@ -7,10 +7,8 @@
 # this file builds on the simulated_data.R and estimation.R file
 
 
-# required data files ( occurrences in script marked with TODO data file ):
+# required data files:
 # fit_m___.rds
-# R_act_qualifier.xlsx
-# R_act_race.xlsx
 # fit_m___sim___.rds
 # where ___ is a placeholder
 
@@ -222,7 +220,7 @@ R_sim <- R_sim_temp[40,,]
 par(mfrow = c(5,2))
 for (n in 1:N) {
   
-  plot(R_sim[n,],
+  plot(R_sim[n,],  # TODO real data
        ylim = c(22, 1),
        type="l",
        col = "orange",
