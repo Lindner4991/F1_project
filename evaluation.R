@@ -96,14 +96,14 @@ HDI_MSE <- function(est, sim, X, Y, I, iter) {
 
 # evaluation prep ####
 # load fit_model_sim
-fit_model_sim <- readRDS("data/fit_m1_v1_sim_missing_data.rds")  # TODO data file
+fit_model_sim <- readRDS("data/fit_m1_v1_sim_33drv_66ctr.rds")  # TODO data file
 
 # extract simulations
 params_model_sim <- rstan::extract(fit_model_sim)
 
 
 # load fit_model
-fit_model <- readRDS("results/fit_m1_v1_missing_data.rds")  # TODO data file
+fit_model <- readRDS("results/fit_m1_v1_33drv_66ctr.rds")  # TODO data file
 
 # extract samples
 params_model <- rstan::extract(fit_model)
@@ -162,7 +162,7 @@ hist(params_model$varsigma_D,
      border = FALSE,
      main = "varsigma_D",
      xlab = "")
-abline(v = 0.04, lwd = 2, col = "orange")  # TODO real data
+abline(v = 0.08, lwd = 2, col = "orange")  # TODO simulated, real data
 
 # histogram
 # posterior density varsigma_C
@@ -171,7 +171,7 @@ hist(params_model_1$varsigma_C,
      border = FALSE,
      main = "varsigma_C",
      xlab = "")
-abline(v = 0.16, lwd = 2, col = "orange")  # TODO real data
+abline(v = 0.4, lwd = 2, col = "orange")  # TODO simulated, real data
 
 # histogram
 # posterior density cut points
