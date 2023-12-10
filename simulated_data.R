@@ -3,6 +3,10 @@
 
 # closing the sections provides an overview of the script
 
+# required model files:
+# m___sim.stan
+# where ___ is a placeholder
+
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
