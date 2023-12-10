@@ -166,7 +166,7 @@ I_3 <- matrix(data = 1, nrow = K, ncol = Q)
 I_3[10,c(16:18,59:159)] <- 0
 
 # NAs for constructor with ID 11 ( caterham )
-I_3[11,16:159] <- 0
+I_3[11,c(16:17,19:159)] <- 0
 
 # NAs for constructor with ID 12 ( haas )
 I_3[12,1:37] <- 0
@@ -251,10 +251,10 @@ I_1[19,c(16:18,59:159)] <- 0
 I_1[20,c(16:18,59:159)] <- 0
 
 # NAs for driver with ID 21 ( caterham driver )
-I_1[21,16:159] <- 0
+I_1[21,c(16:17,19:159)] <- 0
 
 # NAs for driver with ID 22 ( caterham driver )
-I_1[22,16:159] <- 0
+I_1[22,c(16:17,19:159)] <- 0
 
 # NAs for constructor with ID 23 ( haas driver )
 I_1[23,1:37] <- 0
@@ -306,7 +306,7 @@ I_3 <- matrix(data = 1, nrow = K, ncol = Q)
 I_3[10,c(16:18,59:159)] <- 0
 
 # NAs for constructor with ID 11 ( caterham )
-I_3[11,16:159] <- 0
+I_3[11,c(16:17,19:159)] <- 0
 
 # NAs for constructor with ID 12 ( haas )
 I_3[12,1:37] <- 0
@@ -391,10 +391,10 @@ I_1[19,c(16:18,59:159)] <- 0
 I_1[20,c(16:18,59:159)] <- 0
 
 # NAs for driver with ID 21 ( caterham driver )
-I_1[21,16:159] <- 0
+I_1[21,c(16:17,19:159)] <- 0
 
 # NAs for driver with ID 22 ( caterham driver )
-I_1[22,16:159] <- 0
+I_1[22,c(16:17,19:159)] <- 0
 
 # NAs for constructor with ID 23 ( haas driver )
 I_1[23,1:37] <- 0
@@ -443,7 +443,7 @@ I_3 <- matrix(data = 1, nrow = K, ncol = Q)
 I_3[10,c(16:18,59:159)] <- 0
 
 # NAs for constructor with ID 11 ( caterham )
-I_3[11,16:159] <- 0
+I_3[11,c(16:17,19:159)] <- 0
 
 # NAs for constructor with ID 12 ( haas )
 I_3[12,1:37] <- 0
@@ -528,10 +528,10 @@ I_1[19,c(16:18,59:159)] <- 0
 I_1[20,c(16:18,59:159)] <- 0
 
 # NAs for driver with ID 21 ( caterham driver )
-I_1[21,16:159] <- 0
+I_1[21,c(16:17,19:159)] <- 0
 
 # NAs for driver with ID 22 ( caterham driver )
-I_1[22,16:159] <- 0
+I_1[22,c(16:17,19:159)] <- 0
 
 # NAs for constructor with ID 23 ( haas driver )
 I_1[23,1:37] <- 0
