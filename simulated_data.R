@@ -4,11 +4,6 @@
 # closing the sections provides an overview of the script
 
 
-# required model files ( occurrences in script marked with TODO model file ):
-# m___sim.stan
-# where ___ is a placeholder
-
-
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
@@ -567,7 +562,7 @@ gamma <- seq(from = 0, to = 20, by = 1)
 
 # model 1 version 1 - simulation ####
 # computation with NUTS in STAN
-m1_v1_sim <- stan_model("STAN/m1_v1_sim.stan")  # TODO model file
+m1_v1_sim <- stan_model("STAN/m1_v1_sim.stan")
 
 fit_m1_v1_sim <- sampling(m1_v1_sim,
                           data = list(K = K,
@@ -587,10 +582,10 @@ fit_m1_v1_sim <- sampling(m1_v1_sim,
                           warmup = 0)
 
 # save fit_m1_v1_sim
-saveRDS(fit_m1_v1_sim, "data/fit_m1_v1_sim_33drv_66ctr.rds")
+saveRDS(fit_m1_v1_sim, "data/fit_m1_v1_sim_33drv_66ctr.rds")  # TODO data file
 
 # load fit_m1_v1_sim
-fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_33drv_66ctr.rds")
+fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_33drv_66ctr.rds")  # TODO data file
 
 
 # extract simulations
