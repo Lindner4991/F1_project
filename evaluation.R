@@ -415,7 +415,7 @@ par(mfrow = c(5,2))
 for (n in 1:N) {
   
   plot(mu_D_sim[n,],
-       ylim = c(-5, 15),
+       ylim = c(-7, 7),
        type="l",
        col = "orange",
        main = paste("driver", n),  # TODO version 2, real data
@@ -424,7 +424,7 @@ for (n in 1:N) {
        xaxt = "n",
        yaxt = "n")
   axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
-  axis(side = 2, at = c(-5, 5, 15), las = 1)  # TODO adjust
+  axis(side = 2, at = c(-7, 0, 7), las = 1)  # TODO adjust
   
   lines(mu_D_pm[n,], col = "blueviolet")
   
@@ -463,7 +463,7 @@ for (n in 1:N) {
   
   plot(x = x,
        y = mu_D_U,
-       ylim = c(-5, 15),
+       ylim = c(-7, 7),
        type="l",
        col = "blueviolet",
        main = paste("driver", n),  # TODO version 2, real data
@@ -472,7 +472,7 @@ for (n in 1:N) {
        xaxt = "n",
        yaxt = "n")
   axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
-  axis(side = 2, at = c(-5, 5, 15), las = 1)  # TODO adjust
+  axis(side = 2, at = c(-7, 0, 7), las = 1)  # TODO adjust
   
   lines(x = x, mu_D_L, col = "blueviolet")
   
@@ -517,7 +517,7 @@ par(mfrow = c(5,2))
 for (k in 1:K) {
   
   plot(mu_C_sim[k,],
-       ylim = c(-5, 15),
+       ylim = c(-5, 25),
        type="l",
        col = "orange",
        main = paste("constructor", k),  # TODO real data
@@ -565,7 +565,7 @@ for (k in 1:K) {
   
   plot(x = x,
        y = mu_C_U,
-       ylim = c(-5, 15),
+       ylim = c(-5, 25),
        type="l",
        col = "mediumspringgreen",
        main = paste("constructor", k),  # TODO real data
