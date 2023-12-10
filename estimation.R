@@ -172,7 +172,7 @@ I_3 <- matrix(data = 1, nrow = K, ncol = Q)
 I_3[10,c(16:18,59:159)] <- 0
 
 # NAs for constructor with ID 11 ( caterham )
-I_3[11,16:159] <- 0
+I_3[11,c(16:17,19:159)] <- 0
 
 # NAs for constructor with ID 12 ( haas )
 I_3[12,1:37] <- 0
@@ -367,6 +367,11 @@ J <- 22
 # placeholder
 
 # initial conditions for latent driver ability state equation
+# load drv_ctr_cockpit
+# ( derived from drv_ctr by manual data processing )
+drv_ctr_cockpit <- read_excel("data/drv_ctr_cockpit_qualifier.xlsx",
+                              sheet = "Sheet 1")
+
 # placeholder
 
 # fixed cut points
