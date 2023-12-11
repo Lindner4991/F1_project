@@ -823,14 +823,32 @@ fit_m1_v1_sim <- sampling(m1_v1_sim,
                           warmup = 0)
 
 # save fit_m1_v1_sim
-saveRDS(fit_m1_v1_sim, "data/fit_m1_v1_sim_25drv_75ctr.rds")  # TODO adjust name
+saveRDS(fit_m1_v1_sim, "data/fit_m1_v1_sim_missing_data.rds")  # TODO adjust name
 
 # load fit_m1_v1_sim
-fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_25drv_75ctr.rds")  # TODO data file
+fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_missing_data.rds")  # TODO data file
 
 
 # extract simulations
 params_m1_v1_sim <- rstan::extract(fit_m1_v1_sim)
+
+# max mu_P
+round(max(params_m1_v1_sim$mu_P[40,,]), digits = 4)
+
+# min mu_P
+round(min(params_m1_v1_sim$mu_P[40,,]), digits = 4)
+
+# max mu_D
+round(max(params_m1_v1_sim$mu_D[40,,]), digits = 4)
+
+# min mu_D
+round(min(params_m1_v1_sim$mu_D[40,,]), digits = 4)
+
+# max mu_C
+round(max(params_m1_v1_sim$mu_C[40,,]), digits = 4)
+
+# min mu_C
+round(min(params_m1_v1_sim$mu_C[40,,]), digits = 4)
 
 # extract simulated qualifier/race ranks
 R_sim_temp <- params_m1_v1_sim$R_sim
