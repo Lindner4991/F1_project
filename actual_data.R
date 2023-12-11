@@ -279,20 +279,20 @@ for (n in 1:N) {
 
 N * Q - sum(I_1)
 
+# number of ranks per qualifier/race
+J <- 22
+
 # actual qualifier ranks continued
 # data processing - NAs --> 22
 for (n in 1:N) {
   for (t in 1:Q) {
     
     if (is.na(R_act[n,t])) {
-      R_act[n,t] <- 22
+      R_act[n,t] <- J
     }
     
   }
 }
-
-# number of ranks per qualifier/race
-J <- 22
 
 # initial conditions for latent constructor ability state equation ( 75% )
 ctr_ability_rank <- c(15,14,13,12,11,10,9,8,7,6,5,5)
