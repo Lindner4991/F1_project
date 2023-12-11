@@ -158,7 +158,7 @@ gamma_upper <- J - 2
 
 # model 1 version 1 - estimation - local ####
 # computation with NUTS in STAN
-m1_v1 <- stan_model("STAN/m1_v1.stan")  # TODO model file
+m1_v1 <- stan_model("STAN/m1_v1.stan")
 
 # number of post-warmup iterations per chain
 iter_per_chain <- 2000
@@ -175,17 +175,17 @@ fit_m1_v1 <- sampling(m1_v1,
                                   mu_D_0 = mu_D_0,
                                   gamma_lower = gamma_lower,
                                   gamma_upper = gamma_upper,
-                                  R = R_sim),
+                                  R = R_act),  # TODO actual data
                       iter = iter_per_chain)
 
 # save fit_m1_v1
-saveRDS(fit_m1_v1, "results/fit_m1_v1_25drv_75ctr.rds")
+saveRDS(fit_m1_v1, "results/fit_m1_v1_25drv_75ctr.rds")  # TODO adjust name
 
 
 
 # model 1 version 1 - estimation - DSRI ####
 # computation with NUTS in STAN
-m1_v1 <- stan_model("m1_v1.stan")  # TODO model file
+m1_v1 <- stan_model("m1_v1.stan")
 
 # number of post-warmup iterations per chain
 iter_per_chain <- 2000
@@ -204,11 +204,11 @@ job::job({
                                     mu_D_0 = mu_D_0,
                                     gamma_lower = gamma_lower,
                                     gamma_upper = gamma_upper,
-                                    R = R_sim),
+                                    R = R_act),  # TODO actual data
                         iter = iter_per_chain)
   
   # save fit_m1_v1
-  saveRDS(fit_m1_v1, "fit_m1_v1_25drv_75ctr.rds")
+  saveRDS(fit_m1_v1, "fit_m1_v1_25drv_75ctr.rds")  # TODO adjust name
   
 })
 
