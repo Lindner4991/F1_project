@@ -148,54 +148,11 @@ gamma_upper <- J - 2
 
 # model 1 version 1 - F1 hybrid era race data ####
 # initial conditions for latent constructor ability state equation ( 75% )
-ctr_ability_rank <- c(15,14,13,12,11,10,9,8,7,6,5,5)
+# fixed cut points
+gamma_lower <- 0
+gamma_upper <- J - 2
 
-mu_C_0 <- rep(NA, times = K)
 
-mu_C_0[1] <- ctr_ability_rank[2]  # 2013 ctr standings
-mu_C_0[2] <- ctr_ability_rank[1]  # 2013 ctr standings
-mu_C_0[3] <- ctr_ability_rank[5]  # 2013 ctr standings
-mu_C_0[4] <- ctr_ability_rank[3]  # 2013 ctr standings
-mu_C_0[5] <- ctr_ability_rank[8]  # 2013 ctr standings
-mu_C_0[6] <- ctr_ability_rank[6]  # 2013 ctr standings
-mu_C_0[7] <- ctr_ability_rank[9]  # 2013 ctr standings
-mu_C_0[8] <- ctr_ability_rank[7]  # 2013 ctr standings
-mu_C_0[9] <- ctr_ability_rank[4]  # 2013 ctr standings
-mu_C_0[10] <- ctr_ability_rank[10]  # 2013 ctr standings
-mu_C_0[11] <- ctr_ability_rank[11]  # 2013 ctr standings
-mu_C_0[12] <- ctr_ability_rank[11]  # min ctr_ability_rank ( haas )
-
-# initial conditions for latent driver ability state equation ( 25% )
-drv_ability_rank <- c(5.25,4.75,4.25,3.75,3.25,
-                      2.75,2.25,1.75,1.25,0.75,
-                      0.25,-0.25,-0.75,-1.25,-1.75,
-                      -2.25,-2.75,-3.25,-3.75,-4.25,
-                      -4.75 -5.25)
-
-mu_D_0 <- rep(NA, times = N)
-
-mu_D_0[1] <- drv_ability_rank[4]  # 2013 drv standings
-mu_D_0[2] <- drv_ability_rank[14]  # 2013 drv standings
-mu_D_0[3] <- drv_ability_rank[6]  # 2013 drv standings
-mu_D_0[4] <- drv_ability_rank[]
-mu_D_0[5] <- drv_ability_rank[2]  # 2013 drv standings
-mu_D_0[6] <- drv_ability_rank[15]  # 2013 drv standings
-mu_D_0[7] <- drv_ability_rank[10]  # 2013 drv standings
-mu_D_0[8] <- drv_ability_rank[]
-mu_D_0[9] <- drv_ability_rank[8]  # 2013 drv standings
-mu_D_0[10] <- drv_ability_rank[17]  # 2013 drv standings
-mu_D_0[11] <- drv_ability_rank[9]  # 2013 drv standings
-mu_D_0[12] <- drv_ability_rank[5]  # 2013 drv standings
-mu_D_0[13] <- drv_ability_rank[1]  # 2013 drv standings
-mu_D_0[14] <- drv_ability_rank[13]  # 2013 drv standings
-mu_D_0[15] <- drv_ability_rank[]
-mu_D_0[16] <- drv_ability_rank[11]  # 2013 drv standings
-mu_D_0[17] <- drv_ability_rank[22]  # 2013 drv standings
-mu_D_0[18] <- drv_ability_rank[19]  # 2013 drv standings
-mu_D_0[19] <- drv_ability_rank[16]  # 2013 drv standings
-mu_D_0[20] <- drv_ability_rank[]
-mu_D_0[21] <- drv_ability_rank[7]  # 2013 drv standings
-mu_D_0[22] <- drv_ability_rank[18]  # 2013 drv standings
 
 
 
