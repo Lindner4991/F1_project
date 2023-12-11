@@ -162,7 +162,7 @@ hist(params_model$varsigma_D,
      border = FALSE,
      main = "varsigma_D",
      xlab = "")
-abline(v = 0.08, lwd = 2, col = "orange")  # TODO simulated, real data
+abline(v = 0.08, lwd = 2, col = "orange")  # TODO simulated, actual data
 
 # histogram
 # posterior density varsigma_C
@@ -171,7 +171,7 @@ hist(params_model_1$varsigma_C,
      border = FALSE,
      main = "varsigma_C",
      xlab = "")
-abline(v = 0.4, lwd = 2, col = "orange")  # TODO simulated, real data
+abline(v = 0.4, lwd = 2, col = "orange")  # TODO simulated, actual data
 
 # histogram
 # posterior density cut points
@@ -181,7 +181,7 @@ for (j in 2:(J-2)) {
        border = FALSE,
        main = paste("gamma_", j, sep=""),
        xlab = "")
-  abline(v = j-1, lwd = 2, col = "orange")  # TODO real data
+  abline(v = j-1, lwd = 2, col = "orange")  # TODO actual data
 }
 par(mfrow = c(1,1))
 
@@ -220,12 +220,12 @@ R_obs <- R_obs_temp[40,,]
 par(mfrow = c(5,2))
 for (n in 1:N) {
   
-  plot(R_sim[n,],  # TODO real data
+  plot(R_sim[n,],  # TODO actual data
        ylim = c(22, 1),
        type="l",
        col = "orange",
-       main = paste("driver", n),  # TODO version 2, real data
-       xlab = "qualifier/race",  # TODO real data
+       main = paste("driver", n),  # TODO version 2, actual data
+       xlab = "qualifier/race",  # TODO actual data
        ylab = "rank",
        xaxt = "n",
        yaxt = "n")
@@ -262,8 +262,8 @@ for (n in 1:N) {
        ylim = c(22, 1),
        type="l",
        col = "deeppink1",
-       main = paste("driver", n),  # TODO version 2, real data
-       xlab = "qualifier/race",  # TODO real data
+       main = paste("driver", n),  # TODO version 2, actual data
+       xlab = "qualifier/race",  # TODO actual data
        ylab = "rank",
        xaxt = "n",
        yaxt = "n")
@@ -312,12 +312,12 @@ mu_P_sim <- mu_P_sim_temp[40,,]
 par(mfrow = c(5,2))
 for (n in 1:N) {
   
-  plot(mu_P_sim[n,],
+  plot(mu_P_sim[n,],  # TODO actual data
        ylim = c(-5, 25),
        type="l",
        col = "orange",
-       main = paste("driver", n), # TODO version 2, real data
-       xlab = "qualifier/race",  # TODO real data
+       main = paste("driver", n), # TODO version 2, actual data
+       xlab = "qualifier/race",  # TODO actual data
        ylab = "performance",
        xaxt = "n",
        yaxt = "n")
@@ -364,8 +364,8 @@ for (n in 1:N) {
        ylim = c(-5, 25),
        type="l",
        col = "deeppink1",
-       main = paste("driver", n),  # TODO version 2, real data
-       xlab = "qualifier/race",  # TODO real data
+       main = paste("driver", n),  # TODO version 2, actual data
+       xlab = "qualifier/race",  # TODO actual data
        ylab = "performance",
        xaxt = "n",
        yaxt = "n")
@@ -414,12 +414,12 @@ mu_D_sim <- mu_D_sim_temp[40,,]
 par(mfrow = c(5,2))
 for (n in 1:N) {
   
-  plot(mu_D_sim[n,],
+  plot(mu_D_sim[n,],  # TODO actual data
        ylim = c(-7, 7),
        type="l",
        col = "orange",
-       main = paste("driver", n),  # TODO version 2, real data
-       xlab = "qualifier/race",  # TODO real data
+       main = paste("driver", n),  # TODO version 2, actual data
+       xlab = "qualifier/race",  # TODO actual data
        ylab = "ability",
        xaxt = "n",
        yaxt = "n")
@@ -466,8 +466,8 @@ for (n in 1:N) {
        ylim = c(-7, 7),
        type="l",
        col = "blueviolet",
-       main = paste("driver", n),  # TODO version 2, real data
-       xlab = "qualifier/race",  # TODO real data
+       main = paste("driver", n),  # TODO version 2, actual data
+       xlab = "qualifier/race",  # TODO actual data
        ylab = "ability",
        xaxt = "n",
        yaxt = "n")
@@ -516,12 +516,12 @@ mu_C_sim <- mu_C_sim_temp[40,,]
 par(mfrow = c(5,2))
 for (k in 1:K) {
   
-  plot(mu_C_sim[k,],
+  plot(mu_C_sim[k,],  # TODO actual data
        ylim = c(-5, 25),
        type="l",
        col = "orange",
-       main = paste("constructor", k),  # TODO real data
-       xlab = "qualifier/race",  # TODO real data
+       main = paste("constructor", k),  # TODO actual data
+       xlab = "qualifier/race",  # TODO actual data
        ylab = "ability",
        xaxt = "n",
        yaxt = "n")
@@ -568,8 +568,8 @@ for (k in 1:K) {
        ylim = c(-5, 25),
        type="l",
        col = "mediumspringgreen",
-       main = paste("constructor", k),  # TODO real data
-       xlab = "qualifier/race",  # TODO real data
+       main = paste("constructor", k),  # TODO actual data
+       xlab = "qualifier/race",  # TODO actual data
        ylab = "ability",
        xaxt = "n",
        yaxt = "n")
