@@ -171,6 +171,8 @@ I_3[11,c(16:17,19:159)] <- 0
 # NAs for constructor with ID 12 ( haas )
 I_3[12,1:37] <- 0
 
+K * Q - sum(I_3)
+
 # constructor indicators
 I_2_1 <- matrix(data = NA, nrow = N, ncol = K)
 I_2_1[1,] <- c(1,0,0,0,0,0,0,0,0,0,0,0)
@@ -261,6 +263,8 @@ I_1[23,1:37] <- 0
 
 # NAs for constructor with ID 24 ( haas driver )
 I_1[24,1:37] <- 0
+
+N * Q - sum(I_1)
 
 # number of ranks per qualifier/race
 J <- 22
