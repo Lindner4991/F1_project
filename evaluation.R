@@ -53,16 +53,74 @@ library(rethinking)
 
 
 # user-defined functions ####
-# mean squared error
-MSE <- function(est, sim, X, Y, I) {
+# squared error for scalar
+SE <- function(est, sim) {
   
-  ASE <- 0
+  SE_temp <- (as.numeric(est) - as.numeric(sim))^2
+
+  SE <- round(SE_temp, digits = 4)
+  
+  return(SE)
+    
+}
+
+
+# 89% HDI for squared error for scalar
+HDI_SE <- function(est, sim, iter) {
+  
+  se <- rep(0, times = iter)
+  
+  for(i in 1:iter) {
+    se[i] <- SE(est[i], sim)
+  }
+  
+  HDI_SE <- round(HPDI(se), digits = 4)
+  
+  return(HDI_SE)
+  
+}
+
+
+# mean squared error for vector
+MSE_1 <- function(est, sim, length) {
+  
+  SE <- 0
+  
+  for (l in 1:length) {
+    SE <- SE + SE(est[l], sim[l])
+  }
+  
+  MSE <- round(SE / length, digits = 4)
+  
+}
+
+
+# 89% HDI for mean squared error for vector
+HDI_MSE_1 <- function(est, sim, length, iter) {
+  
+  mse <- rep(0, times = iter)
+  
+  for(i in 1:iter) {
+    mse[i] <- MSE_1(est[i,], sim, length)
+  }
+  
+  HDI_MSE <- round(HPDI(mse), digits = 4)
+  
+  return(HDI_MSE)
+  
+}
+
+
+# mean squared error for matrix
+MSE_2 <- function(est, sim, X, Y, I) {
+  
+  SE <- 0
   
   for (y in 1:Y) {
     for (x in 1:X) {
       
       if (I[x,y] == 1) {
-        ASE <- ASE + (as.numeric(est[x,y]) - as.numeric(sim[x,y]))^2
+        SE <- SE + (as.numeric(est[x,y]) - as.numeric(sim[x,y]))^2
       }
       
     }
@@ -70,20 +128,20 @@ MSE <- function(est, sim, X, Y, I) {
   
   N <- sum(I)
   
-  MSE <- round(ASE / N, digits = 4)
+  MSE <- round(SE / N, digits = 4)
   
   return(MSE)
   
 }
 
 
-# 89% HDI for mean squared error
-HDI_MSE <- function(est, sim, X, Y, I, iter) {
+# 89% HDI for mean squared error for matrix
+HDI_MSE_2 <- function(est, sim, X, Y, I, iter) {
   
   mse <- rep(0, times = iter)
   
   for(i in 1:iter) {
-    mse[i] <- MSE(est[i,,], sim, X, Y, I)
+    mse[i] <- MSE_2(est[i,,], sim, X, Y, I)
   }
   
   HDI_MSE <- round(HPDI(mse), digits = 4)
@@ -96,14 +154,14 @@ HDI_MSE <- function(est, sim, X, Y, I, iter) {
 
 # evaluation prep ####
 # load fit_model_sim
-fit_model_sim <- readRDS("data/fit_m1_v1_sim_33drv_66ctr.rds")  # TODO data file
+fit_model_sim <- readRDS("data/fit_m1_v1_sim_clean_data.rds")  # TODO data file
 
 # extract simulations
 params_model_sim <- rstan::extract(fit_model_sim)
 
 
 # load fit_model
-fit_model <- readRDS("results/fit_m1_v1_33drv_66ctr.rds")  # TODO data file
+fit_model <- readRDS("results/fit_m1_v1_clean_data.rds")  # TODO data file
 
 # extract samples
 params_model <- rstan::extract(fit_model)
@@ -162,21 +220,21 @@ hist(params_model$varsigma_D,
      border = FALSE,
      main = "varsigma_D",
      xlab = "")
-abline(v = 0.08, lwd = 2, col = "orange")  # TODO simulated, actual data
+abline(v = 0.04, lwd = 2, col = "orange")  # TODO simulated, actual data
 
 # histogram
 # posterior density varsigma_C
-hist(params_model_1$varsigma_C,
+hist(params_model$varsigma_C,
      col = "mediumspringgreen",
      border = FALSE,
      main = "varsigma_C",
      xlab = "")
-abline(v = 0.4, lwd = 2, col = "orange")  # TODO simulated, actual data
+abline(v = 0.16, lwd = 2, col = "orange")  # TODO simulated, actual data
 
 # histogram
 # posterior density cut points
 for (j in 2:(J-2)) {
-  hist(params_model_1$gamma[,j],
+  hist(params_model$gamma[,j],
        col = "deeppink1",
        border = FALSE,
        main = paste("gamma_", j, sep=""),
@@ -185,6 +243,21 @@ for (j in 2:(J-2)) {
 }
 par(mfrow = c(1,1))
 
+# squared error
+# varsigma_D posterior mean vs simulated varsigma_D
+SE(get_posterior_mean(fit_model, pars = "varsigma_D")[5], 0.04)  # TODO simulated data
+
+# squared error 89% HDI
+# estimated varsigma_D vs simulated varsigma_D
+HDI_SE(params_model$varsigma_D, 0.04, iter)  # TODO simulated data
+
+# squared error
+# varsigma_C posterior mean vs simulated varsigma_C
+SE(get_posterior_mean(fit_model, pars = "varsigma_C")[5], 0.16)  # TODO simulated data
+
+# squared error 89% HDI
+# estimated varsigma_C vs simulated varsigma_C
+HDI_SE(params_model$varsigma_C, 0.16, iter)  # TODO simulated data
 
 
 # fit - qualifier/race rank ####
@@ -332,12 +405,12 @@ par(mfrow = c(1,1))
 
 # mean squared error
 # mu_P posterior mean vs simulated mu_P
-MSE(mu_P_pm, mu_P_sim, N, Q, I_1)
+MSE_2(mu_P_pm, mu_P_sim, N, Q, I_1)
 
 
 # mean squared error 89% HDI
 # estimated mu_P vs simulated mu_P
-HDI_MSE(mu_P_est, mu_P_sim, N, Q, I_1, iter)
+HDI_MSE_2(mu_P_est, mu_P_sim, N, Q, I_1, iter)
 
 
 # time series plot
@@ -434,12 +507,12 @@ par(mfrow = c(1,1))
 
 # mean squared error
 # mu_D posterior mean vs simulated mu_D
-MSE(mu_D_pm, mu_D_sim, N, Q, I_1)
+MSE_2(mu_D_pm, mu_D_sim, N, Q, I_1)
 
 
 # mean squared error 89% HDI
 # estimated mu_D vs simulated mu_D
-HDI_MSE(mu_D_est, mu_D_sim, N, Q, I_1, iter)
+HDI_MSE_2(mu_D_est, mu_D_sim, N, Q, I_1, iter)
 
 
 # time series plot
@@ -536,12 +609,12 @@ par(mfrow = c(1,1))
 
 # mean squared error
 # mu_C posterior mean vs simulated mu_C
-MSE(mu_C_pm, mu_C_sim, K, Q, I_3)
+MSE_2(mu_C_pm, mu_C_sim, K, Q, I_3)
 
 
 # mean squared error 89% HDI
 # estimated mu_C vs simulated mu_C
-HDI_MSE(mu_C_est, mu_C_sim, K, Q, I_3, iter)
+HDI_MSE_2(mu_C_est, mu_C_sim, K, Q, I_3, iter)
 
 
 # time series plot
