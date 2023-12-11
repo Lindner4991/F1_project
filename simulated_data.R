@@ -426,7 +426,7 @@ gamma <- seq(from = 0, to = 20, by = 1)
 
 
 
-# model 1 version 1 - 33.3% drv 66.7% ctr ####
+# model 1 version 1 - 33.3% drv 66.6% ctr ####
 # number of constructors in time series
 K <- 12
 
