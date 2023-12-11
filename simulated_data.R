@@ -426,7 +426,7 @@ gamma <- seq(from = 0, to = 20, by = 1)
 
 
 
-# model 1 version 1 - 33.3% drv 66.6% ctr ####
+# model 1 version 1 - 25% drv 75% ctr ####
 # number of constructors in time series
 K <- 12
 
@@ -586,10 +586,10 @@ fit_m1_v1_sim <- sampling(m1_v1_sim,
                           warmup = 0)
 
 # save fit_m1_v1_sim
-saveRDS(fit_m1_v1_sim, "data/fit_m1_v1_sim_33drv_66ctr.rds")  # TODO data file
+saveRDS(fit_m1_v1_sim, "data/fit_m1_v1_sim_25drv_75ctr.rds")  # TODO data file
 
 # load fit_m1_v1_sim
-fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_33drv_66ctr.rds")  # TODO data file
+fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_25drv_75ctr.rds")  # TODO data file
 
 
 # extract simulations
