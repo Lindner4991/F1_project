@@ -590,7 +590,7 @@ fit_m1_v1_sim <- sampling(m1_v1_sim,
                           warmup = 0)
 
 # save fit_m1_v1_sim
-saveRDS(fit_m1_v1_sim, "data/fit_m1_v1_sim_25drv_75ctr.rds")  # TODO data file
+saveRDS(fit_m1_v1_sim, "data/fit_m1_v1_sim_25drv_75ctr.rds")  # TODO adjust name
 
 # load fit_m1_v1_sim
 fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_25drv_75ctr.rds")  # TODO data file
