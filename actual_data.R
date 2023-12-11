@@ -5,6 +5,7 @@
 
 # required data files:
 # R_act___.xlsx
+# R_act___cockpit.xlsx
 # drv_ctr___.xlsx
 # drv_ctr_cockpit___.xlsx
 # where ___ is a placeholder
@@ -317,7 +318,7 @@ drv_ability_rank <- c(5.25,4.75,4.25,3.75,3.25,
                       2.75,2.25,1.75,1.25,0.75,
                       0.25,-0.25,-0.75,-1.25,-1.75,
                       -2.25,-2.75,-3.25,-3.75,-4.25,
-                      -4.75 -5.25)
+                      -4.75,-5.25)
 
 mu_D_0 <- rep(NA, times = N)
 
