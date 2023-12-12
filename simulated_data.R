@@ -574,10 +574,10 @@ mu_D_0 <- c(10.25,9.75,9.25,8.75,8.25,7.75,7.25,6.75,6.25,
             10.25,9.25,8.25,7.25,6.25,5.25,4.25,3.25,1.75)
 
 # SD for error for latent constructor ability state equations
-varsigma_C <- 0.4
+varsigma_C <- 0.5
 
 # SD for error for latent driver ability state equations
-varsigma_D <- 0.08
+varsigma_D <- 0.1
 
 # cut points
 gamma <- seq(from = 0, to = 20, by = 1)
@@ -791,10 +791,10 @@ mu_D_0 <- c(10.25-5, 9.75-5, 9.25-5, 8.75-5, 8.25-5,
             5.25-5, 4.25-5, 3.25-5, 1.75-5)  # decreased by 5
 
 # SD for error for latent constructor ability state equations
-varsigma_C <- 0.4
+varsigma_C <- 0.75
 
 # SD for error for latent driver ability state equations
-varsigma_D <- 0.08
+varsigma_D <- 0.05
 
 # cut points
 gamma <- seq(from = 0, to = 20, by = 1)
@@ -823,10 +823,10 @@ fit_m1_v1_sim <- sampling(m1_v1_sim,
                           warmup = 0)
 
 # save fit_m1_v1_sim
-saveRDS(fit_m1_v1_sim, "data/fit_m1_v1_sim_missing_data.rds")  # TODO adjust name
+saveRDS(fit_m1_v1_sim, "data/fit_m1_v1_sim_greater_fluctuations.rds")  # TODO adjust name
 
 # load fit_m1_v1_sim
-fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_missing_data.rds")  # TODO data file
+fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_greater_fluctuations.rds")  # TODO data file
 
 
 # extract simulations
