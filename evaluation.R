@@ -49,6 +49,7 @@ rstan_options(auto_write = TRUE)
 library(bayesplot)
 library(ggplot2)
 library(rethinking)
+library(openxlsx)
 
 
 
@@ -154,14 +155,14 @@ HDI_MSE_2 <- function(est, sim, X, Y, I, iter) {
 
 # evaluation prep ####
 # load fit_model_sim
-fit_model_sim <- readRDS("data/fit_m1_v1_sim_clean_data.rds")  # TODO data file
+fit_model_sim <- readRDS("data/fit_m1_v1_sim_missing_data.rds")  # TODO data file
 
 # extract simulations
 params_model_sim <- rstan::extract(fit_model_sim)
 
 
 # load fit_model
-fit_model <- readRDS("results/fit_m1_v1_clean_data.rds")  # TODO data file
+fit_model <- readRDS("results/fit_m1_v1_missing_data.rds")  # TODO data file
 
 # extract samples
 params_model <- rstan::extract(fit_model)
@@ -277,6 +278,10 @@ for (n in 1:N) {
   }
 }
 
+write.xlsx(R_pred_avg,
+           "data/R_pred_avg.xlsx",
+           overwrite = TRUE)
+
 
 # extract predicted ranks
 R_pred <- params_model$R_pred
@@ -293,7 +298,7 @@ R_obs <- R_obs_temp[40,,]
 par(mfrow = c(5,2))
 for (n in 1:N) {
   
-  plot(R_sim[n,],  # TODO actual data
+  plot(R_obs[n,],  # TODO actual data
        ylim = c(22, 1),
        type="l",
        col = "orange",
@@ -368,6 +373,10 @@ for (n in 1:N) {
     
   }
 }
+
+write.xlsx(mu_P_pm,
+           "data/mu_P_pm.xlsx",
+           overwrite = TRUE)
 
 
 # extract estimated mu_P
@@ -471,6 +480,10 @@ for (n in 1:N) {
   }
 }
 
+write.xlsx(mu_D_pm,
+           "data/mu_D_pm.xlsx",
+           overwrite = TRUE)
+
 
 # extract estimated mu_D
 mu_D_est <- params_model$mu_D
@@ -572,6 +585,10 @@ for (k in 1:K) {
     
   }
 }
+
+write.xlsx(mu_C_pm,
+           "data/mu_C_pm.xlsx",
+           overwrite = TRUE)
 
 
 # extract estimated mu_C
