@@ -562,7 +562,7 @@ N * Q - sum(I_1)
 J <- 22
 
 # initial conditions for latent constructor ability state equation
-mu_C_0 <- c(10,9,8,7,6,5,4,3,2,1,0,1)
+mu_C_0 <- c(10,9,8,7,6,5,4,3,2,1,0,0)
 
 # initial conditions for latent driver ability state equation
 mu_D_0 <- c(10.25,9.75,9.25,8.75,8.25,7.75,7.25,6.75,6.25,
@@ -773,22 +773,149 @@ N * Q - sum(I_1)
 J <- 22
 
 # initial conditions for latent constructor ability state equation
-mu_C_0 <- c(10+5, 9+5, 8+5, 7+5, 6+5, 5+5,
-            4+5, 3+5, 2+5, 1+5, 0+5, 0+5)  # increased by 5
+v1C <- 0.75 * 21
+v2C <- v1C / 10
+
+topC <- v1C - 0.25
+bottomC <- -0.25 
+
+ctr_ability_rank <- c(topC,
+                      topC - 1 * v2C,
+                      topC - 2 * v2C,
+                      topC - 3 * v2C,
+                      topC - 4 * v2C,
+                      topC - 5 * v2C,
+                      topC - 6 * v2C,
+                      topC - 7 * v2C,
+                      topC - 8 * v2C,
+                      topC - 9 * v2C,
+                      bottomC)
+
+
+mu_C_0 <- c(ctr_ability_rank[1],
+            ctr_ability_rank[2],
+            ctr_ability_rank[3],
+            ctr_ability_rank[4],
+            ctr_ability_rank[5],
+            ctr_ability_rank[6],
+            ctr_ability_rank[7],
+            ctr_ability_rank[8],
+            ctr_ability_rank[9],
+            ctr_ability_rank[10],
+            ctr_ability_rank[11],
+            ctr_ability_rank[11])
+
+
+
+test <- c(ctr_ability_rank[1],
+          ctr_ability_rank[1],
+          ctr_ability_rank[2],
+          ctr_ability_rank[2],
+          ctr_ability_rank[3],
+          ctr_ability_rank[3],
+          ctr_ability_rank[4],
+          ctr_ability_rank[4],
+          ctr_ability_rank[5],
+          ctr_ability_rank[5],
+          ctr_ability_rank[6],
+          ctr_ability_rank[6],
+          ctr_ability_rank[7],
+          ctr_ability_rank[7],
+          ctr_ability_rank[8],
+          ctr_ability_rank[8],
+          ctr_ability_rank[9],
+          ctr_ability_rank[9],
+          ctr_ability_rank[10],
+          ctr_ability_rank[10],
+          ctr_ability_rank[11],
+          ctr_ability_rank[11])
+          
 
 # initial conditions for latent driver ability state equation
-mu_D_0 <- c(10.25-5, 9.75-5, 9.25-5, 8.75-5, 8.25-5,
-            7.75-5, 7.25-5, 6.75-5, 6.25-5, 5.75-5,
-            5.25-5, 4.75-5, 4.25-5, 3.75-5, 3.25-5,
-            2.75-5, 2.25-5, 1.75-5, 1.25-5, 0.75-5,
-            0.25-5, -0.25-5,
-            -0.25-5, -0.25-5,
-            10.25-5, 9.25-5, 8.25-5, 7.25-5, 6.25-5,
-            5.25-5, 4.25-5, 3.25-5, 1.75-5,
-            10.25-5, 9.25-5, 8.25-5, 7.25-5, 6.25-5,
-            5.25-5, 4.25-5, 3.25-5, 1.75-5,
-            10.25-5, 9.25-5, 8.25-5, 7.25-5, 6.25-5,
-            5.25-5, 4.25-5, 3.25-5, 1.75-5)  # decreased by 5
+v1D <- 0.25 * 21
+v2D <- v1D / 21
+
+topD <- v1D - 0.25
+bottomD <- -0.25
+
+drv_ability_rank <- c(topD,
+                      topD - 1 * v2D,
+                      topD - 2 * v2D,
+                      topD - 3 * v2D,
+                      topD - 4 * v2D,
+                      topD - 5 * v2D,
+                      topD - 6 * v2D,
+                      topD - 7 * v2D,
+                      topD - 8 * v2D,
+                      topD - 9 * v2D,
+                      topD - 10 * v2D,
+                      topD - 11 * v2D,
+                      topD - 12 * v2D,
+                      topD - 13 * v2D,
+                      topD - 14 * v2D,
+                      topD - 15 * v2D,
+                      topD - 16 * v2D,
+                      topD - 17 * v2D,
+                      topD - 18 * v2D,
+                      topD - 19 * v2D,
+                      topD - 20 * v2D,
+                      bottomD)
+
+mu_D_0 <- c(drv_ability_rank[1],
+            drv_ability_rank[2],
+            drv_ability_rank[3],
+            drv_ability_rank[4],
+            drv_ability_rank[5],
+            drv_ability_rank[6],
+            drv_ability_rank[7],
+            drv_ability_rank[8],
+            drv_ability_rank[9],
+            drv_ability_rank[10],
+            drv_ability_rank[11],
+            drv_ability_rank[12],
+            drv_ability_rank[13],
+            drv_ability_rank[14],
+            drv_ability_rank[15],
+            drv_ability_rank[16],
+            drv_ability_rank[17],
+            drv_ability_rank[18],
+            drv_ability_rank[19],
+            drv_ability_rank[20],
+            drv_ability_rank[21],
+            drv_ability_rank[22],
+            
+            drv_ability_rank[21],
+            drv_ability_rank[22],
+            
+            drv_ability_rank[1],
+            drv_ability_rank[3],
+            drv_ability_rank[5],
+            drv_ability_rank[7],
+            drv_ability_rank[9],
+            drv_ability_rank[11],
+            drv_ability_rank[13],
+            drv_ability_rank[15],
+            drv_ability_rank[17],
+            
+            drv_ability_rank[1],
+            drv_ability_rank[3],
+            drv_ability_rank[5],
+            drv_ability_rank[7],
+            drv_ability_rank[9],
+            drv_ability_rank[11],
+            drv_ability_rank[13],
+            drv_ability_rank[15],
+            drv_ability_rank[17],
+            
+            drv_ability_rank[1],
+            drv_ability_rank[3],
+            drv_ability_rank[5],
+            drv_ability_rank[7],
+            drv_ability_rank[9],
+            drv_ability_rank[11],
+            drv_ability_rank[13],
+            drv_ability_rank[15],
+            drv_ability_rank[17])
 
 # SD for error for latent constructor ability state equations
 varsigma_C <- 0.75
@@ -823,10 +950,10 @@ fit_m1_v1_sim <- sampling(m1_v1_sim,
                           warmup = 0)
 
 # save fit_m1_v1_sim
-saveRDS(fit_m1_v1_sim, "data/fit_m1_v1_sim_greater_fluctuations.rds")  # TODO adjust name
+saveRDS(fit_m1_v1_sim, "data/fit_m1_v1_sim_25drv_75ctr.rds")  # TODO adjust name
 
 # load fit_m1_v1_sim
-fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_greater_fluctuations.rds")  # TODO data file
+fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_25drv_75ctr.rds")  # TODO data file
 
 
 # extract simulations
