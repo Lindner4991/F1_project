@@ -805,32 +805,6 @@ mu_C_0 <- c(ctr_ability_rank[1],
             ctr_ability_rank[11],
             ctr_ability_rank[11])
 
-
-
-test <- c(ctr_ability_rank[1],
-          ctr_ability_rank[1],
-          ctr_ability_rank[2],
-          ctr_ability_rank[2],
-          ctr_ability_rank[3],
-          ctr_ability_rank[3],
-          ctr_ability_rank[4],
-          ctr_ability_rank[4],
-          ctr_ability_rank[5],
-          ctr_ability_rank[5],
-          ctr_ability_rank[6],
-          ctr_ability_rank[6],
-          ctr_ability_rank[7],
-          ctr_ability_rank[7],
-          ctr_ability_rank[8],
-          ctr_ability_rank[8],
-          ctr_ability_rank[9],
-          ctr_ability_rank[9],
-          ctr_ability_rank[10],
-          ctr_ability_rank[10],
-          ctr_ability_rank[11],
-          ctr_ability_rank[11])
-          
-
 # initial conditions for latent driver ability state equation
 v1D <- 0.25 * 21
 v2D <- v1D / 21
