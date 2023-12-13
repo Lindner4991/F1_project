@@ -50,78 +50,81 @@ library(bayesplot)
 library(ggplot2)
 library(rethinking)
 library(openxlsx)
+library(readxl)
 
 
 
 # user-defined functions ####
-# squared error for scalar
-SE <- function(est, sim) {
+# absolute error for scalar
+AE <- function(est, sim) {
   
-  SE_temp <- (as.numeric(est) - as.numeric(sim))^2
+  AE_temp <- abs(as.numeric(est) - as.numeric(sim))
 
-  SE <- round(SE_temp, digits = 4)
+  AE <- round(SE_temp, digits = 4)
   
-  return(SE)
+  return(AE)
     
 }
 
 
-# 89% HDI for squared error for scalar
-HDI_SE <- function(est, sim, iter) {
+# 89% HDI for absolute error for scalar
+HDI_AE <- function(est, sim, iter) {
   
-  se <- rep(0, times = iter)
+  ae <- rep(0, times = iter)
   
   for(i in 1:iter) {
-    se[i] <- SE(est[i], sim)
+    ae[i] <- AE(est[i], sim)
   }
   
-  HDI_SE <- round(HPDI(se), digits = 4)
+  HDI_AE <- round(HPDI(ae), digits = 4)
   
-  return(HDI_SE)
+  return(HDI_AE)
   
 }
 
 
-# mean squared error for vector
-MSE_1 <- function(est, sim, length) {
+# mean absolute error for vector
+MAE_1 <- function(est, sim, length) {
   
-  SE <- 0
+  AE <- 0
   
   for (l in 1:length) {
-    SE <- SE + SE(est[l], sim[l])
+    AE <- AE + AE(est[l], sim[l])
   }
   
-  MSE <- round(SE / length, digits = 4)
+  MAE <- round(AE / length, digits = 4)
+  
+  return(MAE)
   
 }
 
 
-# 89% HDI for mean squared error for vector
-HDI_MSE_1 <- function(est, sim, length, iter) {
+# 89% HDI for mean absolute error for vector
+HDI_MAE_1 <- function(est, sim, length, iter) {
   
-  mse <- rep(0, times = iter)
+  mae <- rep(0, times = iter)
   
   for(i in 1:iter) {
-    mse[i] <- MSE_1(est[i,], sim, length)
+    mae[i] <- MAE_1(est[i,], sim, length)
   }
   
-  HDI_MSE <- round(HPDI(mse), digits = 4)
+  HDI_MAE <- round(HPDI(mae), digits = 4)
   
-  return(HDI_MSE)
+  return(HDI_MAE)
   
 }
 
 
-# mean squared error for matrix
-MSE_2 <- function(est, sim, X, Y, I) {
+# mean absolute error for matrix
+MAE_2 <- function(est, sim, X, Y, I) {
   
-  SE <- 0
+  AE <- 0
   
-  for (y in 1:Y) {
-    for (x in 1:X) {
+  for (x in 1:X) {
+    for (y in 1:Y) {
       
       if (I[x,y] == 1) {
-        SE <- SE + (as.numeric(est[x,y]) - as.numeric(sim[x,y]))^2
+        AE <- AE + abs(as.numeric(est[x,y]) - as.numeric(sim[x,y]))
       }
       
     }
@@ -129,25 +132,65 @@ MSE_2 <- function(est, sim, X, Y, I) {
   
   N <- sum(I)
   
-  MSE <- round(SE / N, digits = 4)
+  MAE <- round(AE / N, digits = 4)
   
-  return(MSE)
+  return(MAE)
   
 }
 
 
-# 89% HDI for mean squared error for matrix
-HDI_MSE_2 <- function(est, sim, X, Y, I, iter) {
+# 89% HDI for mean absolute error for matrix
+HDI_MAE_2 <- function(est, sim, X, Y, I, iter) {
   
-  mse <- rep(0, times = iter)
+  mae <- rep(0, times = iter)
   
   for(i in 1:iter) {
-    mse[i] <- MSE_2(est[i,,], sim, X, Y, I)
+    mae[i] <- MAE_2(est[i,,], sim, X, Y, I)
   }
   
-  HDI_MSE <- round(HPDI(mse), digits = 4)
+  HDI_MAE <- round(HPDI(mae), digits = 4)
 
-  return(HDI_MSE)
+  return(HDI_MAE)
+  
+}
+
+
+# accuracy for matrix
+ACC <- function(pred, obs, X, Y, I) {
+  
+  correct <- 0
+  
+  for (x in 1:X) {
+    for (y in 1:Y) {
+      
+      if ((pred[x,y] == obs[x,y]) & I[x,y] == 1) {
+        correct <- correct + 1
+      }
+      
+    }
+  }
+  
+  N <- sum(I)
+  
+  ACC <- round(correct / N, digits = 4)
+  
+  return(ACC)
+  
+}
+
+
+# 89% HDI for accuracy for matrix
+HDI_ACC <- function(pred, obs, X, Y, I, iter) {
+  
+  acc <- rep(0, times = iter)
+  
+  for(i in 1:iter) {
+    acc[i] <- ACC(pred[i,,], obs, X, Y, I)
+  }
+  
+  HDI_ACC <- round(HPDI(acc), digits = 4)
+  
+  return(HDI_ACC)
   
 }
 
@@ -244,21 +287,51 @@ for (j in 2:(J-2)) {
 }
 par(mfrow = c(1,1))
 
-# squared error
+# absolute error
 # varsigma_D posterior mean vs simulated varsigma_D
-SE(get_posterior_mean(fit_model, pars = "varsigma_D")[5], 0.04)  # TODO simulated data
+AE(get_posterior_mean(fit_model,
+                      pars = "varsigma_D")[5],
+   0.04)  # TODO simulated data
 
-# squared error 89% HDI
+# absolute error 89% HDI
 # estimated varsigma_D vs simulated varsigma_D
-HDI_SE(params_model$varsigma_D, 0.04, iter)  # TODO simulated data
+HDI_AE(params_model$varsigma_D, 0.04, iter)  # TODO simulated data
 
-# squared error
+# absolute error
 # varsigma_C posterior mean vs simulated varsigma_C
-SE(get_posterior_mean(fit_model, pars = "varsigma_C")[5], 0.16)  # TODO simulated data
+AE(get_posterior_mean(fit_model,
+                      pars = "varsigma_C")[5],
+   0.16)  # TODO simulated data
 
-# squared error 89% HDI
+# absolute error 89% HDI
 # estimated varsigma_C vs simulated varsigma_C
-HDI_SE(params_model$varsigma_C, 0.16, iter)  # TODO simulated data
+HDI_AE(params_model$varsigma_C, 0.16, iter)  # TODO simulated data
+
+# extract cut points posterior means
+gamma_pm <- rep(0, times = J-3)
+
+for (j in 2:(J-2)) {
+
+    gamma_pm[j-1] <- get_posterior_mean(fit_model,
+                                   pars = paste("gamma_", j, sep=""))[5]
+    
+}
+
+# extract estimated estimated cut points
+gamma_est_temp <- params_model$gamma
+
+gamma_est <- gamma_est_temp[,-c(1,21)]  # TODO double check
+
+# simulated cut points
+gamma_sim <- seq(from = 1, to = 19, by = 1)
+
+# mean absolute error
+# cut points posterior mean vs simulated cut points
+MAE(gamma_pm, gamma_sim, J-3)
+
+# mean absolute error 89% HDI
+# estimated cut points vs simulated cut points
+HDI_MAE_1(gamma_est, gamma_sim, J-3, iter)
 
 
 # fit - qualifier/race rank ####
@@ -282,23 +355,26 @@ write.xlsx(R_pred_avg,
            "data/R_pred_avg.xlsx",
            overwrite = TRUE)
 
+R_pred_avg <- read_excel("data/R_pred_avg.xlsx",  # TODO data file
+                         sheet = "Sheet 1")
+
 
 # extract predicted ranks
 R_pred <- params_model$R_pred
 
 
-# extract simulated/actual ranks
-R_obs_temp <- params_model_sim$R_sim
+# extract simulated ranks
+# R_obs_temp <- params_model_sim$R_sim
 
-R_obs <- R_obs_temp[40,,]
+# R_obs <- R_obs_temp[40,,]
 
 
 # time series plot
-# averaged predicted rank ( pink ) vs simulated rank ( orange )
+# averaged predicted ranks ( pink ) vs observed ranks ( orange )
 par(mfrow = c(5,2))
 for (n in 1:N) {
   
-  plot(R_obs[n,],  # TODO actual data
+  plot(R_obs[n,],
        ylim = c(22, 1),
        type="l",
        col = "orange",
@@ -316,8 +392,18 @@ for (n in 1:N) {
 par(mfrow = c(1,1))
 
 
+# accuracy
+# averaged predicted ranks vs observed ranks
+ACC(R_pred_avg, R_obs, N, Q, I_1)
+
+
+# accuracy 89% HDI 
+# predicted ranks vs observed ranks
+ACC(R_pred, R_obs, N, Q, I_1, iter)
+
+
 # time series plot
-# averaged predicted rank 89% HDI
+# predicted ranks 89% HDI
 par(mfrow = c(5,2))
 for (n in 1:N) {
   
@@ -378,6 +464,9 @@ write.xlsx(mu_P_pm,
            "data/mu_P_pm.xlsx",
            overwrite = TRUE)
 
+R_pred_avg <- read_excel("data/mu_P_pm_avg.xlsx",  # TODO data file
+                         sheet = "Sheet 1")
+
 
 # extract estimated mu_P
 mu_P_est <- params_model$mu_P
@@ -412,12 +501,12 @@ for (n in 1:N) {
 par(mfrow = c(1,1))
 
 
-# mean squared error
+# mean absolute error
 # mu_P posterior mean vs simulated mu_P
 MSE_2(mu_P_pm, mu_P_sim, N, Q, I_1)
 
 
-# mean squared error 89% HDI
+# mean absolute error 89% HDI
 # estimated mu_P vs simulated mu_P
 HDI_MSE_2(mu_P_est, mu_P_sim, N, Q, I_1, iter)
 
@@ -484,6 +573,9 @@ write.xlsx(mu_D_pm,
            "data/mu_D_pm.xlsx",
            overwrite = TRUE)
 
+R_pred_avg <- read_excel("data/mu_D_pm_avg.xlsx",  # TODO data file
+                         sheet = "Sheet 1")
+
 
 # extract estimated mu_D
 mu_D_est <- params_model$mu_D
@@ -518,12 +610,12 @@ for (n in 1:N) {
 par(mfrow = c(1,1))
 
 
-# mean squared error
+# mean absolute error
 # mu_D posterior mean vs simulated mu_D
 MSE_2(mu_D_pm, mu_D_sim, N, Q, I_1)
 
 
-# mean squared error 89% HDI
+# mean absolute error 89% HDI
 # estimated mu_D vs simulated mu_D
 HDI_MSE_2(mu_D_est, mu_D_sim, N, Q, I_1, iter)
 
@@ -590,6 +682,9 @@ write.xlsx(mu_C_pm,
            "data/mu_C_pm.xlsx",
            overwrite = TRUE)
 
+R_pred_avg <- read_excel("data/mu_C_pm_avg.xlsx",  # TODO data file
+                         sheet = "Sheet 1")
+
 
 # extract estimated mu_C
 mu_C_est <- params_model$mu_C
@@ -624,12 +719,12 @@ for (k in 1:K) {
 par(mfrow = c(1,1))
 
 
-# mean squared error
+# mean absolute error
 # mu_C posterior mean vs simulated mu_C
 MSE_2(mu_C_pm, mu_C_sim, K, Q, I_3)
 
 
-# mean squared error 89% HDI
+# mean absolute error 89% HDI
 # estimated mu_C vs simulated mu_C
 HDI_MSE_2(mu_C_est, mu_C_sim, K, Q, I_3, iter)
 
