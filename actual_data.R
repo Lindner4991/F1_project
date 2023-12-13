@@ -296,7 +296,23 @@ for (n in 1:N) {
 }
 
 # initial conditions for latent constructor ability state equation ( 75% )
-ctr_ability_rank <- c(15,14,13,12,11,10,9,8,7,6,5,5)
+v1C <- 0.75 * 21
+v2C <- v1C / 10
+
+topC <- v1C - 0.25
+bottomC <- -0.25 
+
+ctr_ability_rank <- c(topC,
+                      topC - 1 * v2C,
+                      topC - 2 * v2C,
+                      topC - 3 * v2C,
+                      topC - 4 * v2C,
+                      topC - 5 * v2C,
+                      topC - 6 * v2C,
+                      topC - 7 * v2C,
+                      topC - 8 * v2C,
+                      topC - 9 * v2C,
+                      bottomC)
 
 mu_C_0 <- rep(NA, times = K)
 
@@ -314,11 +330,34 @@ mu_C_0[11] <- ctr_ability_rank[11]  # 2013 ctr standings
 mu_C_0[12] <- ctr_ability_rank[11]  # min ctr_ability_rank ( haas )
 
 # initial conditions for latent driver ability state equation ( 25% )
-drv_ability_rank <- c(5.25,4.75,4.25,3.75,3.25,
-                      2.75,2.25,1.75,1.25,0.75,
-                      0.25,-0.25,-0.75,-1.25,-1.75,
-                      -2.25,-2.75,-3.25,-3.75,-4.25,
-                      -4.75,-5.25)
+v1D <- 0.25 * 21
+v2D <- v1D / 21
+
+topD <- v1D - 0.25
+bottomD <- -0.25
+
+drv_ability_rank <- c(topD,
+                      topD - 1 * v2D,
+                      topD - 2 * v2D,
+                      topD - 3 * v2D,
+                      topD - 4 * v2D,
+                      topD - 5 * v2D,
+                      topD - 6 * v2D,
+                      topD - 7 * v2D,
+                      topD - 8 * v2D,
+                      topD - 9 * v2D,
+                      topD - 10 * v2D,
+                      topD - 11 * v2D,
+                      topD - 12 * v2D,
+                      topD - 13 * v2D,
+                      topD - 14 * v2D,
+                      topD - 15 * v2D,
+                      topD - 16 * v2D,
+                      topD - 17 * v2D,
+                      topD - 18 * v2D,
+                      topD - 19 * v2D,
+                      topD - 20 * v2D,
+                      bottomD)
 
 mu_D_0 <- rep(NA, times = N)
 
@@ -392,7 +431,37 @@ mu_D_0[51] <- drv_ability_rank[14]
 
 # model 1 version 1 - F1 hybrid era race data ####
 # initial conditions for latent constructor ability state equation ( 75% )
-ctr_ability_rank <- c(15,14,13,12,11,10,9,8,7,6,5,5)
+v1C <- 0.75 * 21
+v2C <- v1C / 10
+
+topC <- v1C - 0.25
+bottomC <- -0.25 
+
+ctr_ability_rank <- c(topC,
+                      topC - 1 * v2C,
+                      topC - 2 * v2C,
+                      topC - 3 * v2C,
+                      topC - 4 * v2C,
+                      topC - 5 * v2C,
+                      topC - 6 * v2C,
+                      topC - 7 * v2C,
+                      topC - 8 * v2C,
+                      topC - 9 * v2C,
+                      bottomC)
+
+
+mu_C_0 <- c(ctr_ability_rank[1],
+            ctr_ability_rank[2],
+            ctr_ability_rank[3],
+            ctr_ability_rank[4],
+            ctr_ability_rank[5],
+            ctr_ability_rank[6],
+            ctr_ability_rank[7],
+            ctr_ability_rank[8],
+            ctr_ability_rank[9],
+            ctr_ability_rank[10],
+            ctr_ability_rank[11],
+            ctr_ability_rank[11])
 
 mu_C_0 <- rep(NA, times = K)
 
@@ -410,11 +479,34 @@ mu_C_0[11] <- ctr_ability_rank[11]  # 2013 ctr standings
 mu_C_0[12] <- ctr_ability_rank[11]  # min ctr_ability_rank ( haas )
 
 # initial conditions for latent driver ability state equation ( 25% )
-drv_ability_rank <- c(5.25,4.75,4.25,3.75,3.25,
-                      2.75,2.25,1.75,1.25,0.75,
-                      0.25,-0.25,-0.75,-1.25,-1.75,
-                      -2.25,-2.75,-3.25,-3.75,-4.25,
-                      -4.75 -5.25)
+v1D <- 0.25 * 21
+v2D <- v1D / 21
+
+topD <- v1D - 0.25
+bottomD <- -0.25
+
+drv_ability_rank <- c(topD,
+                      topD - 1 * v2D,
+                      topD - 2 * v2D,
+                      topD - 3 * v2D,
+                      topD - 4 * v2D,
+                      topD - 5 * v2D,
+                      topD - 6 * v2D,
+                      topD - 7 * v2D,
+                      topD - 8 * v2D,
+                      topD - 9 * v2D,
+                      topD - 10 * v2D,
+                      topD - 11 * v2D,
+                      topD - 12 * v2D,
+                      topD - 13 * v2D,
+                      topD - 14 * v2D,
+                      topD - 15 * v2D,
+                      topD - 16 * v2D,
+                      topD - 17 * v2D,
+                      topD - 18 * v2D,
+                      topD - 19 * v2D,
+                      topD - 20 * v2D,
+                      bottomD)
 
 mu_D_0 <- rep(NA, times = N)
 
