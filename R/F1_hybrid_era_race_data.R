@@ -3,6 +3,10 @@
 
 # closing the sections provides an overview of the script
 
+# required data files:
+# R_act_qualifier.xlsx
+# drv_ctr_qualifier.xlsx
+
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -222,7 +226,9 @@ for (s in 1:S) {
 drv_ctr_qualifier <- as.data.frame(read_excel("data/drv_ctr_qualifier.xlsx",
                                               sheet = "Sheet 1"))
 
-drv_ctr <- as.data.frame(R_act_qualifier[,1])
+drv_ctr <- as.data.frame(drv_ctr_qualifier[,1])
+
+colnames(drv_ctr) <- c("driver")
 
 
 log_file <- data.frame(matrix(ncol = 4, nrow = 0))
@@ -237,7 +243,7 @@ t <- 1
 # get and merge drv-ctr
 for (s in 1:S) {
   
-  for (qs in 1:RS[s]) {
+  for (rs in 1:RS[s]) {
     
     url <- paste("http://ergast.com/api/f1/", SY[s], "/", rs, "/results.json",
                  sep = "")
