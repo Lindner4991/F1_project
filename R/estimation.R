@@ -95,13 +95,13 @@ R_sim <- R_sim_temp[40,,]
 
 
 
-# model 1 version 1 - greater fluctuations ####
+# model 1 version 1 - increased fluctuations ####
 # fixed cut points
 gamma_lower <- 0
 gamma_upper <- J - 2
 
 # load fit_m1_v1_sim
-fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_greater_fluctuations.rds")
+fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_increased_fluctuations.rds")
 # fit_m1_v1_sim <- readRDS("fit_m1_v1_sim_greater_fluctuations.rds")
 
 # extract simulations
@@ -117,13 +117,13 @@ R_sim <- R_sim_temp[40,,]
 
 
 
-# model 1 version 1 - 25% drv 75% ctr ####
+# model 1 version 1 - dominant ctr ability ####
 # fixed cut points
 gamma_lower <- 0
 gamma_upper <- J - 2
 
 # load fit_m1_v1_sim
-fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_25drv_75ctr.rds")
+fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_dominant_ctr_ability.rds")
 # fit_m1_v1_sim <- readRDS("fit_m1_v1_sim_missing_data.rds")
 
 # extract simulations
@@ -175,11 +175,11 @@ fit_m1_v1 <- sampling(m1_v1,
                                   mu_D_0 = mu_D_0,
                                   gamma_lower = gamma_lower,
                                   gamma_upper = gamma_upper,
-                                  R = R_act),  # TODO actual data
+                                  R = R_sim),  # TODO actual data
                       iter = iter_per_chain)
 
 # save fit_m1_v1
-saveRDS(fit_m1_v1, "results/fit_m1_v1_qualifier.rds")  # TODO adjust name
+saveRDS(fit_m1_v1, "results/fit_m1_v1_dominant_ctr_ability.rds")  # TODO adjust name
 
 
 
@@ -204,11 +204,11 @@ job::job({
                                     mu_D_0 = mu_D_0,
                                     gamma_lower = gamma_lower,
                                     gamma_upper = gamma_upper,
-                                    R = R_act),  # TODO actual data
+                                    R = R_sim),  # TODO actual data
                         iter = iter_per_chain)
   
   # save fit_m1_v1
-  saveRDS(fit_m1_v1, "fit_m1_v1_qualifier.rds")  # TODO adjust name
+  saveRDS(fit_m1_v1, "fit_m1_v1_dominant_ctr_ability.rds")  # TODO adjust name
   
 })
 
