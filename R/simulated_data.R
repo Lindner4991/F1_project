@@ -362,7 +362,7 @@ gamma <- seq(from = 0, to = 20, by = 1)
 
 
 
-# model 1 version 1 - greater fluctuations ####
+# model 1 version 1 - increased fluctuations ####
 # also, varsigma_D : varsigma_C ratio changed from 1:4 to 1:5
 # also, for haas and haas drivers, initial conditions changed
 
@@ -584,7 +584,7 @@ gamma <- seq(from = 0, to = 20, by = 1)
 
 
 
-# model 1 version 1 - 25% drv 75% ctr ####
+# model 1 version 1 - dominant ctr ability ####
 # number of constructors in time series
 K <- 12
 
@@ -924,10 +924,10 @@ fit_m1_v1_sim <- sampling(m1_v1_sim,
                           warmup = 0)
 
 # save fit_m1_v1_sim
-saveRDS(fit_m1_v1_sim, "data/fit_m1_v1_sim_25drv_75ctr.rds")  # TODO adjust name
+saveRDS(fit_m1_v1_sim, "data/fit_m1_v1_sim_dominant_ctr_ability.rds")  # TODO adjust name
 
 # load fit_m1_v1_sim
-fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_25drv_75ctr.rds")  # TODO data file
+fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_dominant_ctr_ability.rds")  # TODO data file
 
 
 # extract simulations
