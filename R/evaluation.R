@@ -205,7 +205,7 @@ params_model_sim <- rstan::extract(fit_model_sim)
 
 
 # load fit_model
-fit_model <- readRDS("results/fit_m1_v1_increased_fluctuations.rds")  # TODO data file
+fit_model <- readRDS("results/fit_m1_v1_qualifier.rds")  # TODO data file
 
 # extract samples
 params_model <- rstan::extract(fit_model)
@@ -244,10 +244,10 @@ neff[which(names(neff) %in% neff_params)]
 ESS_temp <- monitor(extract(fit_model, permuted = FALSE))
 
 write.xlsx(ESS_temp,
-           "data/ESS.xlsx",
+           "results/ESS.xlsx",
            overwrite = TRUE)
 
-ESS_temp <- read_excel("data/ESS.xlsx",  # TODO data file
+ESS_temp <- read_excel("results/ESS.xlsx",  # TODO data file
                          sheet = "Sheet 1")
 
 
@@ -437,10 +437,10 @@ for (n in 1:N) {
 }
 
 write.xlsx(R_pred_avg,
-           "data/R_pred_avg.xlsx",
+           "results/R_pred_avg.xlsx",
            overwrite = TRUE)
 
-R_pred_avg <- read_excel("data/R_pred_avg.xlsx",  # TODO data file
+R_pred_avg <- read_excel("results/R_pred_avg.xlsx",  # TODO data file
                          sheet = "Sheet 1")
 
 
@@ -546,10 +546,10 @@ for (n in 1:N) {
 }
 
 write.xlsx(mu_P_pm,
-           "data/mu_P_pm.xlsx",
+           "results/mu_P_pm.xlsx",
            overwrite = TRUE)
 
-R_pred_avg <- read_excel("data/mu_P_pm_avg.xlsx",  # TODO data file
+R_pred_avg <- read_excel("results/mu_P_pm_avg.xlsx",  # TODO data file
                          sheet = "Sheet 1")
 
 
@@ -655,10 +655,10 @@ for (n in 1:N) {
 }
 
 write.xlsx(mu_D_pm,
-           "data/mu_D_pm.xlsx",
+           "results/mu_D_pm.xlsx",
            overwrite = TRUE)
 
-R_pred_avg <- read_excel("data/mu_D_pm_avg.xlsx",  # TODO data file
+R_pred_avg <- read_excel("results/mu_D_pm_avg.xlsx",  # TODO data file
                          sheet = "Sheet 1")
 
 
@@ -764,10 +764,10 @@ for (k in 1:K) {
 }
 
 write.xlsx(mu_C_pm,
-           "data/mu_C_pm.xlsx",
+           "results/mu_C_pm.xlsx",
            overwrite = TRUE)
 
-R_pred_avg <- read_excel("data/mu_C_pm_avg.xlsx",  # TODO data file
+R_pred_avg <- read_excel("results/mu_C_pm_avg.xlsx",  # TODO data file
                          sheet = "Sheet 1")
 
 
