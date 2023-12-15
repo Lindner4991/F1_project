@@ -216,6 +216,71 @@ iter <- iter_per_chain / 2 * 4
 
 
 
+# convergence ####
+# effective sample size
+# n_eff / total post-warmup iterations should be greater than 0.01
+neff_temp <- summary(fit_model)$summary[,'n_eff']
+
+neff_temp <- neff_temp / iter
+
+neff <- neff_temp[neff_temp <= 0.01]
+
+neff_params <- names(neff)
+
+neff_params <- neff_params[!grepl("temp", neff_params)]
+
+neff_params <- ifelse(is.na(neff_params),
+                         "missing",
+                         neff_params)
+
+neff_params <- neff_params[!grepl("missing", neff_params)]
+
+neff[which(names(neff) %in% neff_params)]
+
+
+# Rhat should be less than 1.1
+Rhat_temp <- summary(fit_model_1)$summary[,'Rhat']
+
+Rhat <- Rhat_temp[Rhat_temp >= 1.1]
+
+Rhat_params <- names(Rhat)
+
+Rhat_params <- Rhat_params[!grepl("temp", Rhat_params)]
+
+Rhat_params <- ifelse(is.na(Rhat_params),
+                         "missing",
+                      Rhat_params)
+
+Rhat_params <- Rhat_params[!grepl("missing", Rhat_params)]
+
+Rhat[which(names(Rhat) %in% Rhat_params)]
+
+
+# trace plots
+# varsigma_D
+par(mfrow = c(3,1))
+ts.plot(params_model$varsigma_D,
+        col = "blueviolet",
+        xlab = "Post-warmup iteration",
+        ylab = "sigma_D")
+
+# varsigma_C
+ts.plot(params_model$varsigma_C,
+        col = "mediumspringgreen",
+        xlab = "Post-warmup iteration",
+        ylab = "sigma_C")
+
+# cut points
+for (j in 2:(J-2)) {
+  ts.plot(params_model$gamma[,j],
+          col = "deeppink4",
+          xlab = "Post-warmup iteration",
+          ylab = paste("gamma_", j, sep=""))
+}
+par(mfrow = c(1,1))
+
+
+
 # fit - varsigma_D, varsigma_C, and cut points ####
 # posterior mean and median
 summary(fit_model,
