@@ -139,13 +139,13 @@ mu_D_0 <- c(10.25,9.75,9.25,8.75,8.25,
             0.25,-0.25)
 
 # SD for error for latent constructor ability state equation
-varsigma_C <- 0.16
+varsigma_C_sim <- 0.16
 
 # SD for error for latent driver ability state equation
-varsigma_D <- 0.04
+varsigma_D_sim <- 0.04
 
 # cut points
-gamma <- seq(from = 0, to = 20, by = 1)
+gamma_sim <- seq(from = 0, to = 20, by = 1)
 
 
 
@@ -352,13 +352,13 @@ mu_D_0 <- c(10.25,9.75,9.25,8.75,8.25,7.75,7.25,6.75,6.25,
             10.25,9.25,8.25,7.25,6.25,5.25,4.25,3.25,1.75)
 
 # SD for error for latent constructor ability state equations
-varsigma_C <- 0.16
+varsigma_C_sim <- 0.16
 
 # SD for error for latent driver ability state equations
-varsigma_D <- 0.04
+varsigma_D_sim <- 0.04
 
 # cut points
-gamma <- seq(from = 0, to = 20, by = 1)
+gamma_sim <- seq(from = 0, to = 20, by = 1)
 
 
 
@@ -574,13 +574,13 @@ mu_D_0 <- c(10.25,9.75,9.25,8.75,8.25,7.75,7.25,6.75,6.25,
             10.25,9.25,8.25,7.25,6.25,5.25,4.25,3.25,1.75)
 
 # SD for error for latent constructor ability state equations
-varsigma_C <- 0.5
+varsigma_C_sim <- 0.5
 
 # SD for error for latent driver ability state equations
-varsigma_D <- 0.1
+varsigma_D_sim <- 0.1
 
 # cut points
-gamma <- seq(from = 0, to = 20, by = 1)
+gamma_sim <- seq(from = 0, to = 20, by = 1)
 
 
 
@@ -892,13 +892,13 @@ mu_D_0 <- c(drv_ability_rank[1],
             drv_ability_rank[17])
 
 # SD for error for latent constructor ability state equations
-varsigma_C <- 0.75
+varsigma_C_sim <- 0.75
 
 # SD for error for latent driver ability state equations
-varsigma_D <- 0.05
+varsigma_D_sim <- 0.05
 
 # cut points
-gamma <- seq(from = 0, to = 20, by = 1)
+gamma_sim <- seq(from = 0, to = 20, by = 1)
 
 
 
@@ -916,9 +916,9 @@ fit_m1_v1_sim <- sampling(m1_v1_sim,
                                       J = J,
                                       mu_C_0 = mu_C_0,
                                       mu_D_0 = mu_D_0,
-                                      varsigma_C = varsigma_C,
-                                      varsigma_D = varsigma_D,
-                                      gamma = gamma),
+                                      varsigma_C = varsigma_C_sim,
+                                      varsigma_D = varsigma_D_sim,
+                                      gamma = gamma_sim),
                           algorithm = "Fixed_param",
                           iter = 10,
                           warmup = 0)
