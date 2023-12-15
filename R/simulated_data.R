@@ -145,7 +145,7 @@ varsigma_C_sim <- 0.16
 varsigma_D_sim <- 0.04
 
 # cut points
-gamma_sim <- seq(from = 0, to = 20, by = 1)
+gamma_sim <- seq(from = 0, to = J-2, by = 1)
 
 
 
@@ -358,7 +358,7 @@ varsigma_C_sim <- 0.16
 varsigma_D_sim <- 0.04
 
 # cut points
-gamma_sim <- seq(from = 0, to = 20, by = 1)
+gamma_sim <- seq(from = 0, to = J-2, by = 1)
 
 
 
@@ -580,7 +580,7 @@ varsigma_C_sim <- 0.5
 varsigma_D_sim <- 0.1
 
 # cut points
-gamma_sim <- seq(from = 0, to = 20, by = 1)
+gamma_sim <- seq(from = 0, to = J-2, by = 1)
 
 
 
@@ -898,7 +898,7 @@ varsigma_C_sim <- 0.75
 varsigma_D_sim <- 0.05
 
 # cut points
-gamma_sim <- seq(from = 0, to = 20, by = 1)
+gamma_sim <- seq(from = 0, to = J-2, by = 1)
 
 
 
