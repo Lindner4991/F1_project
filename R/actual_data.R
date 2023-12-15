@@ -387,13 +387,13 @@ mu_D_0[22] <- drv_ability_rank[18]  # 2013 drv standings
 
 # # # one time data processing - initial conditions NA drivers t=1 qualifier # #
 # load R_act_cockpit
-R_act_cockpit <- read_excel("data/R_act_qualifier_cockpit.xlsx",
-                            sheet = "Sheet 1")
+# R_act_cockpit <- read_excel("data/R_act_qualifier_cockpit.xlsx",
+#                             sheet = "Sheet 1")
 
 # data.frame --> matrix
-R_act_cockpit <- as.matrix(R_act_cockpit)
+# R_act_cockpit <- as.matrix(R_act_cockpit)
 
-median_ctr_rank(23, 24, c(39:138), R_act_cockpit)
+# median_ctr_rank(23, 24, c(39:138), R_act_cockpit)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
@@ -750,13 +750,13 @@ mu_D_0[22] <- drv_ability_rank[18]  # 2013 drv standings
 
 # # # one time data processing - initial conditions NA drivers t=1 qualifier # #
 # load R_act_cockpit
-R_act_cockpit <- read_excel("data/R_act_race_cockpit.xlsx",
-                            sheet = "Sheet 1")
+# R_act_cockpit <- read_excel("data/R_act_race_cockpit.xlsx",
+#                             sheet = "Sheet 1")
 
 # data.frame --> matrix
-R_act_cockpit <- as.matrix(R_act_cockpit)
+# R_act_cockpit <- as.matrix(R_act_cockpit)
 
-median_ctr_rank(23, 24, c(39:138), R_act_cockpit)
+# median_ctr_rank(23, 24, c(39:138), R_act_cockpit)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
