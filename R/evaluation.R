@@ -198,27 +198,29 @@ HDI_ACC <- function(pred, obs, X, Y, I, iter) {
 
 # evaluation prep ####
 # load fit_model_sim
-fit_model_sim <- readRDS("data/fit_m1_v1_sim_missing_data.rds")  # TODO data file
+fit_model_sim <- readRDS("data/fit_m1_v1_sim_increased_fluctuations.rds")  # TODO data file
 
 # extract simulations
 params_model_sim <- rstan::extract(fit_model_sim)
 
 
 # load fit_model
-fit_model <- readRDS("results/fit_m1_v1_missing_data.rds")  # TODO data file
+fit_model <- readRDS("results/fit_m1_v1_increased_fluctuations.rds")  # TODO data file
 
 # extract samples
 params_model <- rstan::extract(fit_model)
 
 
 # number of total post-warmup iterations
+iter_per_chain <- 2000
+
 iter <- iter_per_chain / 2 * 4
 
 
 
 # convergence ####
 # effective sample size
-# n_eff / total post-warmup iterations should be greater than 0.01
+# n_eff / total post-warmup iterations should be greater than 0.01 ( YouTube )
 neff_temp <- summary(fit_model)$summary[,'n_eff']
 
 neff_temp <- neff_temp / iter
@@ -238,8 +240,21 @@ neff_params <- neff_params[!grepl("missing", neff_params)]
 neff[which(names(neff) %in% neff_params)]
 
 
-# Rhat should be less than 1.1
-Rhat_temp <- summary(fit_model_1)$summary[,'Rhat']
+# BULK ESS should be greater than 400 ( Roberto )
+ESS_temp <- monitor(extract(fit_model, permuted = FALSE))
+
+write.xlsx(ESS_temp,
+           "data/ESS.xlsx",
+           overwrite = TRUE)
+
+ESS_temp <- read_excel("data/ESS.xlsx",  # TODO data file
+                         sheet = "Sheet 1")
+
+
+
+
+# Rhat should be less than 1.1 ( YouTube )
+Rhat_temp <- summary(fit_model)$summary[,'Rhat']
 
 Rhat <- Rhat_temp[Rhat_temp >= 1.1]
 
@@ -262,13 +277,13 @@ par(mfrow = c(3,1))
 ts.plot(params_model$varsigma_D,
         col = "blueviolet",
         xlab = "Post-warmup iteration",
-        ylab = "sigma_D")
+        ylab = "varsigma_D")
 
 # varsigma_C
 ts.plot(params_model$varsigma_C,
         col = "mediumspringgreen",
         xlab = "Post-warmup iteration",
-        ylab = "sigma_C")
+        ylab = "varsigma_C")
 
 # cut points
 for (j in 2:(J-2)) {
