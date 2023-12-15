@@ -329,7 +329,7 @@ hist(params_model$varsigma_D,
      border = FALSE,
      main = "varsigma_D",
      xlab = "")
-abline(v = 0.04, lwd = 2, col = "orange")  # TODO simulated, actual data
+abline(v = varsigma_D_sim, lwd = 2, col = "orange")  # TODO actual data
 
 # histogram
 # posterior density varsigma_C
@@ -338,7 +338,7 @@ hist(params_model$varsigma_C,
      border = FALSE,
      main = "varsigma_C",
      xlab = "")
-abline(v = 0.16, lwd = 2, col = "orange")  # TODO simulated, actual data
+abline(v = varsigma_C_sim, lwd = 2, col = "orange")  # TODO actual data
 
 # histogram
 # posterior density cut points
@@ -356,39 +356,43 @@ par(mfrow = c(1,1))
 # varsigma_D posterior mean vs simulated varsigma_D
 AE(get_posterior_mean(fit_model,
                       pars = "varsigma_D")[5],
-   0.04)  # TODO simulated data
+   varsigma_D_sim)
 
 # absolute error 89% HDI
 # estimated varsigma_D vs simulated varsigma_D
-HDI_AE(params_model$varsigma_D, 0.04, iter)  # TODO simulated data
+HDI_AE(params_model$varsigma_D,
+       varsigma_D_sim,
+       iter)
 
 # absolute error
 # varsigma_C posterior mean vs simulated varsigma_C
 AE(get_posterior_mean(fit_model,
                       pars = "varsigma_C")[5],
-   0.16)  # TODO simulated data
+   varsigma_C_sim)
 
 # absolute error 89% HDI
 # estimated varsigma_C vs simulated varsigma_C
-HDI_AE(params_model$varsigma_C, 0.16, iter)  # TODO simulated data
+HDI_AE(params_model$varsigma_C,
+       varsigma_C_sim,
+       iter)
 
 # extract cut points posterior means
 gamma_pm <- rep(0, times = J-3)
 
 for (j in 2:(J-2)) {
-
-    gamma_pm[j-1] <- get_posterior_mean(fit_model,
-                                   pars = paste("gamma_", j, sep=""))[5]
-    
+  
+  gamma_pm[j-1] <- get_posterior_mean(fit_model,
+                                      pars = paste("gamma_", j, sep=""))[5]
+  
 }
 
 # extract estimated estimated cut points
 gamma_est_temp <- params_model$gamma
 
-gamma_est <- gamma_est_temp[,-c(1,21)]  # TODO double check
+gamma_est <- gamma_est_temp[,2:(J-2)]  # TODO double check
 
 # simulated cut points
-gamma_sim <- seq(from = 1, to = 19, by = 1)
+gamma_sim <- gamma_sim[2:(J-2)]
 
 # mean absolute error
 # cut points posterior mean vs simulated cut points
@@ -397,6 +401,7 @@ MAE(gamma_pm, gamma_sim, J-3)
 # mean absolute error 89% HDI
 # estimated cut points vs simulated cut points
 HDI_MAE_1(gamma_est, gamma_sim, J-3, iter)
+
 
 
 # fit - qualifier/race rank ####
