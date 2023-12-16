@@ -927,7 +927,8 @@ fit_m1_v1_sim <- sampling(m1_v1_sim,
 saveRDS(fit_m1_v1_sim, "data/fit_m1_v1_sim_dominant_ctr_ability.rds")  # TODO adjust name
 
 # load fit_m1_v1_sim
-fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_dominant_ctr_ability.rds")  # TODO data file
+fit_m1_v1_sim <-
+  readRDS("data/fit_m1_v1_sim_dominant_ctr_ability.rds")  # TODO data file
 
 
 # extract simulations
