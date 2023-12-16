@@ -574,10 +574,10 @@ mu_D_0 <- c(10.25,9.75,9.25,8.75,8.25,7.75,7.25,6.75,6.25,
             10.25,9.25,8.25,7.25,6.25,5.25,4.25,3.25,1.75)
 
 # SD for error for latent constructor ability state equations
-varsigma_C_sim <- 0.5
+varsigma_C_sim <- 1.4
 
 # SD for error for latent driver ability state equations
-varsigma_D_sim <- 0.1
+varsigma_D_sim <- 0.2
 
 # cut points
 gamma_sim <- seq(from = 0, to = J-2, by = 1)
@@ -892,10 +892,12 @@ mu_D_0 <- c(drv_ability_rank[1],
             drv_ability_rank[17])
 
 # SD for error for latent constructor ability state equations
-varsigma_C_sim <- 0.75
+varsigma_C_sim <- 1.4
+# 0.75
 
 # SD for error for latent driver ability state equations
-varsigma_D_sim <- 0.05
+varsigma_D_sim <- 0.2
+# 0.05
 
 # cut points
 gamma_sim <- seq(from = 0, to = J-2, by = 1)
@@ -973,6 +975,14 @@ for (n in 1:N) {
        yaxt = "n")
   axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
   axis(side = 2, at = c(22, 11, 1), las = 1)
+  
+  for (t in 1:Q) {
+    if (I_1[n,t] == 0) {
+      abline(v = t, lwd = 0.125, col = "azure4")
+    }
+  }
+  
+  box()
   
 }
 par(mfrow = c(1,1))
