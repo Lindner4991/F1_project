@@ -440,7 +440,7 @@ for (n in 1:N) {
     
     for (i in 1:iter) {
       
-      vector_ranks[i] <- R_pred[i,n,t]
+      sample[i] <- R_pred[i,n,t]
       
     }
     
@@ -448,7 +448,7 @@ for (n in 1:N) {
     
     median <- round(median_temp, digits = 0)
     
-    P_pred_mdn[n,t] <- median
+    R_pred_mdn[n,t] <- median
     
   }
 }
