@@ -859,13 +859,3 @@ for (k in 1:K) {
 par(mfrow = c(1,1))
 
 
-
-# insights - latent driver vs constructor ability ####
-# placeholder
-
-
-
-
-
-
-
