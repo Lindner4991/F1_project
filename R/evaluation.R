@@ -51,6 +51,7 @@ library(ggplot2)
 library(rethinking)
 library(openxlsx)
 library(readxl)
+library(dplyr)
 
 
 
@@ -220,7 +221,8 @@ iter <- iter_per_chain / 2 * 4
 
 # convergence ####
 # effective sample size
-# n_eff / total post-warmup iterations should be greater than 0.01 ( YouTube )
+# n_eff / total post-warmup iterations should be greater than 0.01
+# source: Stan YouTube
 neff_temp <- summary(fit_model)$summary[,'n_eff']
 
 neff_temp <- neff_temp / iter
@@ -240,18 +242,29 @@ neff_params <- neff_params[!grepl("missing", neff_params)]
 neff[which(names(neff) %in% neff_params)]
 
 
-# BULK ESS should be greater than 400 ( Roberto )
+# BULK ESS should be greater than 400 ( greater than 100 per chain )
+# source: Stan YouTube
 ESS_temp <- monitor(extract(fit_model, permuted = FALSE))
 
-write.xlsx(ESS_temp,
-           "results/m1_v1_missing_data/ESS.xlsx",
-           overwrite = TRUE)
+ESS_temp <- as.data.frame(ESS_temp)[,c(21,22)]
 
-ESS_temp <- read_excel("results/m1_v1_missing_data/ESS.xlsx",  # TODO data file
-                         sheet = "Sheet 1")
+ESS <- subset(ESS_temp, Bulk_ESS <= 400 | Tail_ESS <= 400)
+
+ESS_params <- row.names(ESS)
+
+ESS_params <- ESS_params[!grepl("temp", ESS_params)]
+
+ESS_params <- ifelse(is.na(ESS_params),
+                      "missing",
+                     ESS_params)
+
+ESS_params <- ESS_params[!grepl("missing", ESS_params)]
+
+ESS[ESS_params,]
 
 
-# Rhat should be less than 1.1 ( YouTube )
+# Rhat should be less than 1.1
+# source: Stan YouTube
 Rhat_temp <- summary(fit_model)$summary[,'Rhat']
 
 Rhat <- Rhat_temp[Rhat_temp >= 1.1]
