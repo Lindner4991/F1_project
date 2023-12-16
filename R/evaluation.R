@@ -244,13 +244,11 @@ neff[which(names(neff) %in% neff_params)]
 ESS_temp <- monitor(extract(fit_model, permuted = FALSE))
 
 write.xlsx(ESS_temp,
-           "results/ESS.xlsx",
+           "results/m1_v1_missing_data/ESS.xlsx",
            overwrite = TRUE)
 
-ESS_temp <- read_excel("results/ESS.xlsx",  # TODO data file
+ESS_temp <- read_excel("results/m1_v1_missing_data/ESS.xlsx",  # TODO data file
                          sheet = "Sheet 1")
-
-
 
 
 # Rhat should be less than 1.1 ( YouTube )
@@ -437,11 +435,12 @@ for (n in 1:N) {
 }
 
 write.xlsx(R_pred_avg,
-           "results/R_pred_avg.xlsx",
+           "results/m1_v1_missing_data/R_pred_avg.xlsx",
            overwrite = TRUE)
 
-R_pred_avg <- read_excel("results/R_pred_avg.xlsx",  # TODO data file
-                         sheet = "Sheet 1")
+R_pred_avg <-
+  read_excel("results/m1_v1_missing_data/R_pred_avg.xlsx",  # TODO data file
+             sheet = "Sheet 1")
 
 
 # extract predicted ranks
@@ -546,11 +545,12 @@ for (n in 1:N) {
 }
 
 write.xlsx(mu_P_pm,
-           "results/mu_P_pm.xlsx",
+           "results/m1_v1_missing_data/mu_P_pm.xlsx",
            overwrite = TRUE)
 
-R_pred_avg <- read_excel("results/mu_P_pm_avg.xlsx",  # TODO data file
-                         sheet = "Sheet 1")
+R_pred_avg <-
+  read_excel("results/m1_v1_missing_data/mu_P_pm_avg.xlsx",  # TODO data file
+             sheet = "Sheet 1")
 
 
 # extract estimated mu_P
@@ -655,11 +655,12 @@ for (n in 1:N) {
 }
 
 write.xlsx(mu_D_pm,
-           "results/mu_D_pm.xlsx",
+           "results/m1_v1_missing_data/mu_D_pm.xlsx",
            overwrite = TRUE)
 
-R_pred_avg <- read_excel("results/mu_D_pm_avg.xlsx",  # TODO data file
-                         sheet = "Sheet 1")
+R_pred_avg <-
+  read_excel("results/m1_v1_missing_data/mu_D_pm_avg.xlsx",  # TODO data file
+             sheet = "Sheet 1")
 
 
 # extract estimated mu_D
@@ -764,11 +765,12 @@ for (k in 1:K) {
 }
 
 write.xlsx(mu_C_pm,
-           "results/mu_C_pm.xlsx",
+           "results/m1_v1_missing_data/mu_C_pm.xlsx",
            overwrite = TRUE)
 
-R_pred_avg <- read_excel("results/mu_C_pm_avg.xlsx",  # TODO data file
-                         sheet = "Sheet 1")
+R_pred_avg <-
+  read_excel("results/m1_v1_missing_data/mu_C_pm_avg.xlsx",  # TODO data file
+             sheet = "Sheet 1")
 
 
 # extract estimated mu_C
