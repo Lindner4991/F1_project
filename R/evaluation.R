@@ -61,7 +61,7 @@ AE <- function(est, sim) {
   
   AE_temp <- abs(est - sim)
 
-  AE <- round(SE_temp, digits = 4)
+  AE <- round(AE_temp, digits = 4)
   
   return(AE)
     
@@ -200,7 +200,7 @@ HDI_ACC <- function(pred, obs, X, Y, I, iter) {
 # evaluation prep - simulated data ####
 # load fit_model_sim
 fit_model_sim <-
-  readRDS("data/fit_m1_v1_sim_increased_fluctuations.rds")  # TODO data file
+  readRDS("data/fit_m1_v1_sim_missing_data.rds")  # TODO data file
 
 # extract simulations
 params_model_sim <- rstan::extract(fit_model_sim)
@@ -209,7 +209,7 @@ params_model_sim <- rstan::extract(fit_model_sim)
 
 # evaluation prep - results ####
 # load fit_model
-fit_model <- readRDS("results/fit_m1_v1_qualifier.rds")  # TODO data file
+fit_model <- readRDS("results/fit_m1_v1_missing_data.rds")  # TODO data file
 
 # extract samples
 params_model <- rstan::extract(fit_model)
@@ -380,6 +380,12 @@ for (j in 2:(J-2)) {
 }
 par(mfrow = c(1,1))
 
+# absolute error
+# varsigma_D posterior median vs simulated varsigma_D
+varsigma_D_mdn <- median(params_model$varsigma_D)
+
+AE(varsigma_D_mdn, varsigma_D_sim)
+
 # absolute error 89% HDI
 # estimated varsigma_D vs simulated varsigma_D
 HDI_AE(params_model$varsigma_D,
@@ -387,12 +393,10 @@ HDI_AE(params_model$varsigma_D,
        iter)
 
 # absolute error
-# varsigma_C posterior mean vs simulated varsigma_C
-AE(get_posterior_mean(fit_model,
-                      pars = "varsigma_C")[5],
-   varsigma_C_sim)
+# varsigma_C posterior median vs simulated varsigma_C
+varsigma_C_mdn <- median(params_model$varsigma_C)
 
-get_pos
+AE(varsigma_C_mdn, varsigma_C_sim)
 
 # absolute error 89% HDI
 # estimated varsigma_C vs simulated varsigma_C
@@ -400,27 +404,24 @@ HDI_AE(params_model$varsigma_C,
        varsigma_C_sim,
        iter)
 
-# extract cut points posterior means
-gamma_pm <- rep(0, times = J-3)
-
-for (j in 2:(J-2)) {
-  
-  gamma_pm[j-1] <- get_posterior_mean(fit_model,
-                                      pars = paste("gamma_", j, sep=""))[5]
-  
-}
-
-# extract estimated estimated cut points
+# extract estimated cut points
 gamma_est_temp <- params_model$gamma
 
-gamma_est <- gamma_est_temp[,2:(J-2)]  # TODO double check
+gamma_est <- gamma_est_temp[,2:(J-2)]
+
+# extract cut points posterior median
+gamma_mdn <- rep(0, times = J-3)
+
+for (j in 1:(J-3)) {
+  gamma_mdn[j] <- median(gamma_est[,j])
+}
 
 # simulated cut points
 gamma_sim <- gamma_sim[2:(J-2)]
 
 # mean absolute error
-# cut points posterior mean vs simulated cut points
-MAE(gamma_pm, gamma_sim, J-3)
+# cut points posterior median vs simulated cut points
+MAE_1(gamma_mdn, gamma_sim, J-3)
 
 # mean absolute error 89% HDI
 # estimated cut points vs simulated cut points
@@ -454,8 +455,8 @@ for (n in 1:N) {
 
 # extract simulated or actual ranks
 # simulated
-# R_obs_temp <- params_model_sim$R_sim
-# R_obs <- R_obs_temp[40,,]
+R_obs_temp <- params_model_sim$R_sim
+R_obs <- R_obs_temp[40,,]
 
 # actual
 R_obs <- R_act
@@ -487,6 +488,7 @@ for (n in 1:N) {
        ylim = c(22, 1),
        type="l",
        col = "orange",
+       # main = paste("driver", n),  # TODO actual data
        main = drv_names[n],  # TODO version 2
        xlab = "qualifier/race",  # TODO actual data
        ylab = "rank",
@@ -543,6 +545,7 @@ for (n in 1:N) {
        ylim = c(22, 1),
        type="l",
        col = "deeppink1",
+       # main = paste("driver", n),  # TODO actual data
        main = drv_names[n],  # TODO version 2
        xlab = "qualifier/race",  # TODO actual data
        ylab = "rank",
@@ -611,6 +614,7 @@ for (n in 1:N) {
        type="l",
        # col = "orange",  # TODO actual data
        col = "deeppink1",  # TODO actual data
+       # main = paste("driver", n),  # TODO actual data
        main = drv_names[n], # TODO version 2
        xlab = "qualifier/race",  # TODO actual data
        ylab = "performance",
@@ -667,6 +671,7 @@ for (n in 1:N) {
        ylim = c(-5, 25),
        type="l",
        col = "deeppink1",
+       # main = paste("driver", n),  # TODO actual data
        main = drv_names[n],  # TODO version 2
        xlab = "qualifier/race",  # TODO actual data
        ylab = "performance",
@@ -735,6 +740,7 @@ for (n in 1:N) {
        type="l",
        # col = "orange",  # TODO actual data
        col = "blueviolet",  # TODO actual data
+       # main = paste("driver", n),  # TODO actual data
        main = drv_names[n],  # TODO version 2
        xlab = "qualifier/race",  # TODO actual data
        ylab = "ability",
@@ -759,7 +765,7 @@ par(mfrow = c(1,1))
 
 # mean absolute error
 # mu_D posterior median vs simulated mu_D
-MAE_2(mu_D_pm, mu_D_sim, N, Q, I_1)
+MAE_2(mu_D_mdn, mu_D_sim, N, Q, I_1)
 
 
 # mean absolute error 89% HDI
@@ -791,6 +797,7 @@ for (n in 1:N) {
        ylim = c(-5, 15),  # TODO adjust
        type="l",
        col = "blueviolet",
+       # main = paste("driver", n),  # TODO actual data
        main = drv_names[n],  # TODO version 2
        xlab = "qualifier/race",  # TODO actual data
        ylab = "ability",
@@ -873,6 +880,7 @@ for (k in 1:K) {
        type="l",
        # col = "orange",  # TODO actual data
        col = "mediumspringgreen",  # TODO actual data
+       # main = paste("constructor", k),  # TODO actual data
        main = ctr_names[k],
        xlab = "qualifier/race",  # TODO actual data
        ylab = "ability",
@@ -897,7 +905,7 @@ par(mfrow = c(1,1))
 
 # mean absolute error
 # mu_C posterior median vs simulated mu_C
-MAE_2(mu_C_pm, mu_C_sim, K, Q, I_3)
+MAE_2(mu_C_mdn, mu_C_sim, K, Q, I_3)
 
 
 # mean absolute error 89% HDI
@@ -929,6 +937,7 @@ for (k in 1:K) {
        ylim = c(-5, 25),  # TODO adjust
        type="l",
        col = "mediumspringgreen",
+       # main = paste("constructor", k),  # TODO actual data
        main = ctr_names[k],
        xlab = "qualifier/race",  # TODO actual data
        ylab = "ability",
