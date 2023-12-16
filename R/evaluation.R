@@ -209,7 +209,7 @@ params_model_sim <- rstan::extract(fit_model_sim)
 
 # evaluation prep - results ####
 # load fit_model
-fit_model <- readRDS("results/fit_m1_v1_missing_data.rds")  # TODO data file
+fit_model <- readRDS("results/fit_m1_v1_race.rds")  # TODO data file
 
 # extract samples
 params_model <- rstan::extract(fit_model)
@@ -357,7 +357,7 @@ hist(params_model$varsigma_D,
      border = FALSE,
      main = "varsigma_D",
      xlab = "")
-abline(v = varsigma_D_sim, lwd = 2, col = "orange")  # TODO actual data
+# abline(v = varsigma_D_sim, lwd = 2, col = "orange")  # TODO actual data
 
 # histogram
 # posterior density varsigma_C
@@ -366,7 +366,7 @@ hist(params_model$varsigma_C,
      border = FALSE,
      main = "varsigma_C",
      xlab = "")
-abline(v = varsigma_C_sim, lwd = 2, col = "orange")  # TODO actual data
+# abline(v = varsigma_C_sim, lwd = 2, col = "orange")  # TODO actual data
 
 # histogram
 # posterior density cut points
@@ -376,7 +376,7 @@ for (j in 2:(J-2)) {
        border = FALSE,
        main = paste("gamma_", j, sep=""),
        xlab = "")
-  abline(v = j-1, lwd = 2, col = "orange")  # TODO actual data
+  # abline(v = j-1, lwd = 2, col = "orange")  # TODO actual data
 }
 par(mfrow = c(1,1))
 
