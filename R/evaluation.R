@@ -346,7 +346,6 @@ for (j in 2:(J-2)) {
   print(round(HPDI(as.numeric(params_model$gamma[,j])), digits = 4))
 }
 
-
 # histogram
 # posterior density varsigma_D
 par(mfrow = c(1,3))
@@ -378,12 +377,6 @@ for (j in 2:(J-2)) {
 }
 par(mfrow = c(1,1))
 
-# absolute error
-# varsigma_D posterior mean vs simulated varsigma_D
-AE(get_posterior_mean(fit_model,
-                      pars = "varsigma_D")[5],
-   varsigma_D_sim)
-
 # absolute error 89% HDI
 # estimated varsigma_D vs simulated varsigma_D
 HDI_AE(params_model$varsigma_D,
@@ -395,6 +388,8 @@ HDI_AE(params_model$varsigma_D,
 AE(get_posterior_mean(fit_model,
                       pars = "varsigma_C")[5],
    varsigma_C_sim)
+
+get_pos
 
 # absolute error 89% HDI
 # estimated varsigma_C vs simulated varsigma_C
@@ -431,39 +426,49 @@ HDI_MAE_1(gamma_est, gamma_sim, J-3, iter)
 
 
 # fit - qualifier/race rank ####
-# extract averaged predicted ranks
-# ( averaged over post-warmup iterations )
-R_pred_avg <- matrix(data = NA, nrow = N, ncol = Q)
+# extract predicted ranks
+R_pred <- params_model$R_pred
+
+# extract median predicted ranks
+# ( median over post-warmup iterations )
+R_pred_mdn <- matrix(data = NA, nrow = N, ncol = Q)
 
 for (n in 1:N) {
   for (t in 1:Q) {
     
-    R_pred_avg_temp <-
-      get_posterior_mean(fit_model,
-                         pars = paste("R_pred[",n,",",t,"]", sep = ""))[5]
+    sample <- rep(0, times = iter)
     
-    R_pred_avg[n,t] <- round(R_pred_avg_temp, digits = 0)
+    for (i in 1:iter) {
+      
+      vector_ranks[i] <- R_pred[i,n,t]
+      
+    }
+    
+    median_temp <- median(sample)
+    
+    median <- round(median_temp, digits = 0)
+    
+    P_pred_mdn[n,t] <- median
     
   }
 }
 
-write.xlsx(R_pred_avg,
-           "results/m1_v1_missing_data/R_pred_avg.xlsx",
+write.xlsx(R_pred_mdn,
+           "results/m1_v1_qualifier/R_pred_avg.xlsx",
            overwrite = TRUE)
 
 R_pred_avg <-
-  read_excel("results/m1_v1_missing_data/R_pred_avg.xlsx",  # TODO data file
+  read_excel("results/m1_v1_qualifier/R_pred_avg.xlsx",  # TODO data file
              sheet = "Sheet 1")
 
 
-# extract predicted ranks
-R_pred <- params_model$R_pred
-
-
-# extract simulated ranks
+# extract simulated or actual ranks
+# simulated
 # R_obs_temp <- params_model_sim$R_sim
-
 # R_obs <- R_obs_temp[40,,]
+
+# actual
+R_obs <- R_act
 
 
 # time series plot
@@ -483,7 +488,7 @@ for (n in 1:N) {
   axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
   axis(side = 2, at = c(22, 11, 1), las = 1)
   
-  lines(R_pred_avg[n,], col = "deeppink1")
+  lines(R_pred_mdn[n,], col = "deeppink1")
   
 }
 par(mfrow = c(1,1))
@@ -491,12 +496,12 @@ par(mfrow = c(1,1))
 
 # accuracy
 # averaged predicted ranks vs observed ranks
-ACC(R_pred_avg, R_obs, N, Q, I_1)
+ACC(R_pred_mdn, R_obs, N, Q, I_1)
 
 
 # accuracy 89% HDI 
 # predicted ranks vs observed ranks
-ACC(R_pred, R_obs, N, Q, I_1, iter)
+HDI_ACC(R_pred, R_obs, N, Q, I_1, iter)
 
 
 # time series plot
