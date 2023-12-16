@@ -893,11 +893,9 @@ mu_D_0 <- c(drv_ability_rank[1],
 
 # SD for error for latent constructor ability state equations
 varsigma_C_sim <- 1.4
-# 0.75
 
 # SD for error for latent driver ability state equations
 varsigma_D_sim <- 0.2
-# 0.05
 
 # cut points
 gamma_sim <- seq(from = 0, to = J-2, by = 1)
