@@ -59,7 +59,7 @@ library(dplyr)
 # absolute error for scalar
 AE <- function(est, sim) {
   
-  AE_temp <- abs(as.numeric(est) - as.numeric(sim))
+  AE_temp <- abs(est - sim)
 
   AE <- round(SE_temp, digits = 4)
   
@@ -125,7 +125,7 @@ MAE_2 <- function(est, sim, X, Y, I) {
     for (y in 1:Y) {
       
       if (I[x,y] == 1) {
-        AE <- AE + abs(as.numeric(est[x,y]) - as.numeric(sim[x,y]))
+        AE <- AE + abs(est[x,y] - sim[x,y])
       }
       
     }
@@ -197,14 +197,17 @@ HDI_ACC <- function(pred, obs, X, Y, I, iter) {
 
 
 
-# evaluation prep ####
+# evaluation prep - simulated data ####
 # load fit_model_sim
-fit_model_sim <- readRDS("data/fit_m1_v1_sim_increased_fluctuations.rds")  # TODO data file
+fit_model_sim <-
+  readRDS("data/fit_m1_v1_sim_increased_fluctuations.rds")  # TODO data file
 
 # extract simulations
 params_model_sim <- rstan::extract(fit_model_sim)
 
 
+
+# evaluation prep - results ####
 # load fit_model
 fit_model <- readRDS("results/fit_m1_v1_qualifier.rds")  # TODO data file
 
@@ -429,6 +432,7 @@ HDI_MAE_1(gamma_est, gamma_sim, J-3, iter)
 # extract predicted ranks
 R_pred <- params_model$R_pred
 
+
 # extract median predicted ranks
 # ( median over post-warmup iterations )
 R_pred_mdn <- matrix(data = NA, nrow = N, ncol = Q)
@@ -436,13 +440,7 @@ R_pred_mdn <- matrix(data = NA, nrow = N, ncol = Q)
 for (n in 1:N) {
   for (t in 1:Q) {
     
-    sample <- rep(0, times = iter)
-    
-    for (i in 1:iter) {
-      
-      sample[i] <- R_pred[i,n,t]
-      
-    }
+    sample <- R_pred[,n,t]
     
     median_temp <- median(sample)
     
@@ -452,14 +450,6 @@ for (n in 1:N) {
     
   }
 }
-
-write.xlsx(R_pred_mdn,
-           "results/m1_v1_qualifier/R_pred_avg.xlsx",
-           overwrite = TRUE)
-
-R_pred_avg <-
-  read_excel("results/m1_v1_qualifier/R_pred_avg.xlsx",  # TODO data file
-             sheet = "Sheet 1")
 
 
 # extract simulated or actual ranks
@@ -471,16 +461,33 @@ R_pred_avg <-
 R_obs <- R_act
 
 
+# R_obs_with_NA
+R_obs_with_NA <- R_obs
+
+for (n in 1:N) {
+  for (t in 1:Q) {
+    
+    if (I_1[n,t] == 0) {
+      R_obs_with_NA[n,t] <- NA
+    }
+    
+  }
+}
+
+
+# driver names
+drv_names <- as.vector(as.matrix(R_act_temp[,2]))
+
 # time series plot
-# averaged predicted ranks ( pink ) vs observed ranks ( orange )
+# median predicted ranks ( pink ) vs observed ranks ( orange )
 par(mfrow = c(5,2))
 for (n in 1:N) {
   
-  plot(R_obs[n,],
+  plot(R_obs_with_NA[n,],
        ylim = c(22, 1),
        type="l",
        col = "orange",
-       main = paste("driver", n),  # TODO version 2, actual data
+       main = drv_names[n],  # TODO version 2
        xlab = "qualifier/race",  # TODO actual data
        ylab = "rank",
        xaxt = "n",
@@ -490,12 +497,20 @@ for (n in 1:N) {
   
   lines(R_pred_mdn[n,], col = "deeppink1")
   
+  for (t in 1:Q) {
+    if (I_1[n,t] == 0) {
+      abline(v = t, lwd = 0.125, col = "azure4")
+    }
+  }
+  
+  box()
+  
 }
 par(mfrow = c(1,1))
 
 
 # accuracy
-# averaged predicted ranks vs observed ranks
+# median predicted ranks vs observed ranks
 ACC(R_pred_mdn, R_obs, N, Q, I_1)
 
 
@@ -513,10 +528,10 @@ for (n in 1:N) {
   R_pred_L <- c()
   for (t in 1:Q) {
     
-    R_pred_U_temp <- HPDI(as.numeric(R_pred[,n,t]))[2]
+    R_pred_U_temp <- HPDI(R_pred[,n,t])[2]
     R_pred_U <- c(R_pred_U, R_pred_U_temp)
     
-    R_pred_L_temp <- HPDI(as.numeric(R_pred[,n,t]))[1]
+    R_pred_L_temp <- HPDI(R_pred[,n,t])[1]
     R_pred_L <- c(R_pred_L, R_pred_L_temp)
     
   }
@@ -528,7 +543,7 @@ for (n in 1:N) {
        ylim = c(22, 1),
        type="l",
        col = "deeppink1",
-       main = paste("driver", n),  # TODO version 2, actual data
+       main = drv_names[n],  # TODO version 2
        xlab = "qualifier/race",  # TODO actual data
        ylab = "rank",
        xaxt = "n",
@@ -543,36 +558,40 @@ for (n in 1:N) {
           col = "deeppink1",
           lty = 0)
   
+  for (t in 1:Q) {
+    if (I_1[n,t] == 0) {
+      abline(v = t, lwd = 0.125, col = "azure4")
+    }
+  }
+  
+  box()
+  
 }
 par(mfrow = c(1,1))
 
 
 
 # fit - latent qualifier/race performance ####
-# extract mu_P posterior means
-mu_P_pm <- matrix(data = NA, nrow = N, ncol = Q)
+# extract estimated mu_P
+mu_P_est <- params_model$mu_P
+
+
+# extract mu_P posterior median
+mu_P_mdn <- matrix(data = NA, nrow = N, ncol = Q)
 
 for (n in 1:N) {
   for (t in 1:Q) {
     
-    mu_P_pm[n,t] <-
-      get_posterior_mean(fit_model,
-                         pars = paste("mu_P[",n,",",t,"]", sep = ""))[5]
+    sample <- mu_P_est[,n,t]
+    
+    median_temp <- median(sample)
+    
+    median <- round(median_temp, digits = 4)
+    
+    mu_P_mdn[n,t] <- median
     
   }
 }
-
-write.xlsx(mu_P_pm,
-           "results/m1_v1_missing_data/mu_P_pm.xlsx",
-           overwrite = TRUE)
-
-R_pred_avg <-
-  read_excel("results/m1_v1_missing_data/mu_P_pm_avg.xlsx",  # TODO data file
-             sheet = "Sheet 1")
-
-
-# extract estimated mu_P
-mu_P_est <- params_model$mu_P
 
 
 # extract simulated mu_P
@@ -582,15 +601,17 @@ mu_P_sim <- mu_P_sim_temp[40,,]
 
 
 # time series plot
-# mu_P posterior mean ( pink ) vs simulated mu_D ( orange )
+# mu_P posterior median ( pink ) vs simulated mu_D ( orange )
 par(mfrow = c(5,2))
 for (n in 1:N) {
   
-  plot(mu_P_sim[n,],  # TODO actual data
+  plot(# mu_P_sim[n,],  # TODO actual data
+       mu_P_mdn[n,],  # TODO actual data
        ylim = c(-5, 25),
        type="l",
-       col = "orange",
-       main = paste("driver", n), # TODO version 2, actual data
+       # col = "orange",  # TODO actual data
+       col = "deeppink1",  # TODO actual data
+       main = drv_names[n], # TODO version 2
        xlab = "qualifier/race",  # TODO actual data
        ylab = "performance",
        xaxt = "n",
@@ -598,20 +619,28 @@ for (n in 1:N) {
   axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
   axis(side = 2, at = c(-5, 10, 25), las = 1)
   
-  lines(mu_P_pm[n,], col = "deeppink1")
+  # lines(mu_P_mdn[n,], col = "deeppink1")  # TODO actual data
+  
+  for (t in 1:Q) {
+    if (I_1[n,t] == 0) {
+      abline(v = t, lwd = 0.125, col = "azure4")
+    }
+  }
+  
+  box()
   
 }
 par(mfrow = c(1,1))
 
 
 # mean absolute error
-# mu_P posterior mean vs simulated mu_P
-MSE_2(mu_P_pm, mu_P_sim, N, Q, I_1)
+# mu_P posterior median vs simulated mu_P
+MAE_2(mu_P_mdn, mu_P_sim, N, Q, I_1)
 
 
 # mean absolute error 89% HDI
 # estimated mu_P vs simulated mu_P
-HDI_MSE_2(mu_P_est, mu_P_sim, N, Q, I_1, iter)
+HDI_MAE_2(mu_P_est, mu_P_sim, N, Q, I_1, iter)
 
 
 # time series plot
@@ -623,10 +652,10 @@ for (n in 1:N) {
   mu_P_L <- c()
   for (t in 1:Q) {
     
-    mu_P_U_temp <- HPDI(as.numeric(mu_P_est[,n,t]))[2]
+    mu_P_U_temp <- HPDI(mu_P_est[,n,t])[2]
     mu_P_U <- c(mu_P_U, mu_P_U_temp)
     
-    mu_P_L_temp <- HPDI(as.numeric(mu_P_est[,n,t]))[1]
+    mu_P_L_temp <- HPDI(mu_P_est[,n,t])[1]
     mu_P_L <- c(mu_P_L, mu_P_L_temp)
     
   }
@@ -638,7 +667,7 @@ for (n in 1:N) {
        ylim = c(-5, 25),
        type="l",
        col = "deeppink1",
-       main = paste("driver", n),  # TODO version 2, actual data
+       main = drv_names[n],  # TODO version 2
        xlab = "qualifier/race",  # TODO actual data
        ylab = "performance",
        xaxt = "n",
@@ -653,36 +682,40 @@ for (n in 1:N) {
           col = "deeppink1",
           lty = 0)
   
+  for (t in 1:Q) {
+    if (I_1[n,t] == 0) {
+      abline(v = t, lwd = 0.125, col = "azure4")
+    }
+  }
+  
+  box()
+  
 }
 par(mfrow = c(1,1))
 
 
 
 # fit - latent driver ability ####
-# extract mu_D posterior means
-mu_D_pm <- matrix(data = NA, nrow = N, ncol = Q)
+# extract estimated mu_D
+mu_D_est <- params_model$mu_D
+
+
+# extract mu_D posterior median
+mu_D_mdn <- matrix(data = NA, nrow = N, ncol = Q)
 
 for (n in 1:N) {
   for (t in 1:Q) {
     
-    mu_D_pm[n,t] <-
-      get_posterior_mean(fit_model,
-                         pars = paste("mu_D[",n,",",t,"]", sep = ""))[5]
+    sample <- mu_D_est[,n,t]
+    
+    median_temp <- median(sample)
+    
+    median <- round(median_temp, digits = 4)
+    
+    mu_D_mdn[n,t] <- median
     
   }
 }
-
-write.xlsx(mu_D_pm,
-           "results/m1_v1_missing_data/mu_D_pm.xlsx",
-           overwrite = TRUE)
-
-R_pred_avg <-
-  read_excel("results/m1_v1_missing_data/mu_D_pm_avg.xlsx",  # TODO data file
-             sheet = "Sheet 1")
-
-
-# extract estimated mu_D
-mu_D_est <- params_model$mu_D
 
 
 # extract simulated mu_D
@@ -692,36 +725,46 @@ mu_D_sim <- mu_D_sim_temp[40,,]
 
 
 # time series plot
-# mu_D posterior mean ( violet ) vs simulated mu_D ( orange )
+# mu_D posterior median ( violet ) vs simulated mu_D ( orange )
 par(mfrow = c(5,2))
 for (n in 1:N) {
   
-  plot(mu_D_sim[n,],  # TODO actual data
-       ylim = c(-7, 7),
+  plot(# mu_D_sim[n,],  # TODO actual data
+       mu_D_mdn[n,],  # TODO actual data
+       ylim = c(-2, 10),  # TODO adjust
        type="l",
-       col = "orange",
-       main = paste("driver", n),  # TODO version 2, actual data
+       # col = "orange",  # TODO actual data
+       col = "blueviolet",  # TODO actual data
+       main = drv_names[n],  # TODO version 2
        xlab = "qualifier/race",  # TODO actual data
        ylab = "ability",
        xaxt = "n",
        yaxt = "n")
   axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
-  axis(side = 2, at = c(-7, 0, 7), las = 1)  # TODO adjust
+  axis(side = 2, at = c(-2, 4, 10), las = 1)  # TODO adjust
   
-  lines(mu_D_pm[n,], col = "blueviolet")
+  # lines(mu_D_mdn[n,], col = "blueviolet")  # TODO actual data
+  
+  for (t in 1:Q) {
+    if (I_1[n,t] == 0) {
+      abline(v = t, lwd = 0.125, col = "azure4")
+    }
+  }
+  
+  box()
   
 }
 par(mfrow = c(1,1))
 
 
 # mean absolute error
-# mu_D posterior mean vs simulated mu_D
-MSE_2(mu_D_pm, mu_D_sim, N, Q, I_1)
+# mu_D posterior median vs simulated mu_D
+MAE_2(mu_D_pm, mu_D_sim, N, Q, I_1)
 
 
 # mean absolute error 89% HDI
 # estimated mu_D vs simulated mu_D
-HDI_MSE_2(mu_D_est, mu_D_sim, N, Q, I_1, iter)
+HDI_MAE_2(mu_D_est, mu_D_sim, N, Q, I_1, iter)
 
 
 # time series plot
@@ -733,10 +776,10 @@ for (n in 1:N) {
   mu_D_L <- c()
   for (t in 1:Q) {
     
-    mu_D_U_temp <- HPDI(as.numeric(mu_D_est[,n,t]))[2]
+    mu_D_U_temp <- HPDI(mu_D_est[,n,t])[2]
     mu_D_U <- c(mu_D_U, mu_D_U_temp)
     
-    mu_D_L_temp <- HPDI(as.numeric(mu_D_est[,n,t]))[1]
+    mu_D_L_temp <- HPDI(mu_D_est[,n,t])[1]
     mu_D_L <- c(mu_D_L, mu_D_L_temp)
     
   }
@@ -745,16 +788,16 @@ for (n in 1:N) {
   
   plot(x = x,
        y = mu_D_U,
-       ylim = c(-7, 7),
+       ylim = c(-5, 15),  # TODO adjust
        type="l",
        col = "blueviolet",
-       main = paste("driver", n),  # TODO version 2, actual data
+       main = drv_names[n],  # TODO version 2
        xlab = "qualifier/race",  # TODO actual data
        ylab = "ability",
        xaxt = "n",
        yaxt = "n")
   axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
-  axis(side = 2, at = c(-7, 0, 7), las = 1)  # TODO adjust
+  axis(side = 2, at = c(-5, 5, 15), las = 1)  # TODO adjust
   
   lines(x = x, mu_D_L, col = "blueviolet")
   
@@ -763,36 +806,39 @@ for (n in 1:N) {
           col = "blueviolet",
           lty = 0)
   
+  for (t in 1:Q) {
+    if (I_1[n,t] == 0) {
+      abline(v = t, lwd = 0.125, col = "azure4")
+    }
+  }
+  
+  box()
+  
 }
 par(mfrow = c(1,1))
 
 
 
 # fit - latent constructor ability ####
-# extract mu_C posterior means
-mu_C_pm <- matrix(data = NA, nrow = K, ncol = Q)
+# extract estimated mu_C
+mu_C_est <- params_model$mu_C
+
+# extract mu_C posterior median
+mu_C_mdn <- matrix(data = NA, nrow = K, ncol = Q)
 
 for (k in 1:K) {
   for (t in 1:Q) {
     
-    mu_C_pm[k,t] <-
-      get_posterior_mean(fit_model,
-                         pars = paste("mu_C[",k,",",t,"]", sep = ""))[5]
+    sample <- mu_C_est[,k,t]
+    
+    median_temp <- median(sample)
+    
+    median <- round(median_temp, digits = 4)
+    
+    mu_C_mdn[k,t] <- median
     
   }
 }
-
-write.xlsx(mu_C_pm,
-           "results/m1_v1_missing_data/mu_C_pm.xlsx",
-           overwrite = TRUE)
-
-R_pred_avg <-
-  read_excel("results/m1_v1_missing_data/mu_C_pm_avg.xlsx",  # TODO data file
-             sheet = "Sheet 1")
-
-
-# extract estimated mu_C
-mu_C_est <- params_model$mu_C
 
 
 # extract simulated mu_C
@@ -801,37 +847,62 @@ mu_C_sim_temp <- params_model_sim$mu_C
 mu_C_sim <- mu_C_sim_temp[40,,]
 
 
+# constructor names
+ctr_names <- c("Mercedes",
+               "Red Bull",
+               "McLaren",
+               "Ferrari",
+               "AlphaTauri",
+               "Aston Martin",
+               "Williams",
+               "Alfa Romeo",
+               "Alpine",
+               "Manor Marussia",
+               "Caterham",
+               "Haas F1 Team")
+  
+
 # time series plot
-# mu_C posterior mean ( green ) vs simulated mu_C ( orange )
+# mu_C posterior median ( green ) vs simulated mu_C ( orange )
 par(mfrow = c(5,2))
 for (k in 1:K) {
   
-  plot(mu_C_sim[k,],  # TODO actual data
-       ylim = c(-5, 25),
+  plot(# mu_C_sim[k,],  # TODO actual data
+       mu_C_mdn[k,],  # TODO actual data
+       ylim = c(-5, 25),  # TODO adjust
        type="l",
-       col = "orange",
-       main = paste("constructor", k),  # TODO actual data
+       # col = "orange",  # TODO actual data
+       col = "mediumspringgreen",  # TODO actual data
+       main = ctr_names[k],
        xlab = "qualifier/race",  # TODO actual data
        ylab = "ability",
        xaxt = "n",
        yaxt = "n")
   axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
-  axis(side = 2, at = c(-5, 5, 15), las = 1)  # TODO adjust
+  axis(side = 2, at = c(-5, 10, 25), las = 1)  # TODO adjust
   
-  lines(mu_C_pm[k,], col = "mediumspringgreen")
+  # lines(mu_C_mdn[k,], col = "mediumspringgreen")
+  
+  for (t in 1:Q) {
+    if (I_3[k,t] == 0) {
+      abline(v = t, lwd = 0.125, col = "azure4")
+    }
+  }
+  
+  box()
   
 }
 par(mfrow = c(1,1))
 
 
 # mean absolute error
-# mu_C posterior mean vs simulated mu_C
-MSE_2(mu_C_pm, mu_C_sim, K, Q, I_3)
+# mu_C posterior median vs simulated mu_C
+MAE_2(mu_C_pm, mu_C_sim, K, Q, I_3)
 
 
 # mean absolute error 89% HDI
 # estimated mu_C vs simulated mu_C
-HDI_MSE_2(mu_C_est, mu_C_sim, K, Q, I_3, iter)
+HDI_MAE_2(mu_C_est, mu_C_sim, K, Q, I_3, iter)
 
 
 # time series plot
@@ -855,16 +926,16 @@ for (k in 1:K) {
   
   plot(x = x,
        y = mu_C_U,
-       ylim = c(-5, 25),
+       ylim = c(-5, 25),  # TODO adjust
        type="l",
        col = "mediumspringgreen",
-       main = paste("constructor", k),  # TODO actual data
+       main = ctr_names[k],
        xlab = "qualifier/race",  # TODO actual data
        ylab = "ability",
        xaxt = "n",
        yaxt = "n")
   axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
-  axis(side = 2, at = c(-5, 5, 15), las = 1)  # TODO adjust
+  axis(side = 2, at = c(-5, 10, 25), las = 1)  # TODO adjust
   
   lines(x = x, mu_C_L, col = "mediumspringgreen")
   
@@ -872,6 +943,14 @@ for (k in 1:K) {
           y = c(mu_C_U, rev(mu_C_L)),
           col = "mediumspringgreen",
           lty = 0)
+  
+  for (t in 1:Q) {
+    if (I_3[k,t] == 0) {
+      abline(v = t, lwd = 0.125, col = "azure4")
+    }
+  }
+  
+  box()
   
 }
 par(mfrow = c(1,1))
