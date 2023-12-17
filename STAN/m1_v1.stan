@@ -205,16 +205,16 @@ model {
       if(I_1[n,t] == 1) {
         
         // choice probability equations
-      theta[J] = Phi((gamma[1] - mu_P[n,t]) / sigma_P);
+        theta[J] = Phi((gamma[1] - mu_P[n,t]) / sigma_P);
       
-      for (j in 1:(J-2)) {
-        theta[J-j] = Phi((gamma[j+1] - mu_P[n,t]) / sigma_P) - Phi((gamma[j] - mu_P[n,t]) / sigma_P);
-      }
+        for (j in 1:(J-2)) {
+          theta[J-j] = Phi((gamma[j+1] - mu_P[n,t]) / sigma_P) - Phi((gamma[j] - mu_P[n,t]) / sigma_P);
+        }
       
-      theta[1] = 1 - Phi((gamma[J-1] - mu_P[n,t]) / sigma_P);
+        theta[1] = 1 - Phi((gamma[J-1] - mu_P[n,t]) / sigma_P);
       
-      // qualifier/race ranking equation
-      R[n,t] ~ categorical(theta);
+        // qualifier/race ranking equation
+        R[n,t] ~ categorical(theta);
         
       }
         
