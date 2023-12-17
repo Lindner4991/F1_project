@@ -543,6 +543,21 @@ for (n in 1:N) {
 # driver names
 drv_names <- as.vector(as.matrix(R_act_temp[,2]))
 
+
+# ctr cockpits
+ctr_cockpits <- c("Mercedes 1", "Mercedes 2",
+                  "Red Bull 1", "Red Bull 2",
+                  "McLaren 1", "McLaren 2",
+                  "Ferrari 1", "Ferrari 2",
+                  "AlphaTauri 1", "AlphaTauri 2",
+                  "Aston Martin 1", "Aston Martin 2",
+                  "Williams 1", "Williams 2",
+                  "Alfa Romeo 1", "Alfa Romeo 2",
+                  "Alpine 1", "Alpine 2",
+                  "Manor Marussia 1", "Manor Marussia 2",
+                  "Caterham 1", "Caterham 2",
+                  "Haas F1 Team 1", "Haas F1 Team 2")
+
 # time series plot
 # median predicted ranks ( pink ) vs observed ranks ( orange )
 par(mfrow = c(5,2))
