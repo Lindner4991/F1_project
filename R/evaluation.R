@@ -281,7 +281,8 @@ params_model_sim <- rstan::extract(fit_model_sim)
 
 # evaluation prep - results ####
 # load fit_model
-fit_model <- readRDS("results/fit_m1_v1_race.rds")  # TODO data file
+fit_model <-
+  readRDS("results/fit_m1_v1_increased_fluctuations.rds")  # TODO data file
 
 # extract samples
 params_model <- rstan::extract(fit_model)
