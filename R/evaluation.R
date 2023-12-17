@@ -154,7 +154,11 @@ HDI_PCACC <- function(pred, obs, X, Y, I, iter) {
 
 
 # Spearman’s rank correlation coefficient for matrix
-# placeholder
+rho <- function(pred, obs, X, Y, I) {
+  
+  # placeholder
+  
+}
 
 
 # 89% HDI for Spearman’s rank correlation coefficient for matrix
