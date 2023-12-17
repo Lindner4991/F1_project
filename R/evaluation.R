@@ -61,8 +61,8 @@ ACC <- function(pred, obs, X, Y, I) {
   
   correct <- 0
   
-  for (x in 1:X) {
-    for (y in 1:Y) {
+  for (y in 1:Y) {
+    for (x in 1:X) {
       
       if ((pred[x,y] == obs[x,y]) & I[x,y] == 1) {
         correct <- correct + 1
@@ -156,13 +156,45 @@ HDI_PCACC <- function(pred, obs, X, Y, I, iter) {
 # Spearman’s rank correlation coefficient for matrix
 rho <- function(pred, obs, X, Y, I) {
   
-  # placeholder
+  pred_with_NA <- matrix(data = NA, nrow = X, ncol = Y)
+  obs_with_NA <- matrix(data = NA, nrow = X, ncol = Y)
+  
+  for(y in 1:Y) {
+    for(x in 1:X) {
+      if(I[x,y] == 0) {
+        
+        pred_with_NA[x,y] <- NA
+        obs_with_NA[x,y] <- NA
+        
+      }
+    }
+  }
+  
+  correlation <- round(cor(pred_with_NA,
+                           obs_with_NA,
+                           method = "spearman",
+                           na.rm = TRUE),
+                       digits = 4)
+  
+  return(corrlation)
   
 }
 
 
 # 89% HDI for Spearman’s rank correlation coefficient for matrix
-# placeholder
+HDI_rho <- function(pred, obs, X, Y, I, iter) {
+  
+  rho <- rep(0, times = iter)
+  
+  for(i in 1:iter) {
+    rho[i] <- RHO(pred[i,,], obs, X, Y, I)
+  }
+  
+  HDI_RHO <- round(HPDI(rho), digits = 4)
+  
+  return(HDI_RHO)
+  
+}
 
 
 # absolute error for scalar
@@ -230,8 +262,8 @@ MAE_2 <- function(est, sim, X, Y, I) {
   
   AE <- 0
   
-  for (x in 1:X) {
-    for (y in 1:Y) {
+  for (y in 1:Y) {
+    for (x in 1:X) {
       
       if (I[x,y] == 1) {
         AE <- AE + abs(est[x,y] - sim[x,y])
