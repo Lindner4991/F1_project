@@ -56,6 +56,103 @@ library(dplyr)
 
 
 # user-defined functions ####
+# accuracy for matrix
+ACC <- function(pred, obs, X, Y, I) {
+  
+  correct <- 0
+  
+  for (x in 1:X) {
+    for (y in 1:Y) {
+      
+      if ((pred[x,y] == obs[x,y]) & I[x,y] == 1) {
+        correct <- correct + 1
+      }
+      
+    }
+  }
+  
+  N <- sum(I)
+  
+  ACC <- round(correct / N, digits = 4)
+  
+  return(ACC)
+  
+}
+
+
+# 89% HDI for accuracy for matrix
+HDI_ACC <- function(pred, obs, X, Y, I, iter) {
+  
+  acc <- rep(0, times = iter)
+  
+  for(i in 1:iter) {
+    acc[i] <- ACC(pred[i,,], obs, X, Y, I)
+  }
+  
+  HDI_ACC <- round(HPDI(acc), digits = 4)
+  
+  return(HDI_ACC)
+  
+}
+
+
+# pairwise comparison accuracy for matrix
+PCACC <- function(pred, obs, X, Y, I) {
+  
+  correct <- 0
+  
+  N <- 0
+  
+  for (y in 1:Y) {
+    
+    counter <- N-1
+    
+    for (x in 1:(X-1)) {
+      
+      for (c in 1:counter) {
+        
+        if (I[n,t] == 1 & I[n+c,t] == 1) {
+          
+          if (((pred[n,t] > pred[n+c,t]) & (obs[n,t] > obs[n+c,t])) |
+              ((pred[n,t] < pred[n+c,t]) & (obs[n,t] < obs[n+c,t])) |
+              ((pred[n,t] == pred[n+c,t]) & (obs[n,t] == obs[n+c,t])))
+          {
+            correct <- correct + 1
+          }
+          
+        }
+        
+      }
+      
+    }
+    
+    N <- N + (sum(I[,y])-1) * sum(I[,y]) / 2
+    
+  }
+  
+  PCACC <- round(correct / N, digits = 4)
+  
+  return(PCACC)
+  
+}
+
+
+# 89% HDI for pairwise comparison accuracy for matrix
+HDI_PCACC <- function(pred, obs, X, Y, I, iter) {
+  
+  pcacc <- rep(0, times = iter)
+  
+  for(i in 1:iter) {
+    pcacc[i] <- PCACC(pred[i,,], obs, X, Y, I)
+  }
+  
+  HDI_PCACC <- round(HPDI(pcacc), digits = 4)
+  
+  return(HDI_PCACC)
+  
+}
+
+
 # absolute error for scalar
 AE <- function(est, sim) {
   
@@ -154,47 +251,6 @@ HDI_MAE_2 <- function(est, sim, X, Y, I, iter) {
   return(HDI_MAE)
   
 }
-
-
-# accuracy for matrix
-ACC <- function(pred, obs, X, Y, I) {
-  
-  correct <- 0
-  
-  for (x in 1:X) {
-    for (y in 1:Y) {
-      
-      if ((pred[x,y] == obs[x,y]) & I[x,y] == 1) {
-        correct <- correct + 1
-      }
-      
-    }
-  }
-  
-  N <- sum(I)
-  
-  ACC <- round(correct / N, digits = 4)
-  
-  return(ACC)
-  
-}
-
-
-# 89% HDI for accuracy for matrix
-HDI_ACC <- function(pred, obs, X, Y, I, iter) {
-  
-  acc <- rep(0, times = iter)
-  
-  for(i in 1:iter) {
-    acc[i] <- ACC(pred[i,,], obs, X, Y, I)
-  }
-  
-  HDI_ACC <- round(HPDI(acc), digits = 4)
-  
-  return(HDI_ACC)
-  
-}
-
 
 
 # evaluation prep - simulated data ####
