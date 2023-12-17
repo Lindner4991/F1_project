@@ -105,17 +105,17 @@ PCACC <- function(pred, obs, X, Y, I) {
   
   for (y in 1:Y) {
     
-    counter <- N-1
+    counter <- X-1
     
     for (x in 1:(X-1)) {
       
       for (c in 1:counter) {
         
-        if (I[n,t] == 1 & I[n+c,t] == 1) {
+        if (I[x,y] == 1 & I[x+c,y] == 1) {
           
-          if (((pred[n,t] > pred[n+c,t]) & (obs[n,t] > obs[n+c,t])) |
-              ((pred[n,t] < pred[n+c,t]) & (obs[n,t] < obs[n+c,t])) |
-              ((pred[n,t] == pred[n+c,t]) & (obs[n,t] == obs[n+c,t])))
+          if (((pred[x,y] > pred[x+c,y]) & (obs[x,y] > obs[x+c,y])) |
+              ((pred[x,y] < pred[x+c,y]) & (obs[x,y] < obs[x+c,y])) |
+              ((pred[x,y] == pred[x+c,y]) & (obs[x,y] == obs[x+c,y])))
           {
             correct <- correct + 1
           }
@@ -123,6 +123,8 @@ PCACC <- function(pred, obs, X, Y, I) {
         }
         
       }
+      
+      counter <- counter - 1
       
     }
     
@@ -272,7 +274,7 @@ HDI_MAE_2 <- function(est, sim, X, Y, I, iter) {
 # evaluation prep - simulated data ####
 # load fit_model_sim
 fit_model_sim <-
-  readRDS("data/fit_m1_v1_sim_missing_data.rds")  # TODO data file
+  readRDS("data/fit_m1_v1_sim_increased_fluctuations.rds")  # TODO data file
 
 # extract simulations
 params_model_sim <- rstan::extract(fit_model_sim)
@@ -430,7 +432,7 @@ hist(params_model$varsigma_D,
      border = FALSE,
      main = "varsigma_D",
      xlab = "")
-# abline(v = varsigma_D_sim, lwd = 2, col = "orange")  # TODO actual data
+abline(v = varsigma_D_sim, lwd = 2, col = "orange")  # TODO actual data
 
 # histogram
 # posterior density varsigma_C
@@ -439,7 +441,7 @@ hist(params_model$varsigma_C,
      border = FALSE,
      main = "varsigma_C",
      xlab = "")
-# abline(v = varsigma_C_sim, lwd = 2, col = "orange")  # TODO actual data
+abline(v = varsigma_C_sim, lwd = 2, col = "orange")  # TODO actual data
 
 # histogram
 # posterior density cut points
@@ -449,7 +451,7 @@ for (j in 2:(J-2)) {
        border = FALSE,
        main = paste("gamma_", j, sep=""),
        xlab = "")
-  # abline(v = j-1, lwd = 2, col = "orange")  # TODO actual data
+  abline(v = j-1, lwd = 2, col = "orange")  # TODO actual data
 }
 par(mfrow = c(1,1))
 
@@ -576,8 +578,8 @@ for (n in 1:N) {
        ylim = c(22, 1),
        type="l",
        col = "orange",
-       # main = paste("driver", n),  # TODO actual data
-       main = drv_names[n],  # TODO version 2
+       main = paste("driver", n),  # TODO actual data
+       # main = drv_names[n],  # TODO version 2
        xlab = "qualifier/race",  # TODO actual data
        ylab = "rank",
        xaxt = "n",
@@ -609,6 +611,16 @@ ACC(R_pred_mdn, R_obs, N, Q, I_1)
 HDI_ACC(R_pred, R_obs, N, Q, I_1, iter)
 
 
+# pairwise comparison accuracy
+# median predicted ranks vs observed ranks
+PCACC(R_pred_mdn, R_obs, N, Q, I_1)
+
+
+# pairwise comparison accuracy 89% HDI 
+# predicted ranks vs observed ranks
+HDI_PCACC(R_pred, R_obs, N, Q, I_1, iter)
+
+
 # time series plot
 # predicted ranks 89% HDI
 par(mfrow = c(5,2))
@@ -633,8 +645,8 @@ for (n in 1:N) {
        ylim = c(22, 1),
        type="l",
        col = "deeppink1",
-       # main = paste("driver", n),  # TODO actual data
-       main = drv_names[n],  # TODO version 2
+       main = paste("driver", n),  # TODO actual data
+       # main = drv_names[n],  # TODO version 2
        xlab = "qualifier/race",  # TODO actual data
        ylab = "rank",
        xaxt = "n",
@@ -696,14 +708,14 @@ mu_P_sim <- mu_P_sim_temp[40,,]
 par(mfrow = c(5,2))
 for (n in 1:N) {
   
-  plot(# mu_P_sim[n,],  # TODO actual data
-       mu_P_mdn[n,],  # TODO actual data
+  plot(mu_P_sim[n,],  # TODO actual data
+       # mu_P_mdn[n,],  # TODO actual data
        ylim = c(-5, 25),
        type="l",
-       # col = "orange",  # TODO actual data
-       col = "deeppink1",  # TODO actual data
-       # main = paste("driver", n),  # TODO actual data
-       main = drv_names[n], # TODO version 2
+       col = "orange",  # TODO actual data
+       # col = "deeppink1",  # TODO actual data
+       main = paste("driver", n),  # TODO actual data
+       # main = drv_names[n], # TODO version 2
        xlab = "qualifier/race",  # TODO actual data
        ylab = "performance",
        xaxt = "n",
@@ -711,7 +723,7 @@ for (n in 1:N) {
   axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
   axis(side = 2, at = c(-5, 10, 25), las = 1)
   
-  # lines(mu_P_mdn[n,], col = "deeppink1")  # TODO actual data
+  lines(mu_P_mdn[n,], col = "deeppink1")  # TODO actual data
   
   for (t in 1:Q) {
     if (I_1[n,t] == 0) {
@@ -759,8 +771,8 @@ for (n in 1:N) {
        ylim = c(-5, 25),
        type="l",
        col = "deeppink1",
-       # main = paste("driver", n),  # TODO actual data
-       main = drv_names[n],  # TODO version 2
+       main = paste("driver", n),  # TODO actual data
+       # main = drv_names[n],  # TODO version 2
        xlab = "qualifier/race",  # TODO actual data
        ylab = "performance",
        xaxt = "n",
@@ -822,14 +834,14 @@ mu_D_sim <- mu_D_sim_temp[40,,]
 par(mfrow = c(5,2))
 for (n in 1:N) {
   
-  plot(# mu_D_sim[n,],  # TODO actual data
-       mu_D_mdn[n,],  # TODO actual data
+  plot(mu_D_sim[n,],  # TODO actual data
+       # mu_D_mdn[n,],  # TODO actual data
        ylim = c(-2, 10),  # TODO adjust
        type="l",
-       # col = "orange",  # TODO actual data
-       col = "blueviolet",  # TODO actual data
-       # main = paste("driver", n),  # TODO actual data
-       main = drv_names[n],  # TODO version 2
+       col = "orange",  # TODO actual data
+       # col = "blueviolet",  # TODO actual data
+       main = paste("driver", n),  # TODO actual data
+       # main = drv_names[n],  # TODO version 2
        xlab = "qualifier/race",  # TODO actual data
        ylab = "ability",
        xaxt = "n",
@@ -837,7 +849,7 @@ for (n in 1:N) {
   axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
   axis(side = 2, at = c(-2, 4, 10), las = 1)  # TODO adjust
   
-  # lines(mu_D_mdn[n,], col = "blueviolet")  # TODO actual data
+  lines(mu_D_mdn[n,], col = "blueviolet")  # TODO actual data
   
   for (t in 1:Q) {
     if (I_1[n,t] == 0) {
@@ -885,8 +897,8 @@ for (n in 1:N) {
        ylim = c(-5, 15),  # TODO adjust
        type="l",
        col = "blueviolet",
-       # main = paste("driver", n),  # TODO actual data
-       main = drv_names[n],  # TODO version 2
+       main = paste("driver", n),  # TODO actual data
+       # main = drv_names[n],  # TODO version 2
        xlab = "qualifier/race",  # TODO actual data
        ylab = "ability",
        xaxt = "n",
@@ -962,14 +974,14 @@ ctr_names <- c("Mercedes",
 par(mfrow = c(5,2))
 for (k in 1:K) {
   
-  plot(# mu_C_sim[k,],  # TODO actual data
-       mu_C_mdn[k,],  # TODO actual data
+  plot(mu_C_sim[k,],  # TODO actual data
+       # mu_C_mdn[k,],  # TODO actual data
        ylim = c(-5, 25),  # TODO adjust
        type="l",
-       # col = "orange",  # TODO actual data
-       col = "mediumspringgreen",  # TODO actual data
-       # main = paste("constructor", k),  # TODO actual data
-       main = ctr_names[k],
+       col = "orange",  # TODO actual data
+       # col = "mediumspringgreen",  # TODO actual data
+       main = paste("constructor", k),  # TODO actual data
+       # main = ctr_names[k],
        xlab = "qualifier/race",  # TODO actual data
        ylab = "ability",
        xaxt = "n",
@@ -977,7 +989,7 @@ for (k in 1:K) {
   axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
   axis(side = 2, at = c(-5, 10, 25), las = 1)  # TODO adjust
   
-  # lines(mu_C_mdn[k,], col = "mediumspringgreen")
+  lines(mu_C_mdn[k,], col = "mediumspringgreen")
   
   for (t in 1:Q) {
     if (I_3[k,t] == 0) {
@@ -1025,8 +1037,8 @@ for (k in 1:K) {
        ylim = c(-5, 25),  # TODO adjust
        type="l",
        col = "mediumspringgreen",
-       # main = paste("constructor", k),  # TODO actual data
-       main = ctr_names[k],
+       main = paste("constructor", k),  # TODO actual data
+       # main = ctr_names[k],
        xlab = "qualifier/race",  # TODO actual data
        ylab = "ability",
        xaxt = "n",
