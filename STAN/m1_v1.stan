@@ -149,10 +149,10 @@ transformed parameters {
 
 model {
   
-  // prior equation for sigma_C
+  // prior equation for varsigma_C
   varsigma_C ~ normal(0,1);
   
-  // prior equation for sigma_D
+  // prior equation for varsigma_D
   varsigma_D ~ normal(0,1);
   
   // SD for latent qualifier/race performance equation
