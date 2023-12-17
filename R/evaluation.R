@@ -156,27 +156,7 @@ HDI_PCACC <- function(pred, obs, X, Y, I, iter) {
 # Spearman’s rank correlation coefficient for matrix
 rho <- function(pred, obs, X, Y, I) {
   
-  pred_with_NA <- matrix(data = NA, nrow = X, ncol = Y)
-  obs_with_NA <- matrix(data = NA, nrow = X, ncol = Y)
-  
-  for(y in 1:Y) {
-    for(x in 1:X) {
-      if(I[x,y] == 0) {
-        
-        pred_with_NA[x,y] <- NA
-        obs_with_NA[x,y] <- NA
-        
-      }
-    }
-  }
-  
-  correlation <- round(cor(pred_with_NA,
-                           obs_with_NA,
-                           method = "spearman",
-                           na.rm = TRUE),
-                       digits = 4)
-  
-  return(corrlation)
+  # placeholder
   
 }
 
@@ -184,15 +164,7 @@ rho <- function(pred, obs, X, Y, I) {
 # 89% HDI for Spearman’s rank correlation coefficient for matrix
 HDI_rho <- function(pred, obs, X, Y, I, iter) {
   
-  rho <- rep(0, times = iter)
-  
-  for(i in 1:iter) {
-    rho[i] <- RHO(pred[i,,], obs, X, Y, I)
-  }
-  
-  HDI_RHO <- round(HPDI(rho), digits = 4)
-  
-  return(HDI_RHO)
+  # placeholder
   
 }
 
