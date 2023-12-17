@@ -40,6 +40,8 @@ library(rstan)
 options(mc.cores = parallel::detectCores())
 rstan_options(auto_write = TRUE)
 
+library(readxl)
+
 
 
 # model 1 version 1 - clean data ####
@@ -968,6 +970,241 @@ for (n in 1:N) {
        type="l",
        col = "orange",
        main = paste("driver", n),
+       xlab = "qualifier/race",
+       ylab = "rank",
+       xaxt = "n",
+       yaxt = "n")
+  axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
+  axis(side = 2, at = c(22, 11, 1), las = 1)
+  
+  for (t in 1:Q) {
+    if (I_1[n,t] == 0) {
+      abline(v = t, lwd = 0.125, col = "azure4")
+    }
+  }
+  
+  box()
+  
+}
+par(mfrow = c(1,1))
+
+
+
+# model 1 version 2 - clean data ####
+# number of constructors in time series
+K <- 11
+
+# number of ctr cockpits in time series
+N <- 22
+
+# number of qualifiers/races
+Q <- 159
+
+# constructor qualifier/race NA indicators
+I_3 <- matrix(data = 1, nrow = K, ncol = Q)
+
+# constructor indicators
+I_2 <- matrix(data = NA, nrow = N, ncol = K)
+I_2[1,] <- c(1,0,0,0,0,0,0,0,0,0,0)
+I_2[2,] <- c(1,0,0,0,0,0,0,0,0,0,0)
+I_2[3,] <- c(0,1,0,0,0,0,0,0,0,0,0)
+I_2[4,] <- c(0,1,0,0,0,0,0,0,0,0,0)
+I_2[5,] <- c(0,0,1,0,0,0,0,0,0,0,0)
+I_2[6,] <- c(0,0,1,0,0,0,0,0,0,0,0)
+I_2[7,] <- c(0,0,0,1,0,0,0,0,0,0,0)
+I_2[8,] <- c(0,0,0,1,0,0,0,0,0,0,0)
+I_2[9,] <- c(0,0,0,0,1,0,0,0,0,0,0)
+I_2[10,] <- c(0,0,0,0,1,0,0,0,0,0,0)
+I_2[11,] <- c(0,0,0,0,0,1,0,0,0,0,0)
+I_2[12,] <- c(0,0,0,0,0,1,0,0,0,0,0)
+I_2[13,] <- c(0,0,0,0,0,0,1,0,0,0,0)
+I_2[14,] <- c(0,0,0,0,0,0,1,0,0,0,0)
+I_2[15,] <- c(0,0,0,0,0,0,0,1,0,0,0)
+I_2[16,] <- c(0,0,0,0,0,0,0,1,0,0,0)
+I_2[17,] <- c(0,0,0,0,0,0,0,0,1,0,0)
+I_2[18,] <- c(0,0,0,0,0,0,0,0,1,0,0)
+I_2[19,] <- c(0,0,0,0,0,0,0,0,0,1,0)
+I_2[20,] <- c(0,0,0,0,0,0,0,0,0,1,0)
+I_2[21,] <- c(0,0,0,0,0,0,0,0,0,0,1)
+I_2[22,] <- c(0,0,0,0,0,0,0,0,0,0,1)
+
+I_2 <- list(I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2)
+
+# driver qualifier/race NA indicators
+I_1 <- matrix(data = 1, nrow = N, ncol = Q)
+
+# driver change indicators
+drv_ctr_cockpit_temp <- read_excel("data/drv_ctr_cockpit_qualifier.xlsx",
+                                   sheet = "Sheet 1")
+
+drv_ctr_cokpit <- drv_ctr_cockpit_temp[,-c(1,2)]
+
+drv_ctr_cockpit_rows <- dim(drv_ctr_cokpit)[1]
+
+ctr_cockpits <- c("mercedes1", "mercedes2",
+                  "red_bull1", "red_bull2",
+                  "mclaren1", "mclaren2",
+                  "ferrari1", "ferrari2",
+                  "alphatauri1", "alphatauri2",
+                  "aston_martin1", "aston_martin2",
+                  "williams1", "williams2",
+                  "alfa1", "alfa2",
+                  "alpine1", "alpine2",
+                  "manor1", "manor2",
+                  "haas1", "haas2")
+
+I_5 <- matrix(data = 0, nrow = N, ncol = Q)
+
+for (ctr in 1:N) {
+  for (t in 2:Q) {
+    for(n in 1:drv_ctr_cockpit_rows) {
+      if(!is.na(drv_ctr_cokpit[n,t])) {
+        
+        if(drv_ctr_cokpit[n,t] == ctr_cockpits[ctr] &
+           (is.na(drv_ctr_cokpit[n,t-1]) |
+            drv_ctr_cokpit[n,t-1] != ctr_cockpits[ctr])) {
+          
+          I_5[ctr,t] <- 1
+          
+        }
+        
+      }
+    }
+  }
+}
+
+# indicators for no driver change
+I_4 <- ifelse(I_5 == 1, 0, 1)
+
+# number of ranks per qualifier/race
+J <- 22
+
+# initial conditions for latent constructor ability state equation
+mu_C_0 <- c(10,9,8,7,6,5,4,3,2,1,0)
+
+# initial conditions for latent driver ability state equation
+mu_D_0 <- c(10.25,9.75,9.25,8.75,8.25,
+            7.75,7.25,6.75,6.25,5.75,
+            5.25,4.75,4.25,3.75,3.25,
+            2.75,2.25,1.75,1.25,0.75,
+            0.25,-0.25)
+
+# SD for error for latent constructor ability state equation
+varsigma_C_sim <- 0.16
+
+# SD for error for latent driver ability state equation
+# if no driver change
+varsigma_D_1_sim <- 0.04
+
+# SD for error for latent driver ability state equation
+# if driver change
+varsigma_D_2_sim <- 2
+
+# cut points
+gamma_sim <- seq(from = 0, to = J-2, by = 1)
+
+
+
+# model 1 version 2 - missing data ####
+# placeholder
+
+
+
+# model 1 version 2 - increased fluctuations ####
+# placeholder
+
+
+
+# model 1 version 2 - dominant ctr ability ####
+# placeholder
+
+
+
+# model 1 version 2 - simulation ####
+# computation with NUTS in STAN
+m1_v2_sim <- stan_model("STAN/m1_v2_sim.stan")
+
+fit_m1_v2_sim <- sampling(m1_v2_sim,
+                          data = list(K = K,
+                                      N = N,
+                                      T = Q,
+                                      I_3 = I_3,
+                                      I_2 = I_2,
+                                      I_1 = I_1,
+                                      I_4 = I_4,
+                                      I_5 = I_5,
+                                      J = J,
+                                      mu_C_0 = mu_C_0,
+                                      mu_D_0 = mu_D_0,
+                                      varsigma_C = varsigma_C_sim,
+                                      varsigma_D_1 = varsigma_D_1_sim,
+                                      varsigma_D_2 = varsigma_D_2_sim,
+                                      gamma = gamma_sim),
+                          algorithm = "Fixed_param",
+                          iter = 10,
+                          warmup = 0)
+
+# save fit_m1_v2_sim
+saveRDS(fit_m1_v2_sim,
+        "data/fit_m1_v2_sim_clean_data.rds")  # TODO adjust name
+
+# load fit_m1_v2_sim
+fit_m1_v2_sim <-
+  readRDS("data/fit_m1_v1_sim_clean_data.rds")  # TODO data file
+
+
+# extract simulations
+params_m1_v2_sim <- rstan::extract(fit_m1_v2_sim)
+
+# max mu_P
+round(max(params_m1_v2_sim$mu_P[40,,]), digits = 4)
+
+# min mu_P
+round(min(params_m1_v2_sim$mu_P[40,,]), digits = 4)
+
+# max mu_D
+round(max(params_m1_v2_sim$mu_D[40,,]), digits = 4)
+
+# min mu_D
+round(min(params_m1_v2_sim$mu_D[40,,]), digits = 4)
+
+# max mu_C
+round(max(params_m1_v2_sim$mu_C[40,,]), digits = 4)
+
+# min mu_C
+round(min(params_m1_v2_sim$mu_C[40,,]), digits = 4)
+
+# extract simulated qualifier/race ranks
+R_sim_temp <- params_m1_v2_sim$R_sim
+
+R_sim <- R_sim_temp[40,,]
+
+
+# time series plot
+# simulated qualifier/race rank
+par(mfrow = c(5,2))
+for (n in 1:N) {
+  
+  plot(R_sim[n,],
+       ylim = c(22, 1),
+       type="l",
+       col = "orange",
+       main = paste("ctr cockpit", n),
        xlab = "qualifier/race",
        ylab = "rank",
        xaxt = "n",
