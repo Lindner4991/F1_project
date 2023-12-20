@@ -928,7 +928,7 @@ saveRDS(fit_m1_v1_sim,
 
 # load fit_m1_v1_sim
 fit_m1_v1_sim <-
-  readRDS("data/fit_m1_v1_sim_increased_fluctuations.rds")  # TODO data file
+  readRDS("data/fit_m1_v1_sim_missing_data.rds")  # TODO data file
 
 
 # extract simulations
@@ -981,11 +981,11 @@ round(min(mu_D_with_NA, na.rm = TRUE), digits = 4)
 # mu_C_with_NA
 mu_C_with_NA <- params_m1_v1_sim$mu_C[40,,]
 
-for (n in 1:N) {
+for (k in 1:K) {
   for (t in 1:Q) {
     
-    if (I_3[n,t] == 0) {
-      mu_C_with_NA[n,t] <- NA
+    if (I_3[k,t] == 0) {
+      mu_C_with_NA[k,t] <- NA
     }
     
   }
@@ -1829,11 +1829,11 @@ round(min(mu_D_with_NA, na.rm = TRUE), digits = 4)
 # mu_C_with_NA
 mu_C_with_NA <- params_m1_v2_sim$mu_C[40,,]
 
-for (n in 1:N) {
+for (k in 1:K) {
   for (t in 1:Q) {
     
-    if (I_3[n,t] == 0) {
-      mu_C_with_NA[n,t] <- NA
+    if (I_3[k,t] == 0) {
+      mu_C_with_NA[k,t] <- NA
     }
     
   }
