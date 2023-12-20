@@ -19,7 +19,7 @@ data {
   matrix[N,T] I_1;
   
   // driver change indicators
-  matrix[N,T] I_5;
+  matrix[N,T] I_4;
   
   // number of ranks per qualifier/race
   int<lower=2> J;
@@ -105,7 +105,7 @@ generated quantities {
       // latent driver ability state equation ( mu )
       for (n in 1:N) {
         
-        if (I_1[n,t] == 1) { mu_D[n,t] = normal_rng(mu_D[n,t-1], varsigma_D + kappa_D * I_5[n,t]); }
+        if (I_1[n,t] == 1) { mu_D[n,t] = normal_rng(mu_D[n,t-1], varsigma_D + kappa_D * I_4[n,t]); }
         
         else { mu_D[n,t] = mu_D[n,t-1]; }
         
@@ -120,7 +120,7 @@ generated quantities {
       
       // SD for latent qualifier/race performance equation
       real sigma_P;
-      sigma_P = sqrt(square(varsigma_D + kappa_D * I_5[n,t]) + square(varsigma_C));
+      sigma_P = sqrt(square(varsigma_D + kappa_D * I_4[n,t]) + square(varsigma_C));
       
       // latent qualifier/race performance equation ( mu )
       mu_P[n,t] = mu_D[n,t] + dot_product(I_2[t,n], col(mu_C,t));
