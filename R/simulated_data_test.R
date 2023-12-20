@@ -929,7 +929,7 @@ saveRDS(fit_m1_v1_sim,
 
 # load fit_m1_v1_sim
 fit_m1_v1_sim <-
-  readRDS("data/fit_m1_v1_sim_missing_data.rds")  # TODO data file
+  readRDS("data/fit_m1_v1_sim_dominant_ctr_ability.rds")  # TODO data file
 
 
 # extract simulations
@@ -947,7 +947,7 @@ element <- 1
 for (n in 1:N) {
   for (t in 1:Q) {
     
-    if (I_1[n,t] == 0) {
+    if (I_1[n,t] == 1) {
       mu_P_without_NA[element] <- mu_P_sim[n,t]
       element <- element + 1
     }
@@ -976,7 +976,7 @@ element <- 1
 for (n in 1:N) {
   for (t in 1:Q) {
     
-    if (I_1[n,t] == 0) {
+    if (I_1[n,t] == 1) {
       mu_D_without_NA[element] <- mu_D_sim[n,t]
       element <- element + 1
     }
@@ -1005,8 +1005,8 @@ element <- 1
 for (k in 1:K) {
   for (t in 1:Q) {
     
-    if (I_3[k,t] == 0) {
-      mu_C_without_NA[element] <- mu_C_sim[n,t]
+    if (I_3[k,t] == 1) {
+      mu_C_without_NA[element] <- mu_C_sim[k,t]
       element <- element + 1
     }
     
@@ -1817,7 +1817,7 @@ element <- 1
 for (n in 1:N) {
   for (t in 1:Q) {
     
-    if (I_1[n,t] == 0) {
+    if (I_1[n,t] == 1) {
       mu_P_without_NA[element] <- mu_P_sim[n,t]
       element <- element + 1
     }
@@ -1846,7 +1846,7 @@ element <- 1
 for (n in 1:N) {
   for (t in 1:Q) {
     
-    if (I_1[n,t] == 0) {
+    if (I_1[n,t] == 1) {
       mu_D_without_NA[element] <- mu_D_sim[n,t]
       element <- element + 1
     }
@@ -1875,7 +1875,7 @@ element <- 1
 for (k in 1:K) {
   for (t in 1:Q) {
     
-    if (I_3[k,t] == 0) {
+    if (I_3[k,t] == 1) {
       mu_C_without_NA[element] <- mu_C_sim[n,t]
       element <- element + 1
     }
