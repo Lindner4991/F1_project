@@ -73,7 +73,7 @@ median_ctr_rank <- function(cockpit1, cockpit2, period, rank_matrix) {
 R_act_temp <- read_excel("data/R_act_qualifier.xlsx",
                          sheet = "Sheet 1")
 # R_act_temp <- read_excel("R_act_qualifier.xlsx",
-#                         sheet = "Sheet1")
+#                         sheet = "Sheet 1")
 
 # data processing - delete columns 1, 2, 3, and 4
 R_act <- R_act_temp[,-c(1:4)]
@@ -436,7 +436,7 @@ mu_D_0[51] <- drv_ability_rank[14]
 R_act_temp <- read_excel("data/R_act_race.xlsx",
                          sheet = "Sheet 1")
 # R_act_temp <- read_excel("R_act_race.xlsx",
-#                         sheet = "Sheet1")
+#                         sheet = "Sheet 1")
 
 # data processing - delete columns 1, 2, 3, and 4
 R_act <- R_act_temp[,-c(1:4)]
@@ -893,7 +893,7 @@ J <- 22
 R_act_temp <- read_excel("data/R_act_qualifier_cockpit.xlsx",
                          sheet = "Sheet 1")
 # R_act_temp <- read_excel("R_act_qualifier_cockpit.xlsx",
-#                         sheet = "Sheet1")
+#                         sheet = "Sheet 1")
 
 # data processing - delete column 1
 R_act <- R_act_temp[,-1]
@@ -1234,7 +1234,7 @@ J <- 22
 R_act_temp <- read_excel("data/R_act_race_cockpit.xlsx",
                          sheet = "Sheet 1")
 # R_act_temp <- read_excel("R_act_race_cockpit.xlsx",
-#                         sheet = "Sheet1")
+#                         sheet = "Sheet 1")
 
 # data processing - delete column 1
 R_act <- R_act_temp[,-1]
