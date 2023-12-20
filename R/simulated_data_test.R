@@ -41,6 +41,7 @@ options(mc.cores = parallel::detectCores())
 rstan_options(auto_write = TRUE)
 
 library(readxl)
+library(rethinking)
 
 
 
@@ -934,71 +935,93 @@ fit_m1_v1_sim <-
 # extract simulations
 params_m1_v1_sim <- rstan::extract(fit_m1_v1_sim)
 
-# mu_P_with_NA
-mu_P_with_NA <- params_m1_v1_sim$mu_P[40,,]
+
+# extract mu_P_sim
+mu_P_sim <- params_m1_v1_sim$mu_P[40,,]
+
+# mu_P_without_NA
+mu_P_without_NA <- c()
+
+element <- 1
 
 for (n in 1:N) {
   for (t in 1:Q) {
     
     if (I_1[n,t] == 0) {
-      mu_P_with_NA[n,t] <- NA
+      mu_P_without_NA[element] <- mu_P_sim[n,t]
+      element <- element + 1
     }
     
   }
 }
 
-# max mu_P
-round(max(mu_P_with_NA, na.rm = TRUE), digits = 4)
+# lower 89% HDI mu_P
+round(HPDI(mu_P_without_NA)[1], digits = 4)
 
 # mdn mu_P
-round(median(mu_P_with_NA, na.rm = TRUE), digits = 4)
+round(median(mu_P_without_NA), digits = 4)
 
-# min mu_P
-round(min(mu_P_with_NA, na.rm = TRUE), digits = 4)
+# upper 89% HDI mu_P
+round(HPDI(mu_P_without_NA)[2], digits = 4)
 
-# mu_D_with_NA
-mu_D_with_NA <- params_m1_v1_sim$mu_D[40,,]
+
+# extract mu_D_sim
+mu_D_sim <- params_m1_v1_sim$mu_D[40,,]
+
+# mu_D_without_NA
+mu_D_without_NA <- c()
+
+element <- 1
 
 for (n in 1:N) {
   for (t in 1:Q) {
     
     if (I_1[n,t] == 0) {
-      mu_D_with_NA[n,t] <- NA
+      mu_D_without_NA[element] <- mu_D_sim[n,t]
+      element <- element + 1
     }
     
   }
 }
 
-# max mu_D
-round(max(mu_D_with_NA, na.rm = TRUE), digits = 4)
+# lower 89% HDI mu_D
+round(HPDI(mu_D_without_NA)[1], digits = 4)
 
 # mdn mu_D
-round(median(mu_D_with_NA, na.rm = TRUE), digits = 4)
+round(median(mu_D_without_NA), digits = 4)
 
-# min mu_D
-round(min(mu_D_with_NA, na.rm = TRUE), digits = 4)
+# upper 89% HDI mu_D
+round(HPDI(mu_D_without_NA)[2], digits = 4)
 
-# mu_C_with_NA
-mu_C_with_NA <- params_m1_v1_sim$mu_C[40,,]
+
+# extract mu_C_sim
+mu_C_sim <- params_m1_v1_sim$mu_C[40,,]
+
+# mu_C_without_NA
+mu_C_without_NA <- c()
+
+element <- 1
 
 for (k in 1:K) {
   for (t in 1:Q) {
     
     if (I_3[k,t] == 0) {
-      mu_C_with_NA[k,t] <- NA
+      mu_C_without_NA[element] <- mu_C_sim[n,t]
+      element <- element + 1
     }
     
   }
 }
 
-# max mu_C
-round(max(mu_C_with_NA, na.rm = TRUE), digits = 4)
+# lower 89% HDI mu_C
+round(HPDI(mu_C_without_NA)[1], digits = 4)
 
 # mdn mu_C
-round(median(mu_C_with_NA, na.rm = TRUE), digits = 4)
+round(median(mu_C_without_NA), digits = 4)
 
-# min mu_C
-round(min(mu_C_with_NA, na.rm = TRUE), digits = 4)
+# upper 89% HDI mu_C
+round(HPDI(mu_C_without_NA)[2], digits = 4)
+
 
 # extract simulated qualifier/race ranks
 R_sim_temp <- params_m1_v1_sim$R_sim
@@ -1782,71 +1805,93 @@ fit_m1_v2_sim <-
 # extract simulations
 params_m1_v2_sim <- rstan::extract(fit_m1_v2_sim)
 
-# mu_P_with_NA
-mu_P_with_NA <- params_m1_v2_sim$mu_P[40,,]
+
+# extract mu_P_sim
+mu_P_sim <- params_m1_v2_sim$mu_P[40,,]
+
+# mu_P_without_NA
+mu_P_without_NA <- c()
+
+element <- 1
 
 for (n in 1:N) {
   for (t in 1:Q) {
     
     if (I_1[n,t] == 0) {
-      mu_P_with_NA[n,t] <- NA
+      mu_P_without_NA[element] <- mu_P_sim[n,t]
+      element <- element + 1
     }
     
   }
 }
 
-# max mu_P
-round(max(mu_P_with_NA, na.rm = TRUE), digits = 4)
+# lower 89% HDI mu_P
+round(HPDI(mu_P_without_NA)[1], digits = 4)
 
 # mdn mu_P
-round(median(mu_P_with_NA, na.rm = TRUE), digits = 4)
+round(median(mu_P_without_NA), digits = 4)
 
-# min mu_P
-round(min(mu_P_with_NA, na.rm = TRUE), digits = 4)
+# upper 89% HDI mu_P
+round(HPDI(mu_P_without_NA)[2], digits = 4)
 
-# mu_D_with_NA
-mu_D_with_NA <- params_m1_v2_sim$mu_D[40,,]
+
+# extract mu_D_sim
+mu_D_sim <- params_m1_v2_sim$mu_D[40,,]
+
+# mu_D_without_NA
+mu_D_without_NA <- c()
+
+element <- 1
 
 for (n in 1:N) {
   for (t in 1:Q) {
     
     if (I_1[n,t] == 0) {
-      mu_D_with_NA[n,t] <- NA
+      mu_D_without_NA[element] <- mu_D_sim[n,t]
+      element <- element + 1
     }
     
   }
 }
 
-# max mu_D
-round(max(mu_D_with_NA, na.rm = TRUE), digits = 4)
+# lower 89% HDI mu_D
+round(HPDI(mu_D_without_NA)[1], digits = 4)
 
 # mdn mu_D
-round(median(mu_D_with_NA, na.rm = TRUE), digits = 4)
+round(median(mu_D_without_NA), digits = 4)
 
-# min mu_D
-round(min(mu_D_with_NA, na.rm = TRUE), digits = 4)
+# upper 89% HDI mu_D
+round(HPDI(mu_D_without_NA)[2], digits = 4)
 
-# mu_C_with_NA
-mu_C_with_NA <- params_m1_v2_sim$mu_C[40,,]
+
+# extract mu_C_sim
+mu_C_sim <- params_m1_v2_sim$mu_C[40,,]
+
+# mu_C_without_NA
+mu_C_without_NA <- c()
+
+element <- 1
 
 for (k in 1:K) {
   for (t in 1:Q) {
     
     if (I_3[k,t] == 0) {
-      mu_C_with_NA[k,t] <- NA
+      mu_C_without_NA[element] <- mu_C_sim[n,t]
+      element <- element + 1
     }
     
   }
 }
 
-# max mu_C
-round(max(mu_C_with_NA, na.rm = TRUE), digits = 4)
+# lower 89% HDI mu_C
+round(HPDI(mu_C_without_NA)[1], digits = 4)
 
 # mdn mu_C
-round(median(mu_C_with_NA, na.rm = TRUE), digits = 4)
+round(median(mu_C_without_NA), digits = 4)
 
-# min mu_C
-round(min(mu_C_with_NA, na.rm = TRUE), digits = 4)
+# upper 89% HDI mu_C
+round(HPDI(mu_C_without_NA)[2], digits = 4)
+
 
 # extract simulated qualifier/race ranks
 R_sim_temp <- params_m1_v2_sim$R_sim
