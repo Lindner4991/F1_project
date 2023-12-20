@@ -4,7 +4,7 @@
 # closing the sections provides an overview of the script
 
 
-# this file builds on the simulated_data.R file
+# this file builds on the simulated_data.R and actual_data.R file
 
 
 # required data files:
@@ -49,8 +49,6 @@ library(todor)
 library(rstan)
 options(mc.cores = parallel::detectCores())
 rstan_options(auto_write = TRUE)
-
-library(readxl)
 
 
 
