@@ -927,7 +927,7 @@ saveRDS(fit_m1_v1_sim, "data/fit_m1_v1_sim_dominant_ctr_ability.rds")  # TODO ad
 
 # load fit_m1_v1_sim
 fit_m1_v1_sim <-
-  readRDS("data/fit_m1_v1_sim_dominant_ctr_ability.rds")  # TODO data file
+  readRDS("data/fit_m1_v1_sim_missing_data.rds")  # TODO data file
 
 
 # extract simulations
@@ -936,17 +936,26 @@ params_m1_v1_sim <- rstan::extract(fit_m1_v1_sim)
 # max mu_P
 round(max(params_m1_v1_sim$mu_P[40,,]), digits = 4)
 
+# mdn mu_P
+round(median(params_m1_v1_sim$mu_P[40,,]), digits = 4)
+
 # min mu_P
 round(min(params_m1_v1_sim$mu_P[40,,]), digits = 4)
 
 # max mu_D
 round(max(params_m1_v1_sim$mu_D[40,,]), digits = 4)
 
+# mdn mu_D
+round(median(params_m1_v1_sim$mu_D[40,,]), digits = 4)
+
 # min mu_D
 round(min(params_m1_v1_sim$mu_D[40,,]), digits = 4)
 
 # max mu_C
 round(max(params_m1_v1_sim$mu_C[40,,]), digits = 4)
+
+# mdn mu_C
+round(median(params_m1_v1_sim$mu_C[40,,]), digits = 4)
 
 # min mu_C
 round(min(params_m1_v1_sim$mu_C[40,,]), digits = 4)
