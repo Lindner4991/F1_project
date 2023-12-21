@@ -680,6 +680,8 @@ plot(PCC_results,
 axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
 axis(side = 2, at = c(-1, 0, 1), las = 1)
 
+abine(h = 0, col = "black", lty = 3)
+
 
 # time series plot
 # Pearson correlation coefficient 89% HDI
@@ -706,6 +708,8 @@ polygon(x = c(x, rev(x)),
         y = c(HDI_PCC_result[2], rev(HDI_PCC_result[1])),
         col = "deeppink1",
         lty = 0)
+
+abine(h = 0, col = "black", lty = 3)
 
 
 # time series plot
