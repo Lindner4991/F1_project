@@ -19,7 +19,7 @@ data {
   matrix[N,T] I_1;
   
   // indicators for no driver change
-  matrix[N,T] I_4
+  matrix[N,T] I_4;
   
   // driver change indicators
   matrix[N,T] I_5;
