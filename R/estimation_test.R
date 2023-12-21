@@ -14,6 +14,7 @@
 
 # required model files:
 # m___.stan
+# m___sim.stan
 # where ___ is a placeholder
 
 
