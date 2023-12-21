@@ -1141,7 +1141,7 @@ ctr_cockpits <- c("mercedes1", "mercedes2",
                   "manor1", "manor2",
                   "haas1", "haas2")
 
-I_4 <- matrix(data = 0, nrow = N, ncol = Q)
+I_5 <- matrix(data = 0, nrow = N, ncol = Q)
 
 for (ctr in 1:N) {
   for (t in 2:Q) {
@@ -1152,7 +1152,7 @@ for (ctr in 1:N) {
            (is.na(drv_ctr_cokpit[n,t-1]) |
             drv_ctr_cokpit[n,t-1] != ctr_cockpits[ctr])) {
           
-          I_4[ctr,t] <- 1
+          I_5[ctr,t] <- 1
           
         }
         
@@ -1161,7 +1161,10 @@ for (ctr in 1:N) {
   }
 }
 
-sum(I_4)
+sum(I_5)
+
+# indicators for no driver change
+I_4 <- ifelse(I_5 == 1, 0, 1)
 
 # number of ranks per qualifier/race
 J <- 22
@@ -1786,6 +1789,7 @@ fit_m1_v2_sim <- sampling(m1_v2_sim,
                                       I_2 = I_2,
                                       I_1 = I_1,
                                       I_4 = I_4,
+                                      I_5 = I_5,
                                       J = J,
                                       mu_C_0 = mu_C_0,
                                       mu_D_0 = mu_D_0,
