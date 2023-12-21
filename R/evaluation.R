@@ -4,7 +4,7 @@
 # closing the sections provides an overview of the script
 
 
-# this file builds on the simulated_data.R and estimation.R file
+# this file builds on the simulated_data.R and actual_data.R file
 
 
 # required data files:
