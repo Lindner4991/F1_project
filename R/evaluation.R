@@ -83,7 +83,7 @@ ACC <- function(pred, obs, X, Y, I) {
 # 89% HDI for accuracy for matrix
 HDI_ACC <- function(pred, obs, X, Y, I, iter) {
   
-  acc <- rep(0, times = iter)
+  acc <- rep(NA, times = iter)
   
   for(i in 1:iter) {
     acc[i] <- ACC(pred[i,,], obs, X, Y, I)
@@ -142,7 +142,7 @@ PCACC <- function(pred, obs, X, Y, I) {
 # 89% HDI for pairwise comparison accuracy for matrix
 HDI_PCACC <- function(pred, obs, X, Y, I, iter) {
   
-  pcacc <- rep(0, times = iter)
+  pcacc <- rep(NA, times = iter)
   
   for(i in 1:iter) {
     pcacc[i] <- PCACC(pred[i,,], obs, X, Y, I)
@@ -155,18 +155,61 @@ HDI_PCACC <- function(pred, obs, X, Y, I, iter) {
 }
 
 
-# Spearman’s rank correlation coefficient for matrix
-rho <- function(pred, obs, X, Y, I) {
+# Pearson correlation coefficient for matrix
+PCC <- function(pred, obs, X, Y, I) {
   
-  # placeholder
+  PCC <- rep(NA, times = Y)
+  
+  for(y in 1:Y) {
+    
+    pred_vector <- c()
+    obs_vector <- c()
+    
+    element <- 1
+    
+    for(x in 1:X) {
+      if(I[x,y] == 1) {
+        
+        pred_vector[element] <- pred[x,y]
+        obs_vector[element] <- obs[x,y]
+        
+        element <- element + 1
+        
+      }
+    }
+    
+    PCC[y] <- cor(x = pred_vector,
+                  y = obs_vector,
+                  method = "spearman")
+    
+  }
+  
+  return(PCC)
   
 }
 
 
-# 89% HDI for Spearman’s rank correlation coefficient for matrix
-HDI_rho <- function(pred, obs, X, Y, I, iter) {
+# 89% HDI for Pearson correlation coefficient for matrix
+HDI_PCC <- function(pred, obs, X, Y, I, iter) {
   
-  # placeholder
+  pcc <- matrix(data = NA, nrow = iter, ncol = Y)
+  
+  for(y in 1:Y) {
+    for(i in 1:iter) {
+      pcc[i,y] <- PCC(pred[i,,], obs, X, Y, I)
+    }
+  }
+  
+  HDI_PCC <- matrix(data = NA, nrow = 2, ncol = Y)
+  
+  for(y in 1:Y) {
+    
+    HDI_PCC[1,y] <- HPDI(pcc[,y])[2]
+    HDI_PCC[2,y] <- HPDI(pcc[,y])[1]
+    
+  }
+  
+  return(HPI_PCC)
   
 }
 
@@ -186,7 +229,7 @@ AE <- function(est, sim) {
 # 89% HDI for absolute error for scalar
 HDI_AE <- function(est, sim, iter) {
   
-  ae <- rep(0, times = iter)
+  ae <- rep(NA, times = iter)
   
   for(i in 1:iter) {
     ae[i] <- AE(est[i], sim)
@@ -218,7 +261,7 @@ MAE_1 <- function(est, sim, length) {
 # 89% HDI for mean absolute error for vector
 HDI_MAE_1 <- function(est, sim, length, iter) {
   
-  mae <- rep(0, times = iter)
+  mae <- rep(NA, times = iter)
   
   for(i in 1:iter) {
     mae[i] <- MAE_1(est[i,], sim, length)
@@ -258,7 +301,7 @@ MAE_2 <- function(est, sim, X, Y, I) {
 # 89% HDI for mean absolute error for matrix
 HDI_MAE_2 <- function(est, sim, X, Y, I, iter) {
   
-  mae <- rep(0, times = iter)
+  mae <- rep(NA, times = iter)
   
   for(i in 1:iter) {
     mae[i] <- MAE_2(est[i,,], sim, X, Y, I)
@@ -619,6 +662,50 @@ PCACC(R_pred_mdn, R_obs, N, Q, I_1)
 # pairwise comparison accuracy 89% HDI 
 # predicted ranks vs observed ranks
 HDI_PCACC(R_pred, R_obs, N, Q, I_1, iter)
+
+
+# time series plot
+# Pearson correlation coefficient
+PCC_result <- PCC(R_pred_mdn, R_obs, N, Q, I_1)
+
+plot(PCC_results,
+     ylim = c(-1, 1),
+     type="l",
+     col = "deeppink1",
+     main = "",  # TODO tbd
+     xlab = "qualifier/race",  # TODO actual data
+     ylab = "PCC",
+     xaxt = "n",
+     yaxt = "n")
+axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
+axis(side = 2, at = c(-1, 0, 1), las = 1)
+
+
+# time series plot
+# Pearson correlation coefficient 89% HDI
+HDI_PCC_result <- HDI_PCC(R_pred, R_obs, X, Y, I, iter)
+
+x <- 1:Q
+
+plot(x = x,
+     y = HDI_PCC_result[2],
+     ylim = c(-1, 1),
+     type="l",
+     col = "deeppink1",
+     main = "",  # TODO tbd
+     xlab = "qualifier/race",  # TODO actual data
+     ylab = "PCC",
+     xaxt = "n",
+     yaxt = "n")
+axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
+axis(side = 2, at = c(-1, 0, 1), las = 1)
+
+lines(x = x, HDI_PCC_result[1], col = "deeppink1")
+
+polygon(x = c(x, rev(x)),
+        y = c(HDI_PCC_result[2], rev(HDI_PCC_result[1])),
+        col = "deeppink1",
+        lty = 0)
 
 
 # time series plot
