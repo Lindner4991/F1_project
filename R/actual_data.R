@@ -5,9 +5,7 @@
 
 # required data files:
 # R_act___.xlsx
-# R_act___cockpit.xlsx
 # drv_ctr___.xlsx
-# drv_ctr_cockpit___.xlsx
 # where ___ is a placeholder
 
 
