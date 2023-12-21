@@ -3,6 +3,10 @@
 
 # closing the sections provides an overview of the script
 
+# required data files:
+# drv_ctr___.xlsx
+# where ___ is a placeholder
+
 # required model files:
 # m___sim.stan
 # where ___ is a placeholder
