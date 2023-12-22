@@ -234,22 +234,22 @@ HDI_RHO <- function(pred, obs, X, Y, I, iter) {
   
   rho <- matrix(data = NA, nrow = iter, ncol = Y)
   
-  for(y in 1:Y) {
-    for(i in 1:iter) {
-      rho[i,y] <- RHO(pred[i,,], obs, X, Y, I)
-    }
+  for(i in 1:iter) {
+    
+    rho[i,] <- RHO(pred[i,,], obs, X, Y, I)
+    
   }
   
   HDI_RHO <- matrix(data = NA, nrow = 2, ncol = Y)
   
   for(y in 1:Y) {
     
-    HDI_RHO[1,y] <- HPDI(RHO[,y])[2]
-    HDI_RHO[2,y] <- HPDI(RHO[,y])[1]
+    HDI_RHO[1,y] <- HPDI(rho[,y])[2]
+    HDI_RHO[2,y] <- HPDI(rho[,y])[1]
     
   }
   
-  return(HPI_RHO)
+  return(HDI_RHO)
   
 }
 
@@ -357,7 +357,7 @@ HDI_MAE_2 <- function(est, sim, X, Y, I, iter) {
 # evaluation prep - simulated data ####
 # load fit_model_sim
 fit_model_sim <-
-  readRDS("data/fit_m1_v1_sim_increased_fluctuations.rds")  # TODO data file
+  readRDS("data/fit_m1_v2_sim_clean_data_test.rds")  # TODO data file
 
 # extract simulations
 params_model_sim <- rstan::extract(fit_model_sim)
@@ -367,7 +367,7 @@ params_model_sim <- rstan::extract(fit_model_sim)
 # evaluation prep - results ####
 # load fit_model
 fit_model <-
-  readRDS("results/fit_m1_v1_increased_fluctuations.rds")  # TODO data file
+  readRDS("results/fit_m1_v2_clean_data_test.rds")  # TODO data file
 
 # extract samples
 params_model <- rstan::extract(fit_model)
@@ -708,7 +708,7 @@ HDI_PCACC(R_pred, R_obs, N, Q, I_1, iter)
 # Spearman's rank correlation coefficient
 RHO_result <- RHO(R_pred_mdn, R_obs, N, Q, I_1)
 
-plot(RHO_results,
+plot(RHO_result,
      ylim = c(-1, 1),
      type="l",
      col = "deeppink1",
@@ -720,36 +720,36 @@ plot(RHO_results,
 axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
 axis(side = 2, at = c(-1, 0, 1), las = 1)
 
-abine(h = 0, col = "black", lty = 3)
+abline(h = 0, col = "black", lty = 3)
 
 
 # time series plot
 # Spearman's rank correlation coefficient 89% HDI
-HDI_RHO_result <- HDI_RHO(R_pred, R_obs, X, Y, I, iter)
+HDI_RHO_result <- HDI_RHO(R_pred, R_obs, N, Q, I_1, iter)
 
 x <- 1:Q
 
 plot(x = x,
-     y = HDI_RHO_result[2],
+     y = HDI_RHO_result[2,],
      ylim = c(-1, 1),
      type="l",
      col = "deeppink1",
      main = "",  # TODO tbd
      xlab = "qualifier/race",  # TODO actual data
-     ylab = "RHO",
+     ylab = "rho",
      xaxt = "n",
      yaxt = "n")
 axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
 axis(side = 2, at = c(-1, 0, 1), las = 1)
 
-lines(x = x, HDI_RHO_result[1], col = "deeppink1")
+lines(x = x, HDI_RHO_result[1,], col = "deeppink1")
 
 polygon(x = c(x, rev(x)),
-        y = c(HDI_RHO_result[2], rev(HDI_RHO_result[1])),
+        y = c(HDI_RHO_result[2,], rev(HDI_RHO_result[1,])),
         col = "deeppink1",
         lty = 0)
 
-abine(h = 0, col = "black", lty = 3)
+abline(h = 0, col = "black", lty = 3)
 
 
 # time series plot
