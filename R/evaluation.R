@@ -96,6 +96,46 @@ HDI_ACC <- function(pred, obs, X, Y, I, iter) {
 }
 
 
+# precision for rank j
+PRE <- function(pred, obs, X, Y, I, j) {
+  
+  TP <- 0
+  TP_FP <- 0
+  
+}
+
+
+# recall for rank j
+REC <- function(pred, obs, X, Y, I, j) {
+  
+  TP <- 0
+  TP_FN <- 0
+  
+}
+
+
+# F1 score for matrix
+F1 <- function(pred, obs, X, Y, I, J) {
+  
+  F1 <- rep(NA, times = J)
+  
+  for(j in 1:J) {
+    
+    pre <- PRE(pred, obs, X, Y, I, j)
+    rec <- REC(pred, obs, X, Y, I, j)
+    
+    F1[j] <- 2 * (pre * rec) / (pre + rec)
+    
+  }
+  
+  return(F1)
+  
+}
+
+
+# 89% HDI for F1 score for matrix
+
+
 # pairwise comparison accuracy for matrix
 PCACC <- function(pred, obs, X, Y, I) {
   
