@@ -155,10 +155,10 @@ HDI_PCACC <- function(pred, obs, X, Y, I, iter) {
 }
 
 
-# Pearson correlation coefficient for matrix
-PCC <- function(pred, obs, X, Y, I) {
+# Spearman's rank correlation coefficient for matrix
+RHO <- function(pred, obs, X, Y, I) {
   
-  PCC <- rep(NA, times = Y)
+  RHO <- rep(NA, times = Y)
   
   for(y in 1:Y) {
     
@@ -178,38 +178,38 @@ PCC <- function(pred, obs, X, Y, I) {
       }
     }
     
-    PCC[y] <- cor(x = pred_vector,
+    RHO[y] <- cor(x = pred_vector,
                   y = obs_vector,
                   method = "spearman")
     
   }
   
-  return(PCC)
+  return(RHO)
   
 }
 
 
-# 89% HDI for Pearson correlation coefficient for matrix
-HDI_PCC <- function(pred, obs, X, Y, I, iter) {
+# 89% HDI for Spearman's rank correlation coefficient for matrix
+HDI_RHO <- function(pred, obs, X, Y, I, iter) {
   
-  pcc <- matrix(data = NA, nrow = iter, ncol = Y)
+  rho <- matrix(data = NA, nrow = iter, ncol = Y)
   
   for(y in 1:Y) {
     for(i in 1:iter) {
-      pcc[i,y] <- PCC(pred[i,,], obs, X, Y, I)
+      rho[i,y] <- RHO(pred[i,,], obs, X, Y, I)
     }
   }
   
-  HDI_PCC <- matrix(data = NA, nrow = 2, ncol = Y)
+  HDI_RHO <- matrix(data = NA, nrow = 2, ncol = Y)
   
   for(y in 1:Y) {
     
-    HDI_PCC[1,y] <- HPDI(pcc[,y])[2]
-    HDI_PCC[2,y] <- HPDI(pcc[,y])[1]
+    HDI_RHO[1,y] <- HPDI(RHO[,y])[2]
+    HDI_RHO[2,y] <- HPDI(RHO[,y])[1]
     
   }
   
-  return(HPI_PCC)
+  return(HPI_RHO)
   
 }
 
@@ -665,16 +665,16 @@ HDI_PCACC(R_pred, R_obs, N, Q, I_1, iter)
 
 
 # time series plot
-# Pearson correlation coefficient
-PCC_result <- PCC(R_pred_mdn, R_obs, N, Q, I_1)
+# Spearman's rank correlation coefficient
+RHO_result <- RHO(R_pred_mdn, R_obs, N, Q, I_1)
 
-plot(PCC_results,
+plot(RHO_results,
      ylim = c(-1, 1),
      type="l",
      col = "deeppink1",
      main = "",  # TODO tbd
      xlab = "qualifier/race",  # TODO actual data
-     ylab = "PCC",
+     ylab = "rho",
      xaxt = "n",
      yaxt = "n")
 axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
@@ -684,28 +684,28 @@ abine(h = 0, col = "black", lty = 3)
 
 
 # time series plot
-# Pearson correlation coefficient 89% HDI
-HDI_PCC_result <- HDI_PCC(R_pred, R_obs, X, Y, I, iter)
+# Spearman's rank correlation coefficient 89% HDI
+HDI_RHO_result <- HDI_RHO(R_pred, R_obs, X, Y, I, iter)
 
 x <- 1:Q
 
 plot(x = x,
-     y = HDI_PCC_result[2],
+     y = HDI_RHO_result[2],
      ylim = c(-1, 1),
      type="l",
      col = "deeppink1",
      main = "",  # TODO tbd
      xlab = "qualifier/race",  # TODO actual data
-     ylab = "PCC",
+     ylab = "RHO",
      xaxt = "n",
      yaxt = "n")
 axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
 axis(side = 2, at = c(-1, 0, 1), las = 1)
 
-lines(x = x, HDI_PCC_result[1], col = "deeppink1")
+lines(x = x, HDI_RHO_result[1], col = "deeppink1")
 
 polygon(x = c(x, rev(x)),
-        y = c(HDI_PCC_result[2], rev(HDI_PCC_result[1])),
+        y = c(HDI_RHO_result[2], rev(HDI_RHO_result[1])),
         col = "deeppink1",
         lty = 0)
 
