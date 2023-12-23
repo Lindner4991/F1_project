@@ -1012,7 +1012,7 @@ ctr_cockpits <- c("mercedes1", "mercedes2",
                   "caterham1", "caterham2",
                   "haas1", "haas2")
 
-I_5 <- matrix(data = 0, nrow = N, ncol = Q)
+I_4 <- matrix(data = 0, nrow = N, ncol = Q)
 
 for (ctr in 1:N) {
   for (t in 2:Q) {
@@ -1023,7 +1023,7 @@ for (ctr in 1:N) {
            (is.na(drv_ctr_cokpit[n,t-1]) |
             drv_ctr_cokpit[n,t-1] != ctr_cockpits[ctr])) {
           
-          I_5[ctr,t] <- 1
+          I_4[ctr,t] <- 1
           
         }
         
@@ -1032,12 +1032,9 @@ for (ctr in 1:N) {
   }
 }
 
-I_5[21,18] <- 0  # special case for caterham1
+I_4[21,18] <- 0  # special case for caterham1
 
-sum(I_5)
-
-# indicators for no driver change
-I_4 <- ifelse(I_5 == 1, 0, 1)
+sum(I_4)
 
 # initial conditions for latent constructor ability state equation ( 75% )
 v1C <- 0.75 * 21
@@ -1353,7 +1350,7 @@ ctr_cockpits <- c("mercedes1", "mercedes2",
                   "caterham1", "caterham2",
                   "haas1", "haas2")
 
-I_5 <- matrix(data = 0, nrow = N, ncol = Q)
+I_4 <- matrix(data = 0, nrow = N, ncol = Q)
 
 for (ctr in 1:N) {
   for (t in 2:Q) {
@@ -1364,7 +1361,7 @@ for (ctr in 1:N) {
            (is.na(drv_ctr_cokpit[n,t-1]) |
             drv_ctr_cokpit[n,t-1] != ctr_cockpits[ctr])) {
           
-          I_5[ctr,t] <- 1
+          I_4[ctr,t] <- 1
           
         }
         
@@ -1373,12 +1370,9 @@ for (ctr in 1:N) {
   }
 }
 
-I_5[21,18] <- 0  # special case for caterham1
+I_4[21,18] <- 0  # special case for caterham1
 
-sum(I_5)
-
-# indicators for no driver change
-I_4 <- ifelse(I_5 == 1, 0, 1)
+sum(I_4)
 
 # initial conditions for latent constructor ability state equation ( 75% )
 v1C <- 0.75 * 21
