@@ -4,7 +4,7 @@
 # closing the sections provides an overview of the script
 
 
-# this file builds on the simulated_data.R file
+# this file builds on the simulated_data.R and actual_data.R file
 
 
 # required data files:
@@ -49,8 +49,6 @@ library(todor)
 library(rstan)
 options(mc.cores = parallel::detectCores())
 rstan_options(auto_write = TRUE)
-
-library(readxl)
 
 
 
@@ -302,6 +300,11 @@ R_sim <- R_sim_temp[40,,]
 
 
 # model 1 version 2 - F1 hybrid era qualifier data ####
+# SD increase for error for latent driver ability state equation
+# in case of driver change
+# first try
+kappa_D <- 0.5
+
 # fixed cut points
 gamma_lower <- 0
 gamma_upper <- J - 2
@@ -310,6 +313,11 @@ gamma_upper <- J - 2
 
 # model 1 version 2 - F1 hybrid era race data ####
 # initial conditions for latent constructor ability state equation ( 75% )
+# SD increase for error for latent driver ability state equation
+# in case of driver change
+# first try
+kappa_D <- 0.5
+
 # fixed cut points
 gamma_lower <- 0
 gamma_upper <- J - 2
@@ -320,7 +328,7 @@ gamma_upper <- J - 2
 
 # model 1 version 2 - estimation - local ####
 # computation with NUTS in STAN
-m1_v2 <- stan_model("STAN/m1_v2.stan")
+m1_v2 <- stan_model("STAN/m1_v2_test.stan")
 
 # number of post-warmup iterations per chain
 iter_per_chain <- 2000
@@ -333,10 +341,10 @@ fit_m1_v2 <- sampling(m1_v2,
                                   I_2 = I_2,
                                   I_1 = I_1,
                                   I_4 = I_4,
-                                  I_5 = I_5,
                                   J = J,
                                   mu_C_0 = mu_C_0,
                                   mu_D_0 = mu_D_0,
+                                  kappa_D = kappa_D,
                                   gamma_lower = gamma_lower,
                                   gamma_upper = gamma_upper,
                                   R = R_sim),  # TODO actual data
@@ -344,7 +352,7 @@ fit_m1_v2 <- sampling(m1_v2,
 
 # save fit_m1_v2
 saveRDS(fit_m1_v2,
-        "results/fit_m1_v2_clean_data.rds")  # TODO adjust name
+        "results/fit_m1_v2_clean_data_test.rds")  # TODO adjust name
 
 
 
@@ -365,7 +373,6 @@ job::job({
                                     I_2 = I_2,
                                     I_1 = I_1,
                                     I_4 = I_4,
-                                    I_5 = I_5,
                                     J = J,
                                     mu_C_0 = mu_C_0,
                                     mu_D_0 = mu_D_0,
