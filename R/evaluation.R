@@ -174,6 +174,7 @@ F1 <- function(pred, obs, X, Y, I, J) {
 
 
 # 89% HDI for F1 score for matrix
+# placeholder
 
 
 # pairwise comparison accuracy for matrix
@@ -734,6 +735,23 @@ ACC(R_pred_mdn, R_obs, N, Q, I_1)
 HDI_ACC(R_pred, R_obs, N, Q, I_1, iter)
 
 
+# bar plot
+# F1 score
+# median predicted ranks vs observed ranks
+F1_result <- F1(pred, obs, X, Y, I, J)
+
+barplot(x = 1:J,
+        y = F1_result,
+        ylim = c(0, 1),
+        col = "deeppink1",
+        border = FALSE,
+        main = "",  # TODO tbd
+        xlab = "rank",
+        ylab = "F1 score",
+        yaxt = "n")
+axis(side = 2, at = c(0, 0.5, 1), las = 1)
+
+
 # pairwise comparison accuracy
 # median predicted ranks vs observed ranks
 PCACC(R_pred_mdn, R_obs, N, Q, I_1)
@@ -746,6 +764,7 @@ HDI_PCACC(R_pred, R_obs, N, Q, I_1, iter)
 
 # time series plot
 # Spearman's rank correlation coefficient
+# median predicted ranks vs observed ranks
 RHO_result <- RHO(R_pred_mdn, R_obs, N, Q, I_1)
 
 plot(RHO_result,
@@ -765,6 +784,7 @@ abline(h = 0, col = "black", lty = 3)
 
 # time series plot
 # Spearman's rank correlation coefficient 89% HDI
+# predicted ranks vs observed ranks
 HDI_RHO_result <- HDI_RHO(R_pred, R_obs, N, Q, I_1, iter)
 
 x <- 1:Q
