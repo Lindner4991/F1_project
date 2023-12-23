@@ -328,7 +328,7 @@ gamma_upper <- J - 2
 
 # model 1 version 2 - estimation - local ####
 # computation with NUTS in STAN
-m1_v2 <- stan_model("STAN/m1_v2_test.stan")
+m1_v2 <- stan_model("STAN/m1_v2.stan")
 
 # number of post-warmup iterations per chain
 iter_per_chain <- 2000
@@ -352,7 +352,7 @@ fit_m1_v2 <- sampling(m1_v2,
 
 # save fit_m1_v2
 saveRDS(fit_m1_v2,
-        "results/fit_m1_v2_clean_data_test.rds")  # TODO adjust name
+        "results/fit_m1_v2_clean_data.rds")  # TODO adjust name
 
 
 
