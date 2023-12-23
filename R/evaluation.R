@@ -102,6 +102,26 @@ PRE <- function(pred, obs, X, Y, I, j) {
   TP <- 0
   TP_FP <- 0
   
+  for(y in 1:Y) {
+    for(x in 1:X) {
+      if(I[x,y] == 1) {
+        
+        if(pred[x,y] == j & obs[x,y] == j) {
+          TP <- TP +1
+        }
+        
+        if(pred[x,y] == j) {
+          TP_FP <- TP_FP + 1
+        }
+        
+      }
+    }
+  }
+  
+  PRE <- TP / TP_FP
+  
+  return(PRE)
+  
 }
 
 
@@ -110,6 +130,26 @@ REC <- function(pred, obs, X, Y, I, j) {
   
   TP <- 0
   TP_FN <- 0
+  
+  for(y in 1:Y) {
+    for(x in 1:X) {
+      if(I[x,y] == 1) {
+        
+        if(pred[x,y] == j & obs[x,y] == j) {
+          TP <- TP +1
+        }
+        
+        if(obs[x,y] == j) {
+          TP_FN <- TP_FN + 1
+        }
+        
+      }
+    }
+  }
+  
+  REC <- TP / TP_FN
+  
+  return(REC)
   
 }
 
