@@ -18,11 +18,8 @@ data {
   // driver qualifier/race NA indicators
   matrix[N,T] I_1;
   
-  // indicators for no driver change
-  matrix[N,T] I_4;
-  
   // driver change indicators
-  matrix[N,T] I_5;
+  matrix[N,T] I_4;
   
   // number of ranks per qualifier/race
   int<lower=2> J;
@@ -32,6 +29,10 @@ data {
   
   // fixed initial conditions for latent driver ability state equation
   vector[N] mu_D_0;
+  
+  // SD increase for error for latent driver ability state equation
+  // in case of driver change
+  real<lower=0> kappa_D;
   
   // fixed cut points
   real gamma_lower;
@@ -49,12 +50,7 @@ parameters {
   real<lower=0> varsigma_C;
   
   // SD for error for latent driver ability state equation
-  // if no driver change
-  real<lower=0> varsigma_D_1;
-  
-  // SD for error for latent driver ability state equation
-  // if driver change
-  real<lower=0> varsigma_D_2;
+  real<lower=0> varsigma_D;
   
   // latent constructor abilities ( mu )
   matrix[K,T] mu_C_temp;
@@ -164,10 +160,7 @@ model {
   varsigma_C ~ normal(0,1);
   
   // prior equation for varsigma_D_1
-  varsigma_D_1 ~ normal(0,1);
-  
-  // prior equation for varsigma_D_2
-  varsigma_D_2 ~ normal(0,1);
+  varsigma_D ~ normal(0,1);
   
   // initialization for choice probabilities
   vector[J] theta;
@@ -186,7 +179,7 @@ model {
       // latent driver ability state equation ( mu )
       for (n in 1:N) {
         
-        if (I_1[n,t] == 1) { mu_D[n,t] ~ normal(mu_D_0[n], varsigma_D_1); }
+        if (I_1[n,t] == 1) { mu_D[n,t] ~ normal(mu_D_0[n], varsigma_D); }
         
       }
       
@@ -204,7 +197,7 @@ model {
       // latent driver ability state equation ( mu )
       for (n in 1:N) {
         
-        if (I_1[n,t] == 1) { mu_D[n,t] ~ normal(mu_D[n,t-1], varsigma_D_1 * I_4[n,t] + varsigma_D_2 * I_5[n,t]); }
+        if (I_1[n,t] == 1) { mu_D[n,t] ~ normal(mu_D[n,t-1], varsigma_D + kappa_D * I_4[n,t]); }
         
       }
       
@@ -216,7 +209,7 @@ model {
         
         // SD for latent qualifier/race performance equation
         real sigma_P;
-        sigma_P = sqrt(square(varsigma_D_1 * I_4[n,t] + varsigma_D_2 * I_5[n,t]) + square(varsigma_C));
+        sigma_P = sqrt(square(varsigma_D + kappa_D * I_4[n,t]) + square(varsigma_C));
         
         // choice probability equations
         theta[J] = Phi((gamma[1] - mu_P[n,t]) / sigma_P);
@@ -253,7 +246,7 @@ generated quantities {
       
       // SD for latent qualifier/race performance equation
       real sigma_P;
-      sigma_P = sqrt(square(varsigma_D_1 * I_4[n,t] + varsigma_D_2 * I_5[n,t]) + square(varsigma_C));
+      sigma_P = sqrt(square(varsigma_D + kappa_D * I_4[n,t]) + square(varsigma_C));
         
       // choice probability equations
       theta[J] = Phi((gamma[1] - mu_P[n,t]) / sigma_P);
