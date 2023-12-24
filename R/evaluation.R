@@ -398,7 +398,7 @@ HDI_MAE_2 <- function(est, sim, X, Y, I, iter) {
 # evaluation prep - simulated data ####
 # load fit_model_sim
 fit_model_sim <-
-  readRDS("data/fit_m1_v2_sim_clean_data_test.rds")  # TODO data file
+  readRDS("data/fit_m1_v2_sim_clean_data.rds")  # TODO data file
 
 # extract simulations
 params_model_sim <- rstan::extract(fit_model_sim)
@@ -408,7 +408,7 @@ params_model_sim <- rstan::extract(fit_model_sim)
 # evaluation prep - results ####
 # load fit_model
 fit_model <-
-  readRDS("results/fit_m1_v2_clean_data_test.rds")  # TODO data file
+  readRDS("results/fit_m1_v2_clean_data.rds")  # TODO data file
 
 # extract samples
 params_model <- rstan::extract(fit_model)
@@ -738,10 +738,9 @@ HDI_ACC(R_pred, R_obs, N, Q, I_1, iter)
 # bar plot
 # F1 score
 # median predicted ranks vs observed ranks
-F1_result <- F1(pred, obs, X, Y, I, J)
+F1_result <- F1(R_pred_mdn, R_obs, N, Q, I_1, J)
 
-barplot(x = 1:J,
-        y = F1_result,
+barplot(F1_result ~ c(1:J),
         ylim = c(0, 1),
         col = "deeppink1",
         border = FALSE,
