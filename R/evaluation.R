@@ -174,7 +174,30 @@ F1 <- function(pred, obs, X, Y, I, J) {
 
 
 # 89% HDI for F1 score for matrix
-# placeholder
+HDI_F1 <- function(pred, obs, X, Y, I, J, iter) {
+  
+  f1 <- matrix(data = NA, nrow = iter, ncol = J)
+  
+  for(i in 1:iter) {
+    
+    f1[i,] <- F1(pred[i,,], obs, X, Y, I, J)
+    
+  }
+  
+  HDI_F1 <- matrix(data = NA, nrow = 2, ncol = J)
+  
+  for(j in 1:J) {
+    
+    HDI_F1[1,j] <- HPDI(f1[,j])[1]
+    
+    HDI_upper <- HPDI(f1[,j])[2]
+    HDI_F1[2,j] <- HDI_upper - HDI_F1[1,j]
+    
+  }
+  
+  return(HDI_F1)
+  
+}
 
 
 # pairwise comparison accuracy for matrix
@@ -414,7 +437,7 @@ fit_model <-
 params_model <- rstan::extract(fit_model)
 
 
-# number of total post-warmup iterations
+# number of total sampling iterations
 iter_per_chain <- 2000
 
 iter <- iter_per_chain / 2 * 4
@@ -423,7 +446,7 @@ iter <- iter_per_chain / 2 * 4
 
 # convergence ####
 # effective sample size
-# n_eff / total post-warmup iterations should be greater than 0.01
+# n_eff / total sampling iterations should be greater than 0.01
 # source: Stan YouTube
 neff_temp <- summary(fit_model)$summary[,'n_eff']
 
@@ -489,20 +512,20 @@ Rhat[which(names(Rhat) %in% Rhat_params)]
 par(mfrow = c(3,1))
 ts.plot(params_model$varsigma_D,
         col = "blueviolet",
-        xlab = "Post-warmup iteration",
+        xlab = "Sampling iteration",
         ylab = "varsigma_D")
 
 # varsigma_C
 ts.plot(params_model$varsigma_C,
         col = "mediumspringgreen",
-        xlab = "Post-warmup iteration",
+        xlab = "Sampling iteration",
         ylab = "varsigma_C")
 
 # cut points
 for (j in 2:(J-2)) {
   ts.plot(params_model$gamma[,j],
           col = "deeppink4",
-          xlab = "Post-warmup iteration",
+          xlab = "Sampling iteration",
           ylab = paste("gamma_", j, sep=""))
 }
 par(mfrow = c(1,1))
@@ -634,7 +657,7 @@ R_pred <- params_model$R_pred
 
 
 # extract median predicted ranks
-# ( median over post-warmup iterations )
+# ( median over sampling iterations )
 R_pred_mdn <- matrix(data = NA, nrow = N, ncol = Q)
 
 for (n in 1:N) {
@@ -744,6 +767,24 @@ barplot(F1_result ~ c(1:J),
         ylim = c(0, 1),
         col = "deeppink1",
         border = FALSE,
+        main = "",  # TODO tbd
+        xlab = "rank",
+        ylab = "F1 score",
+        yaxt = "n")
+axis(side = 2, at = c(0, 0.5, 1), las = 1)
+
+
+# bar plot
+# F1 score 89% HDI 
+# predicted ranks vs observed ranks
+HDI_F1_result <- HDI_F1(R_pred, R_obs, N, Q, I_1, J, iter)
+
+colnames(HDI_F1_result) <- as.character(1:J)
+
+barplot(HDI_F1_result,
+        ylim = c(0, 1),
+        col = c("thistle3", "deeppink1"),
+        border = "white",
         main = "",  # TODO tbd
         xlab = "rank",
         ylab = "F1 score",
