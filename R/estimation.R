@@ -158,7 +158,7 @@ gamma_upper <- J - 2
 # computation with NUTS in STAN
 m1_v1 <- stan_model("STAN/m1_v1.stan")
 
-# number of post-warmup iterations per chain
+# number sampling iterations per chain
 iter_per_chain <- 2000
 
 fit_m1_v1 <- sampling(m1_v1,
@@ -186,7 +186,7 @@ saveRDS(fit_m1_v1,
 # computation with NUTS in STAN
 m1_v1 <- stan_model("m1_v1.stan")
 
-# number of post-warmup iterations per chain
+# number of sampling iterations per chain
 iter_per_chain <- 2000
 
 job::job({
@@ -330,7 +330,7 @@ gamma_upper <- J - 2
 # computation with NUTS in STAN
 m1_v2 <- stan_model("STAN/m1_v2.stan")
 
-# number of post-warmup iterations per chain
+# number of sampling iterations per chain
 iter_per_chain <- 2000
 
 fit_m1_v2 <- sampling(m1_v2,
@@ -358,9 +358,9 @@ saveRDS(fit_m1_v2,
 
 # model 1 version 2 - estimation - DSRI ####
 # computation with NUTS in STAN
-m1_v1 <- stan_model("m1_v2.stan")
+m1_v2 <- stan_model("m1_v2.stan")
 
-# number of post-warmup iterations per chain
+# number of sampling iterations per chain
 iter_per_chain <- 2000
 
 job::job({
@@ -376,6 +376,7 @@ job::job({
                                     J = J,
                                     mu_C_0 = mu_C_0,
                                     mu_D_0 = mu_D_0,
+                                    kappa_D = kappa_D,
                                     gamma_lower = gamma_lower,
                                     gamma_upper = gamma_upper,
                                     R = R_sim),  # TODO actual data
