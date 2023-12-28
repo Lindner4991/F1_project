@@ -52,6 +52,7 @@ library(rethinking)
 library(openxlsx)
 library(readxl)
 library(dplyr)
+library(bridgesampling)
 
 
 
@@ -1294,5 +1295,23 @@ for (k in 1:K) {
   
 }
 par(mfrow = c(1,1))
+
+
+
+# model comparison - Bayes factor ####
+# load fit_comp_model
+fit_comp_model <-
+  readRDS("results/fit_m1_v2_qualifier.rds")  # TODO data file
+
+# compute log marginal likelihood
+# model
+bridge_model <- bridge_sampler(fit_model, silent = TRUE)
+
+# comparison model
+bridge_comp_model <- bridge_sampler(fit_comp_model, silent = TRUE)
+
+# Bayes factor
+BF <- bf(bridge_model, bridge_comp_model)
+print(BF)
 
 
