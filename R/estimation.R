@@ -59,7 +59,6 @@ gamma_upper <- J - 2
 
 # load fit_m1_v1_sim
 fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_clean_data.rds")
-# fit_m1_v1_sim <- readRDS("fit_m1_v1_sim_clean_data.rds")
 
 # extract simulations
 params_m1_v1_sim <- rstan::extract(fit_m1_v1_sim)
@@ -78,7 +77,6 @@ gamma_upper <- J - 2
 
 # load fit_m1_v1_sim
 fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_missing_data.rds")
-# fit_m1_v1_sim <- readRDS("fit_m1_v1_sim_missing_data.rds")
 
 # extract simulations
 params_m1_v1_sim <- rstan::extract(fit_m1_v1_sim)
@@ -100,7 +98,6 @@ gamma_upper <- J - 2
 
 # load fit_m1_v1_sim
 fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_increased_fluctuations.rds")
-# fit_m1_v1_sim <- readRDS("fit_m1_v1_sim_greater_fluctuations.rds")
 
 # extract simulations
 params_m1_v1_sim <- rstan::extract(fit_m1_v1_sim)
@@ -122,7 +119,6 @@ gamma_upper <- J - 2
 
 # load fit_m1_v1_sim
 fit_m1_v1_sim <- readRDS("data/fit_m1_v1_sim_dominant_ctr_ability.rds")
-# fit_m1_v1_sim <- readRDS("fit_m1_v1_sim_missing_data.rds")
 
 # extract simulations
 params_m1_v1_sim <- rstan::extract(fit_m1_v1_sim)
@@ -154,7 +150,7 @@ gamma_upper <- J - 2
 
 
 
-# model 1 version 1 - estimation - local ####
+# model 1 version 1 - estimation - without job ####
 # computation with NUTS in STAN
 m1_v1 <- stan_model("STAN/m1_v1.stan")
 
@@ -182,7 +178,7 @@ saveRDS(fit_m1_v1,
 
 
 
-# model 1 version 1 - estimation - DSRI ####
+# model 1 version 1 - estimation - with job ####
 # computation with NUTS in STAN
 m1_v1 <- stan_model("m1_v1.stan")
 
@@ -221,7 +217,6 @@ gamma_upper <- J - 2
 
 # load fit_m1_v2_sim
 fit_m1_v2_sim <- readRDS("data/fit_m1_v2_sim_clean_data.rds")
-# fit_m1_v2_sim <- readRDS("fit_m1_v2_sim_clean_data.rds")
 
 # extract simulations
 params_m1_v2_sim <- rstan::extract(fit_m1_v2_sim)
@@ -240,7 +235,6 @@ gamma_upper <- J - 2
 
 # load fit_m1_v2_sim
 fit_m1_v2_sim <- readRDS("data/fit_m1_v2_sim_missing_data.rds")
-# fit_m1_v2_sim <- readRDS("fit_m1_v2_sim_missing_data.rds")
 
 # extract simulations
 params_m1_v2_sim <- rstan::extract(fit_m1_v2_sim)
@@ -262,7 +256,6 @@ gamma_upper <- J - 2
 
 # load fit_m1_v2_sim
 fit_m1_v2_sim <- readRDS("data/fit_m1_v2_sim_increased_fluctuations.rds")
-# fit_m1_v2_sim <- readRDS("fit_m1_v2_sim_greater_fluctuations.rds")
 
 # extract simulations
 params_m1_v2_sim <- rstan::extract(fit_m1_v2_sim)
@@ -284,7 +277,6 @@ gamma_upper <- J - 2
 
 # load fit_m1_v2_sim
 fit_m1_v2_sim <- readRDS("data/fit_m1_v2_sim_dominant_ctr_ability.rds")
-# fit_m1_v2_sim <- readRDS("fit_m1_v2_sim_missing_data.rds")
 
 # extract simulations
 params_m1_v2_sim <- rstan::extract(fit_m1_v2_sim)
@@ -326,7 +318,7 @@ gamma_upper <- J - 2
 
 
 
-# model 1 version 2 - estimation - local ####
+# model 1 version 2 - estimation - without job ####
 # computation with NUTS in STAN
 m1_v2 <- stan_model("STAN/m1_v2.stan")
 
@@ -356,7 +348,7 @@ saveRDS(fit_m1_v2,
 
 
 
-# model 1 version 2 - estimation - DSRI ####
+# model 1 version 2 - estimation - with job ####
 # computation with NUTS in STAN
 m1_v2 <- stan_model("m1_v2.stan")
 
