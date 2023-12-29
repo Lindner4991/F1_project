@@ -1045,10 +1045,21 @@ for (n in 1:N) {
        main = paste("driver", n),
        xlab = "qualifier/race",
        ylab = "rank",
-       xaxt = "n",
-       yaxt = "n")
+       xaxt = "n")
   axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
-  axis(side = 2, at = c(22, 11, 1), las = 1)
+  
+  grid(nx = NA, ny = NULL)
+  par(new = TRUE)
+  
+  plot(R_sim[n,],
+       ylim = c(22, 1),
+       type="l",
+       col = "orange",
+       main = paste("driver", n),
+       xlab = "qualifier/race",
+       ylab = "rank",
+       xaxt = "n")
+  axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
   
   for (t in 1:Q) {
     if (I_1[n,t] == 0) {
@@ -1905,10 +1916,21 @@ for (n in 1:N) {
        main = paste("ctr cockpit", n),
        xlab = "qualifier/race",
        ylab = "rank",
-       xaxt = "n",
-       yaxt = "n")
+       xaxt = "n")
   axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
-  axis(side = 2, at = c(22, 11, 1), las = 1)
+  
+  grid(nx = NA, ny = NULL)
+  par(new = TRUE)
+  
+  plot(R_sim[n,],
+       ylim = c(22, 1),
+       type="l",
+       col = "orange",
+       main = paste("ctr cockpit", n),
+       xlab = "qualifier/race",
+       ylab = "rank",
+       xaxt = "n")
+  axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
   
   for (t in 1:Q) {
     if (I_1[n,t] == 0) {
