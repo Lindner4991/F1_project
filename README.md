@@ -1,1 +1,5 @@
---- work in progress ; to be finalized January 22 ---
+Work in progress
+
+To be finalized January 22
+
+
