@@ -516,7 +516,23 @@ ts.plot(params_model$varsigma_D,
         xlab = "Sampling iteration",
         ylab = "varsigma_D")
 
+grid(nx = NA, ny = NULL)
+par(new = TRUE)
+
+ts.plot(params_model$varsigma_D,
+        col = "blueviolet",
+        xlab = "Sampling iteration",
+        ylab = "varsigma_D")
+
 # varsigma_C
+ts.plot(params_model$varsigma_C,
+        col = "mediumspringgreen",
+        xlab = "Sampling iteration",
+        ylab = "varsigma_C")
+
+grid(nx = NA, ny = NULL)
+par(new = TRUE)
+
 ts.plot(params_model$varsigma_C,
         col = "mediumspringgreen",
         xlab = "Sampling iteration",
@@ -524,6 +540,14 @@ ts.plot(params_model$varsigma_C,
 
 # cut points
 for (j in 2:(J-2)) {
+  ts.plot(params_model$gamma[,j],
+          col = "deeppink4",
+          xlab = "Sampling iteration",
+          ylab = paste("gamma_", j, sep=""))
+  
+  grid(nx = NA, ny = NULL)
+  par(new = TRUE)
+  
   ts.plot(params_model$gamma[,j],
           col = "deeppink4",
           xlab = "Sampling iteration",
@@ -580,7 +604,17 @@ hist(params_model$varsigma_D,
      border = FALSE,
      main = "varsigma_D",
      xlab = "")
+
+grid()
+par(new = TRUE)
+
+hist(params_model$varsigma_D,
+     col = "blueviolet",
+     border = FALSE,
+     main = "varsigma_D",
+     xlab = "")
 abline(v = varsigma_D_sim, lwd = 2, col = "orange")  # TODO actual data
+box()
 
 # histogram
 # posterior density varsigma_C
@@ -589,7 +623,17 @@ hist(params_model$varsigma_C,
      border = FALSE,
      main = "varsigma_C",
      xlab = "")
+
+grid()
+par(new = TRUE)
+
+hist(params_model$varsigma_C,
+     col = "mediumspringgreen",
+     border = FALSE,
+     main = "varsigma_C",
+     xlab = "")
 abline(v = varsigma_C_sim, lwd = 2, col = "orange")  # TODO actual data
+box()
 
 # histogram
 # posterior density cut points
@@ -599,7 +643,17 @@ for (j in 2:(J-2)) {
        border = FALSE,
        main = paste("gamma_", j, sep=""),
        xlab = "")
+  
+  grid()
+  par(new = TRUE)
+  
+  hist(params_model$gamma[,j],
+       col = "deeppink1",
+       border = FALSE,
+       main = paste("gamma_", j, sep=""),
+       xlab = "")
   abline(v = j-1, lwd = 2, col = "orange")  # TODO actual data
+  box()
 }
 par(mfrow = c(1,1))
 
@@ -730,10 +784,22 @@ for (n in 1:N) {
        # main = drv_names[n],  # TODO version 2
        xlab = "qualifier/race",  # TODO actual data
        ylab = "rank",
-       xaxt = "n",
-       yaxt = "n")
+       xaxt = "n")
   axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
-  axis(side = 2, at = c(22, 11, 1), las = 1)
+  
+  grid(nx = NA, ny = NULL)
+  par(new = TRUE)
+  
+  plot(R_obs_with_NA[n,],
+       ylim = c(22, 1),
+       type="l",
+       col = "orange",
+       main = paste("driver", n),  # TODO actual data
+       # main = drv_names[n],  # TODO version 2
+       xlab = "qualifier/race",  # TODO actual data
+       ylab = "rank",
+       xaxt = "n")
+  axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
   
   lines(R_pred_mdn[n,], col = "deeppink1")
   
@@ -770,9 +836,19 @@ barplot(F1_result ~ c(1:J),
         border = FALSE,
         main = "",  # TODO tbd
         xlab = "rank",
-        ylab = "F1 score",
-        yaxt = "n")
-axis(side = 2, at = c(0, 0.5, 1), las = 1)
+        ylab = "F1 score")
+
+grid(nx = NA, ny = NULL)
+par(new = TRUE)
+
+barplot(F1_result ~ c(1:J),
+        ylim = c(0, 1),
+        col = "deeppink1",
+        border = FALSE,
+        main = "",  # TODO tbd
+        xlab = "rank",
+        ylab = "F1 score")
+box()
 
 
 # bar plot
@@ -782,15 +858,30 @@ HDI_F1_result <- HDI_F1(R_pred, R_obs, N, Q, I_1, J, iter)
 
 colnames(HDI_F1_result) <- as.character(1:J)
 
+pink_transp <- rgb(255, 20, 147,
+                   max = 255,
+                   alpha = 25,
+                   names = "deeppink1")
+
 barplot(HDI_F1_result,
         ylim = c(0, 1),
-        col = c("thistle3", "deeppink1"),
+        col = c(pink_transp, "deeppink1"),
         border = "white",
         main = "",  # TODO tbd
         xlab = "rank",
-        ylab = "F1 score",
-        yaxt = "n")
-axis(side = 2, at = c(0, 0.5, 1), las = 1)
+        ylab = "F1 score")
+
+grid(nx = NA, ny = NULL)
+par(new = TRUE)
+
+barplot(HDI_F1_result,
+        ylim = c(0, 1),
+        col = c(pink_transp, "deeppink1"),
+        border = "white",
+        main = "",  # TODO tbd
+        xlab = "rank",
+        ylab = "F1 score")
+box()
 
 
 # pairwise comparison accuracy
@@ -815,12 +906,22 @@ plot(RHO_result,
      main = "",  # TODO tbd
      xlab = "qualifier/race",  # TODO actual data
      ylab = "rho",
-     xaxt = "n",
-     yaxt = "n")
+     xaxt = "n")
 axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
-axis(side = 2, at = c(-1, 0, 1), las = 1)
 
-abline(h = 0, col = "black", lty = 3)
+grid(nx = NA, ny = NULL)
+par(new = TRUE)
+
+plot(RHO_result,
+     ylim = c(-1, 1),
+     type="l",
+     col = "deeppink1",
+     main = "",  # TODO tbd
+     xlab = "qualifier/race",  # TODO actual data
+     ylab = "rho",
+     xaxt = "n")
+axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
+box()
 
 
 # time series plot
@@ -838,10 +939,22 @@ plot(x = x,
      main = "",  # TODO tbd
      xlab = "qualifier/race",  # TODO actual data
      ylab = "rho",
-     xaxt = "n",
-     yaxt = "n")
+     xaxt = "n")
 axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
-axis(side = 2, at = c(-1, 0, 1), las = 1)
+
+grid(nx = NA, ny = NULL)
+par(new = TRUE)
+
+plot(x = x,
+     y = HDI_RHO_result[2,],
+     ylim = c(-1, 1),
+     type="l",
+     col = "deeppink1",
+     main = "",  # TODO tbd
+     xlab = "qualifier/race",  # TODO actual data
+     ylab = "rho",
+     xaxt = "n")
+axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
 
 lines(x = x, HDI_RHO_result[1,], col = "deeppink1")
 
@@ -849,8 +962,7 @@ polygon(x = c(x, rev(x)),
         y = c(HDI_RHO_result[2,], rev(HDI_RHO_result[1,])),
         col = "deeppink1",
         lty = 0)
-
-abline(h = 0, col = "black", lty = 3)
+box()
 
 
 # time series plot
@@ -876,22 +988,38 @@ for (n in 1:N) {
        y = R_pred_U,
        ylim = c(22, 1),
        type="l",
-       col = "deeppink1",
+       col = "white",
        main = paste("driver", n),  # TODO actual data
        # main = drv_names[n],  # TODO version 2
        xlab = "qualifier/race",  # TODO actual data
        ylab = "rank",
-       xaxt = "n",
-       yaxt = "n")
+       xaxt = "n")
   axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
-  axis(side = 2, at = c(22, 11, 1), las = 1)
   
-  lines(x = x, R_pred_L, col = "deeppink1")
+  grid(nx = NA, ny = NULL)
+  par(new = TRUE)
+  
+  plot(x = x,
+       y = R_pred_U,
+       ylim = c(22, 1),
+       type="l",
+       col = "white",
+       main = paste("driver", n),  # TODO actual data
+       # main = drv_names[n],  # TODO version 2
+       xlab = "qualifier/race",  # TODO actual data
+       ylab = "rank",
+       xaxt = "n")
+  axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
+  
+  lines(x = x, R_pred_L, col = "white")
   
   polygon(x = c(x, rev(x)),
           y = c(R_pred_U, rev(R_pred_L)),
-          col = "deeppink1",
+          col = pink_transp,
           lty = 0)
+  
+  lines(R_obs_with_NA[n,], col = "orange")
+  lines(R_pred_mdn[n,], col = "deeppink1")
   
   for (t in 1:Q) {
     if (I_1[n,t] == 0) {
@@ -950,10 +1078,24 @@ for (n in 1:N) {
        # main = drv_names[n], # TODO version 2
        xlab = "qualifier/race",  # TODO actual data
        ylab = "performance",
-       xaxt = "n",
-       yaxt = "n")
+       xaxt = "n")
   axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
-  axis(side = 2, at = c(-5, 10, 25), las = 1)
+  
+  grid(nx = NA, ny = NULL)
+  par(new = TRUE)
+  
+  plot(mu_P_sim[n,],  # TODO actual data
+       # mu_P_mdn[n,],  # TODO actual data
+       ylim = c(-5, 25),
+       type="l",
+       col = "orange",  # TODO actual data
+       # col = "deeppink1",  # TODO actual data
+       main = paste("driver", n),  # TODO actual data
+       # main = drv_names[n], # TODO version 2
+       xlab = "qualifier/race",  # TODO actual data
+       ylab = "performance",
+       xaxt = "n")
+  axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
   
   lines(mu_P_mdn[n,], col = "deeppink1")  # TODO actual data
   
@@ -1002,22 +1144,38 @@ for (n in 1:N) {
        y = mu_P_U,
        ylim = c(-5, 25),
        type="l",
-       col = "deeppink1",
+       col = "white",
        main = paste("driver", n),  # TODO actual data
        # main = drv_names[n],  # TODO version 2
        xlab = "qualifier/race",  # TODO actual data
        ylab = "performance",
-       xaxt = "n",
-       yaxt = "n")
+       xaxt = "n")
   axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
-  axis(side = 2, at = c(-5, 10, 25), las = 1)
   
-  lines(x = x, mu_P_L, col = "deeppink1")
+  grid(nx = NA, ny = NULL)
+  par(new = TRUE)
+  
+  plot(x = x,
+       y = mu_P_U,
+       ylim = c(-5, 25),
+       type="l",
+       col = "white",
+       main = paste("driver", n),  # TODO actual data
+       # main = drv_names[n],  # TODO version 2
+       xlab = "qualifier/race",  # TODO actual data
+       ylab = "performance",
+       xaxt = "n")
+  axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
+  
+  lines(x = x, mu_P_L, col = "white")
   
   polygon(x = c(x, rev(x)),
           y = c(mu_P_U, rev(mu_P_L)),
-          col = "deeppink1",
+          col = pink_transp,
           lty = 0)
+  
+  lines(mu_P_sim[n,], col = "orange")  # TODO actual data
+  lines(mu_P_mdn[n,], col = "deeppink1")
   
   for (t in 1:Q) {
     if (I_1[n,t] == 0) {
@@ -1076,10 +1234,24 @@ for (n in 1:N) {
        # main = drv_names[n],  # TODO version 2
        xlab = "qualifier/race",  # TODO actual data
        ylab = "ability",
-       xaxt = "n",
-       yaxt = "n")
+       xaxt = "n")
   axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
-  axis(side = 2, at = c(-2, 4, 10), las = 1)  # TODO adjust
+  
+  grid(nx = NA, ny = NULL)
+  par(new = TRUE)
+  
+  plot(mu_D_sim[n,],  # TODO actual data
+       # mu_D_mdn[n,],  # TODO actual data
+       ylim = c(-2, 10),  # TODO adjust
+       type="l",
+       col = "orange",  # TODO actual data
+       # col = "blueviolet",  # TODO actual data
+       main = paste("driver", n),  # TODO actual data
+       # main = drv_names[n],  # TODO version 2
+       xlab = "qualifier/race",  # TODO actual data
+       ylab = "ability",
+       xaxt = "n")
+  axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
   
   lines(mu_D_mdn[n,], col = "blueviolet")  # TODO actual data
   
@@ -1107,6 +1279,11 @@ HDI_MAE_2(mu_D_est, mu_D_sim, N, Q, I_1, iter)
 
 # time series plot
 # estimated mu_D 89% HDI
+violet_transp <- rgb(138, 43, 226,
+                     max = 226,
+                     alpha = 25,
+                     names = "blueviolet")
+
 par(mfrow = c(5,2))
 for (n in 1:N) {
   
@@ -1128,22 +1305,38 @@ for (n in 1:N) {
        y = mu_D_U,
        ylim = c(-5, 15),  # TODO adjust
        type="l",
-       col = "blueviolet",
+       col = "white",
        main = paste("driver", n),  # TODO actual data
        # main = drv_names[n],  # TODO version 2
        xlab = "qualifier/race",  # TODO actual data
        ylab = "ability",
-       xaxt = "n",
-       yaxt = "n")
+       xaxt = "n")
   axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
-  axis(side = 2, at = c(-5, 5, 15), las = 1)  # TODO adjust
   
-  lines(x = x, mu_D_L, col = "blueviolet")
+  grid(nx = NA, ny = NULL)
+  par(new = TRUE)
+  
+  plot(x = x,
+       y = mu_D_U,
+       ylim = c(-5, 15),  # TODO adjust
+       type="l",
+       col = "white",
+       main = paste("driver", n),  # TODO actual data
+       # main = drv_names[n],  # TODO version 2
+       xlab = "qualifier/race",  # TODO actual data
+       ylab = "ability",
+       xaxt = "n")
+  axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
+  
+  lines(x = x, mu_D_L, col = "white")
   
   polygon(x = c(x, rev(x)),
           y = c(mu_D_U, rev(mu_D_L)),
-          col = "blueviolet",
+          col = violet_transp,
           lty = 0)
+  
+  lines(mu_D_sim[n,], col = "orange")  # TODO actual data
+  lines(mu_D_mdn[n,], col = "blueviolet")
   
   for (t in 1:Q) {
     if (I_1[n,t] == 0) {
@@ -1216,12 +1409,26 @@ for (k in 1:K) {
        # main = ctr_names[k],
        xlab = "qualifier/race",  # TODO actual data
        ylab = "ability",
-       xaxt = "n",
-       yaxt = "n")
+       xaxt = "n",)
   axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
-  axis(side = 2, at = c(-5, 10, 25), las = 1)  # TODO adjust
   
-  lines(mu_C_mdn[k,], col = "mediumspringgreen")
+  grid(nx = NA, ny = NULL)
+  par(new = TRUE)
+  
+  plot(mu_C_sim[k,],  # TODO actual data
+       # mu_C_mdn[k,],  # TODO actual data
+       ylim = c(-5, 25),  # TODO adjust
+       type="l",
+       col = "orange",  # TODO actual data
+       # col = "mediumspringgreen",  # TODO actual data
+       main = paste("constructor", k),  # TODO actual data
+       # main = ctr_names[k],
+       xlab = "qualifier/race",  # TODO actual data
+       ylab = "ability",
+       xaxt = "n",)
+  axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
+  
+  lines(mu_C_mdn[k,], col = "mediumspringgreen")  # TODO actual data
   
   for (t in 1:Q) {
     if (I_3[k,t] == 0) {
@@ -1247,6 +1454,12 @@ HDI_MAE_2(mu_C_est, mu_C_sim, K, Q, I_3, iter)
 
 # time series plot
 # estimated mu_C 89% HDI
+green_transp <- rgb(0, 250, 154,
+                    max = 250,
+                    alpha = 25,
+                    names = "mediumspringgreen")
+
+
 par(mfrow = c(5,2))
 for (k in 1:K) {
   
@@ -1268,22 +1481,38 @@ for (k in 1:K) {
        y = mu_C_U,
        ylim = c(-5, 25),  # TODO adjust
        type="l",
-       col = "mediumspringgreen",
+       col = "white",
        main = paste("constructor", k),  # TODO actual data
        # main = ctr_names[k],
        xlab = "qualifier/race",  # TODO actual data
        ylab = "ability",
-       xaxt = "n",
-       yaxt = "n")
+       xaxt = "n")
   axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
-  axis(side = 2, at = c(-5, 10, 25), las = 1)  # TODO adjust
   
-  lines(x = x, mu_C_L, col = "mediumspringgreen")
+  grid(nx = NA, ny = NULL)
+  par(new = TRUE)
+  
+  plot(x = x,
+       y = mu_C_U,
+       ylim = c(-5, 25),  # TODO adjust
+       type="l",
+       col = "white",
+       main = paste("constructor", k),  # TODO actual data
+       # main = ctr_names[k],
+       xlab = "qualifier/race",  # TODO actual data
+       ylab = "ability",
+       xaxt = "n")
+  axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
+  
+  lines(x = x, mu_C_L, col = "white")
   
   polygon(x = c(x, rev(x)),
           y = c(mu_C_U, rev(mu_C_L)),
-          col = "mediumspringgreen",
+          col = green_transp,
           lty = 0)
+  
+  lines(mu_C_sim[k,], col = "orange")  # TODO actual data
+  lines(mu_C_mdn[k,], col = "mediumspringgreen")
   
   for (t in 1:Q) {
     if (I_3[k,t] == 0) {
