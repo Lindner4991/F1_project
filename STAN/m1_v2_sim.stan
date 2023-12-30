@@ -9,14 +9,14 @@ data {
   // number of qualifiers/races
   int<lower=1> T;
   
-  // constructor race/qualifier NA indicators
-  matrix[K,T] I_3;
+  // driver qualifier/race NA indicators
+  matrix[N,T] I_1;
   
   // constructor indicators
   matrix[N,K] I_2[T];
   
-  // driver race/qualifier NA indicators
-  matrix[N,T] I_1;
+  // constructor qualifier/race NA indicators
+  matrix[K,T] I_3;
   
   // driver change indicators
   matrix[N,T] I_4;
