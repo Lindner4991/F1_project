@@ -21,7 +21,7 @@ data {
   // driver change indicators
   matrix[N,T] I_4;
   
-  // indicator for first race of a season
+  // indicators for first race of a season
   vector[T] i_5;
   
   // number of ranks per qualifier/race
