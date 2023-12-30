@@ -1467,3 +1467,539 @@ mu_D_0[23] <- drv_ability_rank[15]  # median rank gutierrez from t=0 to t=37
 mu_D_0[24] <- drv_ability_rank[13]  # median rank grosjean from t=0 to t=37
 
 
+
+# model 2 - F1 hybrid era qualifier data ####
+# number of constructors in time series
+K <- 12
+
+# number of drivers in time series
+N <- 24
+
+# number of qualifiers
+Q <- 159
+
+# number of ranks per qualifier
+J <- 22
+
+# actual qualifier ranks
+# load R_act_temp
+R_act_temp <- read_excel("data/R_act_qualifier_cockpit.xlsx",
+                         sheet = "Sheet 1")
+# R_act_temp <- read_excel("R_act_qualifier_cockpit.xlsx",
+#                         sheet = "Sheet 1")
+
+# data processing - delete column 1
+R_act <- R_act_temp[,-1]
+
+# data processing - chr --> numeric
+R_act <- sapply(R_act, FUN = as.numeric)
+
+# data processing - NAs --> 22
+for (n in 1:N) {
+  for (t in 1:Q) {
+    
+    if (is.na(R_act[n,t])) {
+      R_act[n,t] <- J
+    }
+    
+  }
+}
+
+# constructor qualifier NA indicators
+I_3 <- matrix(data = 1, nrow = K, ncol = Q)
+
+# NAs for constructor with ID 10 ( manor )
+I_3[10,c(16:18,59:159)] <- 0
+
+# NAs for constructor with ID 11 ( caterham )
+I_3[11,c(16:17,19:159)] <- 0
+
+# NAs for constructor with ID 12 ( haas )
+I_3[12,1:37] <- 0
+
+K * Q - sum(I_3)
+
+# indicators for first race of a season
+i_5 <- rep(0, times = Q)
+
+for (t in 1:Q) {
+  
+  if(t %in% c(1,19,38,59,79,100,121,138,159)) {
+    i_5[t] <- 1 
+  }
+  
+}
+
+# constructor indicators
+I_2 <- matrix(data = NA, nrow = N, ncol = K)
+I_2[1,] <- c(1,0,0,0,0,0,0,0,0,0,0,0)
+I_2[2,] <- c(1,0,0,0,0,0,0,0,0,0,0,0)
+I_2[3,] <- c(0,1,0,0,0,0,0,0,0,0,0,0)
+I_2[4,] <- c(0,1,0,0,0,0,0,0,0,0,0,0)
+I_2[5,] <- c(0,0,1,0,0,0,0,0,0,0,0,0)
+I_2[6,] <- c(0,0,1,0,0,0,0,0,0,0,0,0)
+I_2[7,] <- c(0,0,0,1,0,0,0,0,0,0,0,0)
+I_2[8,] <- c(0,0,0,1,0,0,0,0,0,0,0,0)
+I_2[9,] <- c(0,0,0,0,1,0,0,0,0,0,0,0)
+I_2[10,] <- c(0,0,0,0,1,0,0,0,0,0,0,0)
+I_2[11,] <- c(0,0,0,0,0,1,0,0,0,0,0,0)
+I_2[12,] <- c(0,0,0,0,0,1,0,0,0,0,0,0)
+I_2[13,] <- c(0,0,0,0,0,0,1,0,0,0,0,0)
+I_2[14,] <- c(0,0,0,0,0,0,1,0,0,0,0,0)
+I_2[15,] <- c(0,0,0,0,0,0,0,1,0,0,0,0)
+I_2[16,] <- c(0,0,0,0,0,0,0,1,0,0,0,0)
+I_2[17,] <- c(0,0,0,0,0,0,0,0,1,0,0,0)
+I_2[18,] <- c(0,0,0,0,0,0,0,0,1,0,0,0)
+I_2[19,] <- c(0,0,0,0,0,0,0,0,0,1,0,0)
+I_2[20,] <- c(0,0,0,0,0,0,0,0,0,1,0,0)
+I_2[21,] <- c(0,0,0,0,0,0,0,0,0,0,1,0)
+I_2[22,] <- c(0,0,0,0,0,0,0,0,0,0,1,0)
+I_2[23,] <- c(0,0,0,0,0,0,0,0,0,0,0,1)
+I_2[24,] <- c(0,0,0,0,0,0,0,0,0,0,0,1)
+
+I_2 <- list(I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2)
+
+# driver qualifier NA indicators
+I_1 <- matrix(data = 1, nrow = N, ncol = Q)
+
+# NAs for driver with ID 19 ( manor driver )
+I_1[19,c(16:18,59:159)] <- 0
+
+# NAs for driver with ID 20 ( manor driver )
+I_1[20,c(16:18,59:159)] <- 0
+
+# NAs for driver with ID 21 ( caterham driver )
+I_1[21,c(16:17,19:159)] <- 0
+
+# NAs for driver with ID 22 ( caterham driver )
+I_1[22,c(16:17,19:159)] <- 0
+
+# NAs for constructor with ID 23 ( haas driver )
+I_1[23,1:37] <- 0
+
+# NAs for constructor with ID 24 ( haas driver )
+I_1[24,1:37] <- 0
+
+N * Q - sum(I_1)
+
+# driver change indicators
+drv_ctr_cockpit_temp <- read_excel("data/drv_ctr_cockpit_qualifier.xlsx",
+                                   sheet = "Sheet 1")
+
+drv_ctr_cokpit <- drv_ctr_cockpit_temp[,-c(1,2)]
+
+drv_ctr_cockpit_rows <- dim(drv_ctr_cokpit)[1]
+
+ctr_cockpits <- c("mercedes1", "mercedes2",
+                  "red_bull1", "red_bull2",
+                  "mclaren1", "mclaren2",
+                  "ferrari1", "ferrari2",
+                  "alphatauri1", "alphatauri2",
+                  "aston_martin1", "aston_martin2",
+                  "williams1", "williams2",
+                  "alfa1", "alfa2",
+                  "alpine1", "alpine2",
+                  "manor1", "manor2",
+                  "caterham1", "caterham2",
+                  "haas1", "haas2")
+
+I_4 <- matrix(data = 0, nrow = N, ncol = Q)
+
+for (ctr in 1:N) {
+  for (t in 2:Q) {
+    for(n in 1:drv_ctr_cockpit_rows) {
+      if(!is.na(drv_ctr_cokpit[n,t])) {
+        
+        if(drv_ctr_cokpit[n,t] == ctr_cockpits[ctr] &
+           (is.na(drv_ctr_cokpit[n,t-1]) |
+            drv_ctr_cokpit[n,t-1] != ctr_cockpits[ctr])) {
+          
+          I_4[ctr,t] <- 1
+          
+        }
+        
+      }
+    }
+  }
+}
+
+I_4[21,18] <- 0  # special case for caterham1
+
+sum(I_4)
+
+# initial conditions for latent constructor ability state equation ( 75% )
+v1C <- 0.75 * 21
+v2C <- v1C / 10
+
+topC <- v1C - 0.25
+bottomC <- -0.25 
+
+ctr_ability_rank <- c(topC,
+                      topC - 1 * v2C,
+                      topC - 2 * v2C,
+                      topC - 3 * v2C,
+                      topC - 4 * v2C,
+                      topC - 5 * v2C,
+                      topC - 6 * v2C,
+                      topC - 7 * v2C,
+                      topC - 8 * v2C,
+                      topC - 9 * v2C,
+                      bottomC)
+
+mu_C_0 <- rep(NA, times = K)
+
+mu_C_0[1] <- ctr_ability_rank[2]  # 2013 ctr standings
+mu_C_0[2] <- ctr_ability_rank[1]  # 2013 ctr standings
+mu_C_0[3] <- ctr_ability_rank[5]  # 2013 ctr standings
+mu_C_0[4] <- ctr_ability_rank[3]  # 2013 ctr standings
+mu_C_0[5] <- ctr_ability_rank[8]  # 2013 ctr standings
+mu_C_0[6] <- ctr_ability_rank[6]  # 2013 ctr standings
+mu_C_0[7] <- ctr_ability_rank[9]  # 2013 ctr standings
+mu_C_0[8] <- ctr_ability_rank[7]  # 2013 ctr standings
+mu_C_0[9] <- ctr_ability_rank[4]  # 2013 ctr standings
+mu_C_0[10] <- ctr_ability_rank[10]  # 2013 ctr standings
+mu_C_0[11] <- ctr_ability_rank[11]  # 2013 ctr standings
+mu_C_0[12] <- ctr_ability_rank[11]  # min ctr_ability_rank ( haas )
+
+# initial conditions for latent driver ability state equation ( 25% )
+v1D <- 0.25 * 21
+v2D <- v1D / 21
+
+topD <- v1D - 0.25
+bottomD <- -0.25
+
+drv_ability_rank <- c(topD,
+                      topD - 1 * v2D,
+                      topD - 2 * v2D,
+                      topD - 3 * v2D,
+                      topD - 4 * v2D,
+                      topD - 5 * v2D,
+                      topD - 6 * v2D,
+                      topD - 7 * v2D,
+                      topD - 8 * v2D,
+                      topD - 9 * v2D,
+                      topD - 10 * v2D,
+                      topD - 11 * v2D,
+                      topD - 12 * v2D,
+                      topD - 13 * v2D,
+                      topD - 14 * v2D,
+                      topD - 15 * v2D,
+                      topD - 16 * v2D,
+                      topD - 17 * v2D,
+                      topD - 18 * v2D,
+                      topD - 19 * v2D,
+                      topD - 20 * v2D,
+                      bottomD)
+
+mu_D_0 <- rep(NA, times = N)
+
+mu_D_0[1] <- drv_ability_rank[4]  # 2013 drv standings
+mu_D_0[2] <- drv_ability_rank[6]  # 2013 drv standings
+mu_D_0[3] <- drv_ability_rank[14]  # 2013 drv standings
+mu_D_0[4] <- drv_ability_rank[1]  # 2013 drv standings
+mu_D_0[5] <- drv_ability_rank[4]  # t=0 qualifier 2014 season
+mu_D_0[6] <- drv_ability_rank[9]  # 2013 drv standings
+mu_D_0[7] <- drv_ability_rank[2]  # 2013 drv standings
+mu_D_0[8] <- drv_ability_rank[5]  # 2013 drv standings
+mu_D_0[9] <- drv_ability_rank[15]  # 2013 drv standings
+mu_D_0[10] <- drv_ability_rank[8]  # t=0 qualifier 2014 season
+mu_D_0[11] <- drv_ability_rank[10]  # 2013 drv standings
+mu_D_0[12] <- drv_ability_rank[11]  # 2013 drv standings
+mu_D_0[13] <- drv_ability_rank[8]  # 2013 drv standings
+mu_D_0[14] <- drv_ability_rank[17]  # 2013 drv standings
+mu_D_0[15] <- drv_ability_rank[13]  # 2013 drv standings
+mu_D_0[16] <- drv_ability_rank[16]  # 2013 drv standings
+mu_D_0[17] <- drv_ability_rank[7]  # 2013 drv standings
+mu_D_0[18] <- drv_ability_rank[18]  # 2013 drv standings
+mu_D_0[19] <- drv_ability_rank[22]  # 2013 drv standings
+mu_D_0[20] <- drv_ability_rank[19]  # 2013 drv standings
+mu_D_0[21] <- drv_ability_rank[15]  # t=0 qualifier 2014 season
+mu_D_0[22] <- drv_ability_rank[20]  # t=0 qualifier 2014 season
+
+mu_D_0[23] <- drv_ability_rank[15]  # median rank gutierrez from t=0 to t=37 
+mu_D_0[24] <- drv_ability_rank[13]  # median rank grosjean from t=0 to t=37
+
+
+
+# model 2 - F1 hybrid era race data ####
+# number of constructors in time series
+K <- 12
+
+# number of ctr cockpits in time series
+N <- 24
+
+# number of races
+Q <- 159
+
+# number of ranks per race
+J <- 22
+
+# actual race ranks
+# load R_act_temp
+R_act_temp <- read_excel("data/R_act_race_cockpit.xlsx",
+                         sheet = "Sheet 1")
+# R_act_temp <- read_excel("R_act_race_cockpit.xlsx",
+#                         sheet = "Sheet 1")
+
+# data processing - delete column 1
+R_act <- R_act_temp[,-1]
+
+# data processing - chr --> numeric
+R_act <- sapply(R_act, FUN = as.numeric)
+
+# data processing - NAs --> 22
+for (n in 1:N) {
+  for (t in 1:Q) {
+    
+    if (is.na(R_act[n,t])) {
+      R_act[n,t] <- J
+    }
+    
+  }
+}
+
+# constructor qualifier NA indicators
+I_3 <- matrix(data = 1, nrow = K, ncol = Q)
+
+# NAs for constructor with ID 10 ( manor )
+I_3[10,c(16:18,59:159)] <- 0
+
+# NAs for constructor with ID 11 ( caterham )
+I_3[11,c(16:17,19:159)] <- 0
+
+# NAs for constructor with ID 12 ( haas )
+I_3[12,1:37] <- 0
+
+K * Q - sum(I_3)
+
+# indicators for first race of a season
+i_5 <- rep(0, times = Q)
+
+for (t in 1:Q) {
+  
+  if(t %in% c(1,19,38,59,79,100,121,138,159)) {
+    i_5[t] <- 1 
+  }
+  
+}
+
+# constructor indicators
+I_2 <- matrix(data = NA, nrow = N, ncol = K)
+I_2[1,] <- c(1,0,0,0,0,0,0,0,0,0,0,0)
+I_2[2,] <- c(1,0,0,0,0,0,0,0,0,0,0,0)
+I_2[3,] <- c(0,1,0,0,0,0,0,0,0,0,0,0)
+I_2[4,] <- c(0,1,0,0,0,0,0,0,0,0,0,0)
+I_2[5,] <- c(0,0,1,0,0,0,0,0,0,0,0,0)
+I_2[6,] <- c(0,0,1,0,0,0,0,0,0,0,0,0)
+I_2[7,] <- c(0,0,0,1,0,0,0,0,0,0,0,0)
+I_2[8,] <- c(0,0,0,1,0,0,0,0,0,0,0,0)
+I_2[9,] <- c(0,0,0,0,1,0,0,0,0,0,0,0)
+I_2[10,] <- c(0,0,0,0,1,0,0,0,0,0,0,0)
+I_2[11,] <- c(0,0,0,0,0,1,0,0,0,0,0,0)
+I_2[12,] <- c(0,0,0,0,0,1,0,0,0,0,0,0)
+I_2[13,] <- c(0,0,0,0,0,0,1,0,0,0,0,0)
+I_2[14,] <- c(0,0,0,0,0,0,1,0,0,0,0,0)
+I_2[15,] <- c(0,0,0,0,0,0,0,1,0,0,0,0)
+I_2[16,] <- c(0,0,0,0,0,0,0,1,0,0,0,0)
+I_2[17,] <- c(0,0,0,0,0,0,0,0,1,0,0,0)
+I_2[18,] <- c(0,0,0,0,0,0,0,0,1,0,0,0)
+I_2[19,] <- c(0,0,0,0,0,0,0,0,0,1,0,0)
+I_2[20,] <- c(0,0,0,0,0,0,0,0,0,1,0,0)
+I_2[21,] <- c(0,0,0,0,0,0,0,0,0,0,1,0)
+I_2[22,] <- c(0,0,0,0,0,0,0,0,0,0,1,0)
+I_2[23,] <- c(0,0,0,0,0,0,0,0,0,0,0,1)
+I_2[24,] <- c(0,0,0,0,0,0,0,0,0,0,0,1)
+
+I_2 <- list(I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,
+            I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2,I_2)
+
+# driver qualifier NA indicators
+I_1 <- matrix(data = 1, nrow = N, ncol = Q)
+
+# NAs for driver with ID 19 ( manor driver )
+I_1[19,c(16:18,59:159)] <- 0
+
+# NAs for driver with ID 20 ( manor driver )
+I_1[20,c(16:18,59:159)] <- 0
+
+# NAs for driver with ID 21 ( caterham driver )
+I_1[21,c(16:17,19:159)] <- 0
+
+# NAs for driver with ID 22 ( caterham driver )
+I_1[22,c(16:17,19:159)] <- 0
+
+# NAs for constructor with ID 23 ( haas driver )
+I_1[23,1:37] <- 0
+
+# NAs for constructor with ID 24 ( haas driver )
+I_1[24,1:37] <- 0
+
+N * Q - sum(I_1)
+
+# driver change indicators
+drv_ctr_cockpit_temp <- read_excel("data/drv_ctr_cockpit_race.xlsx",
+                                   sheet = "Sheet 1")
+
+drv_ctr_cokpit <- drv_ctr_cockpit_temp[,-c(1,2)]
+
+drv_ctr_cockpit_rows <- dim(drv_ctr_cokpit)[1]
+
+ctr_cockpits <- c("mercedes1", "mercedes2",
+                  "red_bull1", "red_bull2",
+                  "mclaren1", "mclaren2",
+                  "ferrari1", "ferrari2",
+                  "alphatauri1", "alphatauri2",
+                  "aston_martin1", "aston_martin2",
+                  "williams1", "williams2",
+                  "alfa1", "alfa2",
+                  "alpine1", "alpine2",
+                  "manor1", "manor2",
+                  "caterham1", "caterham2",
+                  "haas1", "haas2")
+
+I_4 <- matrix(data = 0, nrow = N, ncol = Q)
+
+for (ctr in 1:N) {
+  for (t in 2:Q) {
+    for(n in 1:drv_ctr_cockpit_rows) {
+      if(!is.na(drv_ctr_cokpit[n,t])) {
+        
+        if(drv_ctr_cokpit[n,t] == ctr_cockpits[ctr] &
+           (is.na(drv_ctr_cokpit[n,t-1]) |
+            drv_ctr_cokpit[n,t-1] != ctr_cockpits[ctr])) {
+          
+          I_4[ctr,t] <- 1
+          
+        }
+        
+      }
+    }
+  }
+}
+
+I_4[21,18] <- 0  # special case for caterham1
+
+sum(I_4)
+
+# initial conditions for latent constructor ability state equation ( 75% )
+v1C <- 0.75 * 21
+v2C <- v1C / 10
+
+topC <- v1C - 0.25
+bottomC <- -0.25 
+
+ctr_ability_rank <- c(topC,
+                      topC - 1 * v2C,
+                      topC - 2 * v2C,
+                      topC - 3 * v2C,
+                      topC - 4 * v2C,
+                      topC - 5 * v2C,
+                      topC - 6 * v2C,
+                      topC - 7 * v2C,
+                      topC - 8 * v2C,
+                      topC - 9 * v2C,
+                      bottomC)
+
+mu_C_0 <- rep(NA, times = K)
+
+mu_C_0[1] <- ctr_ability_rank[2]  # 2013 ctr standings
+mu_C_0[2] <- ctr_ability_rank[1]  # 2013 ctr standings
+mu_C_0[3] <- ctr_ability_rank[5]  # 2013 ctr standings
+mu_C_0[4] <- ctr_ability_rank[3]  # 2013 ctr standings
+mu_C_0[5] <- ctr_ability_rank[8]  # 2013 ctr standings
+mu_C_0[6] <- ctr_ability_rank[6]  # 2013 ctr standings
+mu_C_0[7] <- ctr_ability_rank[9]  # 2013 ctr standings
+mu_C_0[8] <- ctr_ability_rank[7]  # 2013 ctr standings
+mu_C_0[9] <- ctr_ability_rank[4]  # 2013 ctr standings
+mu_C_0[10] <- ctr_ability_rank[10]  # 2013 ctr standings
+mu_C_0[11] <- ctr_ability_rank[11]  # 2013 ctr standings
+mu_C_0[12] <- ctr_ability_rank[11]  # min ctr_ability_rank ( haas )
+
+# initial conditions for latent driver ability state equation ( 25% )
+v1D <- 0.25 * 21
+v2D <- v1D / 21
+
+topD <- v1D - 0.25
+bottomD <- -0.25
+
+drv_ability_rank <- c(topD,
+                      topD - 1 * v2D,
+                      topD - 2 * v2D,
+                      topD - 3 * v2D,
+                      topD - 4 * v2D,
+                      topD - 5 * v2D,
+                      topD - 6 * v2D,
+                      topD - 7 * v2D,
+                      topD - 8 * v2D,
+                      topD - 9 * v2D,
+                      topD - 10 * v2D,
+                      topD - 11 * v2D,
+                      topD - 12 * v2D,
+                      topD - 13 * v2D,
+                      topD - 14 * v2D,
+                      topD - 15 * v2D,
+                      topD - 16 * v2D,
+                      topD - 17 * v2D,
+                      topD - 18 * v2D,
+                      topD - 19 * v2D,
+                      topD - 20 * v2D,
+                      bottomD)
+
+mu_D_0 <- rep(NA, times = N)
+
+mu_D_0[1] <- drv_ability_rank[4]  # 2013 drv standings
+mu_D_0[2] <- drv_ability_rank[6]  # 2013 drv standings
+mu_D_0[3] <- drv_ability_rank[14]  # 2013 drv standings
+mu_D_0[4] <- drv_ability_rank[1]  # 2013 drv standings
+mu_D_0[5] <- drv_ability_rank[2]  # t=0 race 2014 season
+mu_D_0[6] <- drv_ability_rank[9]  # 2013 drv standings
+mu_D_0[7] <- drv_ability_rank[2]  # 2013 drv standings
+mu_D_0[8] <- drv_ability_rank[5]  # 2013 drv standings
+mu_D_0[9] <- drv_ability_rank[15]  # 2013 drv standings
+mu_D_0[10] <- drv_ability_rank[9]  # t=0 race 2014 season
+mu_D_0[11] <- drv_ability_rank[10]  # 2013 drv standings
+mu_D_0[12] <- drv_ability_rank[11]  # 2013 drv standings
+mu_D_0[13] <- drv_ability_rank[8]  # 2013 drv standings
+mu_D_0[14] <- drv_ability_rank[17]  # 2013 drv standings
+mu_D_0[15] <- drv_ability_rank[13]  # 2013 drv standings
+mu_D_0[16] <- drv_ability_rank[16]  # 2013 drv standings
+mu_D_0[17] <- drv_ability_rank[7]  # 2013 drv standings
+mu_D_0[18] <- drv_ability_rank[18]  # 2013 drv standings
+mu_D_0[19] <- drv_ability_rank[22]  # 2013 drv standings
+mu_D_0[20] <- drv_ability_rank[19]  # 2013 drv standings
+mu_D_0[21] <- drv_ability_rank[21]  # t=0 race 2014 season
+mu_D_0[22] <- drv_ability_rank[17]  # t=0 race 2014 season
+
+mu_D_0[23] <- drv_ability_rank[15]  # median rank gutierrez from t=0 to t=37 
+mu_D_0[24] <- drv_ability_rank[13]  # median rank grosjean from t=0 to t=37
+
+
