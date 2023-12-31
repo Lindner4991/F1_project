@@ -70,8 +70,6 @@ median_ctr_rank <- function(cockpit1, cockpit2, period, rank_matrix) {
 # load R_act_temp
 R_act_temp <- read_excel("data/R_act_qualifier.xlsx",
                          sheet = "Sheet 1")
-# R_act_temp <- read_excel("R_act_qualifier.xlsx",
-#                         sheet = "Sheet 1")
 
 # data processing - delete columns 1, 2, 3, and 4
 R_act <- R_act_temp[,-c(1:4)]
@@ -107,8 +105,6 @@ K * Q - sum(I_3)
 # load drv_ctr
 drv_ctr <- read_excel("data/drv_ctr_qualifier.xlsx",
                       sheet = "Sheet 1")
-# drv_ctr <- read_excel("drv_ctr_qualifier.xlsx",
-#                       sheet = "Sheet 1")
 
 # test - same order of drv in drv_ctr and R_obs_qualifier
 test <- 0
@@ -433,8 +429,6 @@ mu_D_0[51] <- drv_ability_rank[14]
 # load R_act_temp
 R_act_temp <- read_excel("data/R_act_race.xlsx",
                          sheet = "Sheet 1")
-# R_act_temp <- read_excel("R_act_race.xlsx",
-#                         sheet = "Sheet 1")
 
 # data processing - delete columns 1, 2, 3, and 4
 R_act <- R_act_temp[,-c(1:4)]
@@ -470,8 +464,6 @@ K * Q - sum(I_3)
 # load drv_ctr
 drv_ctr <- read_excel("data/drv_ctr_race.xlsx",
                       sheet = "Sheet 1")
-# drv_ctr <- read_excel("drv_ctr_race.xlsx",
-#                       sheet = "Sheet 1")
 
 # test - same order of drv in drv_ctr and R_obs_race
 test <- 0
@@ -890,8 +882,6 @@ J <- 22
 # load R_act_temp
 R_act_temp <- read_excel("data/R_act_qualifier_cockpit.xlsx",
                          sheet = "Sheet 1")
-# R_act_temp <- read_excel("R_act_qualifier_cockpit.xlsx",
-#                         sheet = "Sheet 1")
 
 # data processing - delete column 1
 R_act <- R_act_temp[,-1]
@@ -1228,8 +1218,6 @@ J <- 22
 # load R_act_temp
 R_act_temp <- read_excel("data/R_act_race_cockpit.xlsx",
                          sheet = "Sheet 1")
-# R_act_temp <- read_excel("R_act_race_cockpit.xlsx",
-#                         sheet = "Sheet 1")
 
 # data processing - delete column 1
 R_act <- R_act_temp[,-1]
@@ -1485,8 +1473,6 @@ J <- 22
 # load R_act_temp
 R_act_temp <- read_excel("data/R_act_qualifier_cockpit.xlsx",
                          sheet = "Sheet 1")
-# R_act_temp <- read_excel("R_act_qualifier_cockpit.xlsx",
-#                         sheet = "Sheet 1")
 
 # data processing - delete column 1
 R_act <- R_act_temp[,-1]
@@ -1753,8 +1739,6 @@ J <- 22
 # load R_act_temp
 R_act_temp <- read_excel("data/R_act_race_cockpit.xlsx",
                          sheet = "Sheet 1")
-# R_act_temp <- read_excel("R_act_race_cockpit.xlsx",
-#                         sheet = "Sheet 1")
 
 # data processing - delete column 1
 R_act <- R_act_temp[,-1]
