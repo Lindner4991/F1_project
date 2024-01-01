@@ -422,7 +422,7 @@ HDI_MAE_2 <- function(est, sim, X, Y, I, iter) {
 # evaluation prep - simulated data ####
 # load fit_model_sim
 fit_model_sim <-
-  readRDS("data/fit_m1_v2_sim_clean_data.rds")  # TODO data file
+  readRDS("data/fit_m1_v1_sim_clean_data.rds")  # TODO data file
 
 # extract simulations
 params_model_sim <- rstan::extract(fit_model_sim)
@@ -432,7 +432,7 @@ params_model_sim <- rstan::extract(fit_model_sim)
 # evaluation prep - results ####
 # load fit_model
 fit_model <-
-  readRDS("results/fit_m1_v2_clean_data.rds")  # TODO data file
+  readRDS("results/fit_m1_v1_qualifier.rds")  # TODO data file
 
 # extract samples
 params_model <- rstan::extract(fit_model)
@@ -845,7 +845,7 @@ barplot(F1_result ~ c(1:J),
         ylim = c(0, 1),
         col = "deeppink1",
         border = FALSE,
-        main = "",  # TODO tbd
+        main = "model 1 version 1 | qualifier data",  # TODO tbd
         xlab = "rank",
         ylab = "F1 score")
 box()
@@ -878,7 +878,7 @@ barplot(HDI_F1_result,
         ylim = c(0, 1),
         col = c(pink_transp, "deeppink1"),
         border = "white",
-        main = "",  # TODO tbd
+        main = "model 1 version 1 | qualifier data",  # TODO tbd
         xlab = "rank",
         ylab = "F1 score")
 box()
@@ -904,7 +904,7 @@ plot(RHO_result,
      type="l",
      col = "deeppink1",
      main = "",  # TODO tbd
-     xlab = "qualifier/race",  # TODO actual data
+     xlab = "",
      ylab = "rho",
      xaxt = "n")
 axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
@@ -916,8 +916,8 @@ plot(RHO_result,
      ylim = c(-1, 1),
      type="l",
      col = "deeppink1",
-     main = "",  # TODO tbd
-     xlab = "qualifier/race",  # TODO actual data
+     main = "model 1 version 1 | qualifier data",  # TODO tbd
+     xlab = "qualifier",  # TODO actual data
      ylab = "rho",
      xaxt = "n")
 axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
@@ -937,7 +937,7 @@ plot(x = x,
      type="l",
      col = "deeppink1",
      main = "",  # TODO tbd
-     xlab = "qualifier/race",  # TODO actual data
+     xlab = "",
      ylab = "rho",
      xaxt = "n")
 axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
@@ -950,8 +950,8 @@ plot(x = x,
      ylim = c(-1, 1),
      type="l",
      col = "deeppink1",
-     main = "",  # TODO tbd
-     xlab = "qualifier/race",  # TODO actual data
+     main = "model 1 version 1 | qualifier data",  # TODO tbd
+     xlab = "qualifier",  # TODO actual data
      ylab = "rho",
      xaxt = "n")
 axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
