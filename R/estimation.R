@@ -446,7 +446,7 @@ R_sim <- R_sim_temp[40,,]
 # SD increase for error for latent constructor ability state equation
 # in case of first race of a season
 # high value
-# kappa_C <- 0.5
+# kappa_C <- 1
 
 # low value
 kappa_C <- 0.1
@@ -466,7 +466,7 @@ gamma_upper <- J - 2
 # SD increase for error for latent constructor ability state equation
 # in case of first race of a season
 # high value
-# kappa_C <- 0.5
+# kappa_C <- 1
 
 # low value
 kappa_C <- 0.1
