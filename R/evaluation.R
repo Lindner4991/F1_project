@@ -923,6 +923,9 @@ plot(RHO_result,
 axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
 box()
 
+# mean
+round(mean(RHO_result), digits = 4)
+
 
 # time series plot
 # Spearman's rank correlation coefficient 89% HDI
