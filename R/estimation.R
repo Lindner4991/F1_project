@@ -276,7 +276,11 @@ R_sim <- R_sim_temp[40,,]
 # model 1 version 2 - F1 hybrid era qualifier data ####
 # SD increase for error for latent driver ability state equation
 # in case of driver change
+# high value
 kappa_D <- 0.5
+
+# low value
+# kappa_D <- 0.1
 
 # fixed cut points
 gamma_lower <- 0
@@ -288,7 +292,11 @@ gamma_upper <- J - 2
 # initial conditions for latent constructor ability state equation ( 75% )
 # SD increase for error for latent driver ability state equation
 # in case of driver change
+# high value
 kappa_D <- 0.5
+
+# low value
+# kappa_D <- 0.1
 
 # fixed cut points
 gamma_lower <- 0
@@ -435,8 +443,17 @@ R_sim <- R_sim_temp[40,,]
 
 
 # model 2 - F1 hybrid era qualifier data ####
+# SD increase for error for latent constructor ability state equation
+# in case of first race of a season
+# high value
+# kappa_C <- 0.5
+
+# low value
+kappa_C <- 0.1
+
 # SD increase for error for latent driver ability state equation
 # in case of driver change
+# high value
 kappa_D <- 0.5
 
 # fixed cut points
@@ -446,9 +463,17 @@ gamma_upper <- J - 2
 
 
 # model 2 - F1 hybrid era race data ####
-# initial conditions for latent constructor ability state equation ( 75% )
+# SD increase for error for latent constructor ability state equation
+# in case of first race of a season
+# high value
+# kappa_C <- 0.5
+
+# low value
+kappa_C <- 0.1
+
 # SD increase for error for latent driver ability state equation
 # in case of driver change
+# high value
 kappa_D <- 0.5
 
 # fixed cut points
