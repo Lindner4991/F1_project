@@ -2708,43 +2708,43 @@ gamma_sim <- seq(from = 0, to = J-2, by = 1)
 
 # model 2 - simulation ####
 # computation with NUTS in STAN
-m1_v2_sim <- stan_model("STAN/m1_v2_sim.stan")
+m2_sim <- stan_model("STAN/m2_sim.stan")
 
-fit_m1_v2_sim <- sampling(m1_v2_sim,
-                          data = list(K = K,
-                                      N = N,
-                                      T = Q,
-                                      I_3 = I_3,
-                                      I_2 = I_2,
-                                      I_1 = I_1,
-                                      I_4 = I_4,
-                                      J = J,
-                                      mu_C_0 = mu_C_0,
-                                      mu_D_0 = mu_D_0,
-                                      varsigma_C = varsigma_C_sim,
-                                      varsigma_D = varsigma_D_sim,
-                                      kappa_C = kappa_C,
-                                      kappa_D = kappa_D,
-                                      gamma = gamma_sim),
-                          algorithm = "Fixed_param",
-                          iter = 10,
-                          warmup = 0)
+fit_m2_sim <- sampling(m2_sim,
+                       data = list(K = K,
+                                   N = N,
+                                   T = Q,
+                                   I_3 = I_3,
+                                   I_2 = I_2,
+                                   I_1 = I_1,
+                                   I_4 = I_4,
+                                   J = J,
+                                   mu_C_0 = mu_C_0,
+                                   mu_D_0 = mu_D_0,
+                                   varsigma_C = varsigma_C_sim,
+                                   varsigma_D = varsigma_D_sim,
+                                   kappa_C = kappa_C,
+                                   kappa_D = kappa_D,
+                                   gamma = gamma_sim),
+                       algorithm = "Fixed_param",
+                       iter = 10,
+                       warmup = 0)
 
-# save fit_m1_v2_sim
-saveRDS(fit_m1_v2_sim,
-        "data/fit_m1_v2_sim_missing_data.rds")  # TODO adjust name
+# save fit_m2_sim
+saveRDS(fit_m2_sim,
+        "data/fit_m2_sim_missing_data.rds")  # TODO adjust name
 
-# load fit_m1_v2_sim
-fit_m1_v2_sim <-
-  readRDS("data/fit_m1_v2_sim_missing_data.rds")  # TODO data file
+# load fit_m2_sim
+fit_m2_sim <-
+  readRDS("data/fit_m2_sim_missing_data.rds")  # TODO data file
 
 
 # extract simulations
-params_m1_v2_sim <- rstan::extract(fit_m1_v2_sim)
+params_m2_sim <- rstan::extract(fit_m2_sim)
 
 
 # extract mu_P_sim
-mu_P_sim <- params_m1_v2_sim$mu_P[40,,]
+mu_P_sim <- params_m2_sim$mu_P[40,,]
 
 # mu_P_without_NA
 mu_P_without_NA <- c()
@@ -2773,7 +2773,7 @@ round(HPDI(mu_P_without_NA)[2], digits = 4)
 
 
 # extract mu_D_sim
-mu_D_sim <- params_m1_v2_sim$mu_D[40,,]
+mu_D_sim <- params_m2_sim$mu_D[40,,]
 
 # mu_D_without_NA
 mu_D_without_NA <- c()
@@ -2802,7 +2802,7 @@ round(HPDI(mu_D_without_NA)[2], digits = 4)
 
 
 # extract mu_C_sim
-mu_C_sim <- params_m1_v2_sim$mu_C[40,,]
+mu_C_sim <- params_m2_sim$mu_C[40,,]
 
 # mu_C_without_NA
 mu_C_without_NA <- c()
@@ -2831,7 +2831,7 @@ round(HPDI(mu_C_without_NA)[2], digits = 4)
 
 
 # extract simulated qualifier/race ranks
-R_sim_temp <- params_m1_v2_sim$R_sim
+R_sim_temp <- params_m2_sim$R_sim
 
 R_sim <- R_sim_temp[40,,]
 
