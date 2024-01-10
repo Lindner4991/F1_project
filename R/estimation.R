@@ -88,7 +88,7 @@ R_sim <- R_sim_temp[40,,]
 
 
 
-# model 1 version 1 - increased fluctuations ####
+# model 1 version 1 - simulated data - increased fluctuations ####
 # fixed cut points
 gamma_lower <- 0
 gamma_upper <- J - 2
@@ -106,7 +106,7 @@ R_sim <- R_sim_temp[40,,]
 
 
 
-# model 1 version 1 - dominant ctr ability ####
+# model 1 version 1 - simulated data - dominant ctr ability ####
 # fixed cut points
 gamma_lower <- 0
 gamma_upper <- J - 2
@@ -237,7 +237,7 @@ R_sim <- R_sim_temp[40,,]
 
 
 
-# model 1 version 2 - increased fluctuations ####
+# model 1 version 2 - simulated data - increased fluctuations ####
 # fixed cut points
 gamma_lower <- 0
 gamma_upper <- J - 2
@@ -255,7 +255,7 @@ R_sim <- R_sim_temp[40,,]
 
 
 
-# model 1 version 2 - dominant ctr ability ####
+# model 1 version 2 - simulated data - dominant ctr ability ####
 # fixed cut points
 gamma_lower <- 0
 gamma_upper <- J - 2
@@ -406,7 +406,7 @@ R_sim <- R_sim_temp[40,,]
 
 
 
-# model 2 - increased fluctuations ####
+# model 2 - simulated data - increased fluctuations ####
 # fixed cut points
 gamma_lower <- 0
 gamma_upper <- J - 2
@@ -424,7 +424,7 @@ R_sim <- R_sim_temp[40,,]
 
 
 
-# model 2 - dominant ctr ability ####
+# model 2 - simulated data - dominant ctr ability ####
 # fixed cut points
 gamma_lower <- 0
 gamma_upper <- J - 2
