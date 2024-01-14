@@ -430,7 +430,7 @@ gamma_lower <- 0
 gamma_upper <- J - 2
 
 # load fit_m2_sim
-fit_m1_v2_sim <- readRDS("data/fit_m2_sim_dominant_ctr_ability.rds")
+fit_m2_sim <- readRDS("data/fit_m2_sim_dominant_ctr_ability.rds")
 
 # extract simulations
 params_m2_sim <- rstan::extract(fit_m2_sim)
