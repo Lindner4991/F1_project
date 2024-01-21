@@ -639,7 +639,7 @@ box()
 # posterior density cut points
 for (j in 2:(J-2)) {
   hist(params_model$gamma[,j],
-       col = "deeppink1",
+       col = "deeppink4",
        border = FALSE,
        main = paste("gamma_", j, sep=""),
        xlab = "")
@@ -648,7 +648,7 @@ for (j in 2:(J-2)) {
   par(new = TRUE)
   
   hist(params_model$gamma[,j],
-       col = "deeppink1",
+       col = "deeppink4",
        border = FALSE,
        main = paste("gamma_", j, sep=""),
        xlab = "")
@@ -656,6 +656,35 @@ for (j in 2:(J-2)) {
   box()
 }
 par(mfrow = c(1,1))
+
+# visualize posterior medians for cut points together in one plot
+plot(NULL,
+     xlim = c(0,20),
+     ylim = c(0,1),
+     ylab = "",
+     xlab = "gamma",
+     main = "posterior medians for cut points",
+     yaxt = "n")
+
+abline(v = 1, col = "deeppink4")
+abline(v = 2, col = "deeppink4")
+abline(v = 3, col = "deeppink4")
+abline(v = 4, col = "deeppink4")
+abline(v = 5, col = "deeppink4")
+abline(v = 6, col = "deeppink4")
+abline(v = 7, col = "deeppink4")
+abline(v = 8, col = "deeppink4")
+abline(v = 9, col = "deeppink4")
+abline(v = 10, col = "deeppink4")
+abline(v = 11, col = "deeppink4")
+abline(v = 12, col = "deeppink4")
+abline(v = 13, col = "deeppink4")
+abline(v = 14, col = "deeppink4")
+abline(v = 15, col = "deeppink4")
+abline(v = 16, col = "deeppink4")
+abline(v = 17, col = "deeppink4")
+abline(v = 18, col = "deeppink4")
+abline(v = 19, col = "deeppink4")
 
 # absolute error
 # varsigma_D posterior median vs simulated varsigma_D
