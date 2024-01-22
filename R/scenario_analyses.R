@@ -232,10 +232,10 @@ R_pred_U_PER_Aston <- c()
 R_pred_L_PER_Aston <- c()
 for (t in 1:17) {
   
-  R_pred_U_PER_Aston_temp <- HPDI(R_pred_PER_Aston[,t], 0.5)[2]
+  R_pred_U_PER_Aston_temp <- HPDI(R_pred_PER_Aston[,t], 0.89)[2]
   R_pred_U_PER_Aston <- c(R_pred_U_PER_Aston, R_pred_U_PER_Aston_temp)
   
-  R_pred_L_PER_Aston_temp <- HPDI(R_pred_PER_Aston[,t], 0.5)[1]
+  R_pred_L_PER_Aston_temp <- HPDI(R_pred_PER_Aston[,t], 0.89)[1]
   R_pred_L_PER_Aston <- c(R_pred_L_PER_Aston, R_pred_L_PER_Aston_temp)
   
 }
@@ -244,10 +244,10 @@ R_pred_U_PER_RB <- c()
 R_pred_L_PER_RB <- c()
 for (t in 1:17) {
   
-  R_pred_U_PER_RB_temp <- HPDI(R_pred_PER_RB[,t], 0.5)[2]
+  R_pred_U_PER_RB_temp <- HPDI(R_pred_PER_RB[,t], 0.89)[2]
   R_pred_U_PER_RB <- c(R_pred_U_PER_RB, R_pred_U_PER_RB_temp)
   
-  R_pred_L_PER_RB_temp <- HPDI(R_pred_PER_RB[,t], 0.5)[1]
+  R_pred_L_PER_RB_temp <- HPDI(R_pred_PER_RB[,t], 0.89)[1]
   R_pred_L_PER_RB <- c(R_pred_L_PER_RB, R_pred_L_PER_RB_temp)
   
 }
@@ -310,7 +310,7 @@ PER_Aston_transp <- rgb(0, 255, 255,
                         alpha = 25,
                         names = "cyan1")
 
-par(mfrow = c(2,1))
+par(mfrow = c(3,1))
 
 plot(x = x,
      y = R_pred_U_PER_RB,
@@ -334,8 +334,8 @@ plot(x = x,
      ylim = c(22, 1),  
      type="l",
      col = "white",
-     main = "b) 50% HDI for ranking",
-     xlab = "qualifier",  
+     main = "a) 89% HDI for ranking",
+     xlab = "race",  
      ylab = "rank",
      xaxt = "n",
      yaxt = "n",
@@ -357,21 +357,23 @@ polygon(x = c(x, rev(x)),
         col = PER_Aston_transp,
         lty = 0)
 
-#lines(R_pred_mdn_PER_RB, col = "magenta1")
-#lines(R_pred_mdn_PER_Aston, col = "cyan1")
+lines(R_pred_mdn_PER_RB, col = "magenta1")
+lines(R_pred_mdn_PER_Aston, col = "cyan1")
 
-#lines(R_pred_mean_PER_RB, col = "magenta1", lty = 2)
-#lines(R_pred_mean_PER_Aston, col = "cyan1", lty = 2)
+lines(R_pred_mean_PER_RB, col = "magenta1", lty = 2)
+lines(R_pred_mean_PER_Aston, col = "cyan1", lty = 2)
 
 text(x = 3,
      y = 21,
      labels = "Perez in Aston Martin",
-     col = "cyan1")
+     col = "cyan1",
+     cex = 1.5)
 
 text(x = 6,
      y = 21,
      labels = "Perez in Red Bull",
-     col = "magenta1")
+     col = "magenta1",
+     cex = 1.5)
 
 box()
 
@@ -381,7 +383,7 @@ mu_P_PER_RB <- mu_D_est_PER + mu_C_est_RB
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-prob_PER_RB_pole <- rep(NA, 22)
+prob_PER_RB_pole <- rep(NA, 17)
 
 for (t in 1:17) {
   
@@ -389,7 +391,7 @@ for (t in 1:17) {
   
   for (i in 1:iter) {
     
-    if (mu_P_est_PER_RB[i,t] > max(mu_P_est_[i,,t])) { 
+    if (mu_P_PER_RB[i,t] > max(mu_P_est[i,,t])) { 
       count_pole <- count_pole + 1
     }
     
@@ -401,7 +403,7 @@ for (t in 1:17) {
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-prob_PER_RB_podium <- rep(NA, 22)
+prob_PER_RB_podium <- rep(NA, 17)
 
 for (t in 1:17) {
   
@@ -422,9 +424,9 @@ for (t in 1:17) {
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-names(prob_PER_RB_pole) <- as.character(1:17)
+names(prob_PER_RB_podium) <- as.character(1:17)
 
-barplot(prob_PER_RB_pole,
+barplot(prob_PER_RB_podium,
         ylim = c(0, 1),
         col = "magenta1",
         border = "white",
@@ -438,11 +440,11 @@ barplot(prob_PER_RB_pole,
 grid(nx = NA, ny = NULL)
 par(new = TRUE)
 
-barplot(prob_PER_RB_pole,
+barplot(prob_PER_RB_podium,
         ylim = c(0, 1),
         col = "magenta1",
         border = "white",
-        main = "a) pole probability based on qualifier peformance",
+        main = "c) podium probability for PER in RB based on race peformance",
         xlab = "qualifier",
         ylab = "probability",
         yaxt = "n",
