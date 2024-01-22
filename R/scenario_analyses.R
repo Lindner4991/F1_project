@@ -334,7 +334,7 @@ plot(x = x,
      ylim = c(22, 1),  
      type="l",
      col = "white",
-     main = "a) qualifier data",
+     main = "b) 50% HDI for ranking",
      xlab = "qualifier",  
      ylab = "rank",
      xaxt = "n",
@@ -357,11 +357,11 @@ polygon(x = c(x, rev(x)),
         col = PER_Aston_transp,
         lty = 0)
 
-lines(R_pred_mdn_PER_RB, col = "magenta1")
-lines(R_pred_mdn_PER_Aston, col = "cyan1")
+#lines(R_pred_mdn_PER_RB, col = "magenta1")
+#lines(R_pred_mdn_PER_Aston, col = "cyan1")
 
-lines(R_pred_mean_PER_RB, col = "magenta1", lty = 2)
-lines(R_pred_mean_PER_Aston, col = "cyan1", lty = 2)
+#lines(R_pred_mean_PER_RB, col = "magenta1", lty = 2)
+#lines(R_pred_mean_PER_Aston, col = "cyan1", lty = 2)
 
 text(x = 3,
      y = 21,
@@ -399,6 +399,8 @@ for (t in 1:17) {
   
 }
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
 prob_PER_RB_podium <- rep(NA, 22)
 
 for (t in 1:17) {
@@ -407,14 +409,14 @@ for (t in 1:17) {
   
   for (i in 1:iter) {
     
-    if (mu_P_est_PER_RB[i,t] > sort(mu_P_est_[i,,t],
-                                    decreasing = TRUE)[4]) { 
+    if (mu_P_PER_RB[i,t] > sort(mu_P_est[i,,t],
+                                decreasing = TRUE)[4]) { 
       count_podium <- count_podium + 1
     }
     
   }
   
-  prob_PER_RB_pole[t] <- count_podium / iter
+  prob_PER_RB_podium[t] <- count_podium / iter
   
 }
 
@@ -440,7 +442,7 @@ barplot(prob_PER_RB_pole,
         ylim = c(0, 1),
         col = "magenta1",
         border = "white",
-        main = "a) pole probability for Perez",  # TODO tbd
+        main = "a) pole probability based on qualifier peformance",
         xlab = "qualifier",
         ylab = "probability",
         yaxt = "n",
