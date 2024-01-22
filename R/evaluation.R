@@ -419,6 +419,122 @@ HDI_MAE_2 <- function(est, sim, X, Y, I, iter) {
   
 }
 
+# calculate driver-constructor ratio
+drv_ctr_ratio <- function(drv_est, ctr_est, X, Y, I_1, I_2, iter) {
+  
+  average_diff <- matrix(data = NA, nrow = iter, ncol = Q)
+  
+  for(i in 1:iter) {
+    for(y in 1:Y) {
+      
+      sum_diff <- 0
+      drivers <- 0
+      
+      for(x in 1:X) {
+        
+        if(I_1[x,y] == 1) {
+          
+          diff <- dot(I_2[[y]][x,], ctr_est[i,,y]) - drv_est[i,x,y]
+          
+          sum_diff <- sum_diff + diff
+          drivers <- drivers + 1
+          
+        }
+        
+      }
+      
+      average_diff[i,y] <- sum_diff / drivers
+      
+    }
+  }
+  
+  return(average_diff)
+  
+}
+
+
+# plot driver constructor ratio
+ratio <- drv_ctr_ratio(mu_D_est, mu_C_est, N, Q, I_1, I_2, iter)
+
+
+diff_U <- c()
+diff_L <- c()
+
+for (t in 1:Q) {
+  
+  diff_U_temp <- HPDI(ratio[,t])[2]
+  diff_U <- c(diff_U, diff_U_temp)
+  
+  diff_L_temp <- HPDI(ratio[,t])[1]
+  diff_L <- c(diff_L, diff_L_temp)
+  
+}
+
+
+diff_mdn <- rep(NA, Q)
+
+for (t in 1:Q) {
+    
+  median <- median(ratio[,t])
+    
+  diff_mdn[t] <- median
+    
+}
+
+
+cyan_transp <- rgb(0, 130, 139,
+                   max = 139,
+                   alpha = 25,
+                   names = "darkcyan")
+
+
+x <- 1:Q
+
+plot(x = x,
+     y = diff_U,
+     ylim = c(-10, 10),
+     type="l",
+     col = "white",
+     main = "",
+     xlab = "",
+     ylab = "",
+     xaxt = "n",
+     yaxt = "n",
+     cex.main = 1.5,
+     cex.lab = 1.5,
+     cex.axis = 1.5)
+
+grid(nx = NA, ny = NULL)
+par(new = TRUE)
+
+plot(x = x,
+     y = diff_U,
+     ylim = c(-10, 10),
+     type="l",
+     col = "white",
+     main = "a) qualifier data",
+     xlab = "qualifier",
+     ylab = "difference",
+     xaxt = "n",
+     yaxt = "n",
+     cex.main = 1.5,
+     cex.lab = 1.5,
+     cex.axis = 1.5)
+axis(side = 1, at = c(1,19,38,59,79,100,121,138,159))
+axis(side = 2, at = c(-10, 0, 10))
+
+lines(x = x, diff_L, col = "white")
+
+polygon(x = c(x, rev(x)),
+        y = c(diff_U, rev(diff_L)),
+        col = cyan_transp,
+        lty = 0)
+
+lines(diff_mdn, col = "darkcyan")
+
+box()
+
+
 
 # evaluation prep - simulated data ####
 # load fit_model_sim
