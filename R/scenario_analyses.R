@@ -197,7 +197,6 @@ mu_D_est <- mu_D_est[,,121:137]
 mu_C_est <- mu_C_est[,,121:137]
 mu_P_est <- mu_P_est[,,121:137]
 
-R_pred_PER_Aston <- R_pred[,12,]
 mu_D_est_PER <- mu_D_est[,12,]
 mu_C_est_RB <- mu_C_est[,2,]
 
