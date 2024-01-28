@@ -196,6 +196,7 @@ R_pred <- R_pred[,,121:137]
 mu_D_est <- mu_D_est[,,121:137]
 mu_C_est <- mu_C_est[,,121:137]
 mu_P_est <- mu_P_est[,,121:137]
+I_1 <- I_1[,121:137]
 
 mu_D_est_PER <- mu_D_est[,12,]
 mu_C_est_RB <- mu_C_est[,2,]
@@ -296,8 +297,8 @@ plot(x = x,
      ylim = c(22, 1),  
      type="l",
      col = "white",
-     main = "a) 89% HDI for ranking",
-     xlab = "qualifier",  
+     main = "b) 50% HDI for ranking",
+     xlab = "race",  
      ylab = "rank",
      xaxt = "n",
      yaxt = "n",
@@ -359,7 +360,7 @@ for (t in 1:17) {
   
   for (i in 1:iter) {
     
-    if (mu_P_PER_RB[i,t] > sort(mu_P_est[i,,t],
+    if (mu_P_PER_RB[i,t] > sort(mu_P_est[i,,t] * I_1[,t],
                                 decreasing = TRUE)[3]) { 
       count_podium <- count_podium + 1
     }
@@ -392,8 +393,8 @@ barplot(prob_PER_RB_podium,
         ylim = c(0, 1),
         col = "magenta1",
         border = "white",
-        main = "c) podium probability for PER in RB based on qualifier peformance",
-        xlab = "qualifier",
+        main = "c) podium probability for PER in RB based on race peformance",
+        xlab = "race",
         ylab = "probability",
         yaxt = "n",
         cex.main = 1.5,
