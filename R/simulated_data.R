@@ -906,7 +906,7 @@ gamma_sim <- seq(from = 0, to = J-2, by = 1)
 
 
 
-# model 1 version 1 - simulation ####
+# model 1 version 1 - simulate data / load simulated data ####
 # computation with NUTS in STAN
 m1_v1_sim <- stan_model("STAN/m1_v1_sim.stan")
 
@@ -1775,7 +1775,7 @@ gamma_sim <- seq(from = 0, to = J-2, by = 1)
 
 
 
-# model 1 version 2 - simulation ####
+# model 1 version 2 - simulate data / load simulated data ####
 # computation with NUTS in STAN
 m1_v2_sim <- stan_model("STAN/m1_v2_sim.stan")
 
@@ -2703,7 +2703,7 @@ gamma_sim <- seq(from = 0, to = J-2, by = 1)
 
 
 
-# model 2 - simulation ####
+# model 2 - simulate data / load simulated data ####
 # computation with NUTS in STAN
 m2_sim <- stan_model("STAN/m2_sim.stan")
 
